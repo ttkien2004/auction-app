@@ -1,0 +1,53 @@
+services:
+  # Service cho ứng dụng Node.js (backend)
+  app:
+    build: . # Build từ Dockerfile trong thư mục hiện tại
+    container_name: auction_app
+    ports:
+      - "${APP_PORT}:${APP_PORT}" # Ánh xạ cổng từ file .env (ví dụ: 3000:3000)
+    volumes:
+      - .:/app
+      - /app/node_modules # Không mount node_modules (dùng của container)
+    depends_on:
+      db:
+        condition: service_healthy # Chờ db sẵn sàng trước khi khởi động app
+    env_file:
+      - .env # Tải biến môi trường từ file .env
+    command: >
+      sh -c "
+        echo '--- [Auction App] Đã nhận tín hiệu DB healthy.' &&
+        echo '--- [Auction App] Chạy Prisma Generate...' &&
+        npx prisma generate &&
+        echo '--- [Auction App] Khởi động server (npm run dev)...' &&
+        npm run dev
+      "
+  # Service cho cơ sở dữ liệu MySQL
+  db:
+    image: mysql:8.0
+    container_name: auction_db_mysql
+    restart: unless-stopped
+    ports:
+      - "3307:3306" # Public cổng 3306 để có thể truy cập từ bên ngoài (e.g., DBeaver)
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Lấy từ .env
+      MYSQL_DATABASE: ${MYSQL_DATABASE} # Lấy từ .env
+    volumes:
+      - mysql_data:/var/lib/mysql # Gắn volume để giữ lại dữ liệu khi container bị xóa
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD}",
+        ]
+      interval: 5s # Kiểm tra mỗi 5 giây
+      timeout: 10s # Chờ tối đa 10 giây cho 1 lần kiểm tra
+      retries: 10 # Thử lại 10 lần trước khi báo "unhealthy"
+
+volumes:
+  mysql_data: # Định nghĩa volume

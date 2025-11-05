@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  ID           Int     @id @default(autoincrement())
+  username     String  @unique(map: "username") @db.VarChar(50)
+  password     String  @db.VarChar(255)
+  email        String  @unique(map: "email") @db.VarChar(100)
+  name         String? @db.VarChar(100)
+  address      String? @db.VarChar(255)
+  phone_number String? @db.VarChar(20)
+  Buyer        Buyer?
+  Seller       Seller?
+}
+
+model Category {
+  ID                 Int        @id @default(autoincrement())
+  name               String     @db.VarChar(100)
+  description        String?    @db.Text
+  parent_category_ID Int?
+  Category           Category?  @relation("CategoryToCategory", fields: [parent_category_ID], references: [ID], onUpdate: NoAction, map: "Category_ibfk_1")
+  other_Category     Category[] @relation("CategoryToCategory")
+  Product            Product[]
+
+  @@index([parent_category_ID], map: "parent_category_ID")
+}
+
+model Product {
+  ID          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(255)
+  description String?       @db.Text
+  status      String?       @db.VarChar(50)
+  type        String?       @db.VarChar(50)
+  pcondition  String?       @db.VarChar(50)
+  created_at  DateTime?     @default(now()) @db.Timestamp(0)
+  seller_ID   Int
+  category_ID Int
+  Auction     Auction?
+  DirectSale  DirectSale?
+  Seller      Seller        @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
+  Category    Category      @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
+  Transaction Transaction[]
+
+  @@index([category_ID], map: "category_ID")
+  @@index([seller_ID], map: "seller_ID")
+}
+
+model DirectSale {
+  product_ID    Int     @id
+  buy_now_price Decimal @db.Decimal(10, 2)
+  Product       Product @relation(fields: [product_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction, map: "DirectSale_ibfk_1")
+}
+
+model Auction {
+  product_ID     Int      @id
+  start_price    Decimal  @db.Decimal(10, 2)
+  min_bid_incr   Decimal? @db.Decimal(10, 2)
+  auc_start_time DateTime @db.DateTime(0)
+  auc_end_time   DateTime @db.DateTime(0)
+  Product        Product  @relation(fields: [product_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction, map: "Auction_ibfk_1")
+  Bid            Bid[]
+}
+
+model Bid {
+  ID         Int       @id @default(autoincrement())
+  bid_amount Decimal   @db.Decimal(10, 2)
+  bid_time   DateTime? @default(now()) @db.Timestamp(0)
+  buyer_ID   Int
+  auction_ID Int
+  Buyer      Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Bid_ibfk_1")
+  Auction    Auction   @relation(fields: [auction_ID], references: [product_ID], onDelete: NoAction, onUpdate: NoAction, map: "Bid_ibfk_2")
+
+  @@index([auction_ID], map: "auction_ID")
+  @@index([buyer_ID], map: "buyer_ID")
+}
+
+model Transaction {
+  ID           Int       @id @default(autoincrement())
+  item_type    String?   @db.VarChar(50)
+  status       String?   @default("pending") @db.VarChar(50)
+  final_amount Decimal   @db.Decimal(10, 2)
+  created_at   DateTime? @default(now()) @db.Timestamp(0)
+  buyer_ID     Int
+  product_ID   Int?
+  Review       Review[]
+  Buyer        Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_1")
+  Product      Product?  @relation(fields: [product_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_2")
+
+  @@index([buyer_ID], map: "buyer_ID")
+  @@index([product_ID], map: "product_ID")
+}
+
+model Review {
+  ID             Int         @id @default(autoincrement())
+  rating         Int
+  comment        String?     @db.Text
+  created_at     DateTime?   @default(now()) @db.Timestamp(0)
+  buyer_ID       Int
+  transaction_ID Int
+  Buyer          Buyer       @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Review_ibfk_1")
+  Transaction    Transaction @relation(fields: [transaction_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Review_ibfk_2")
+
+  @@index([buyer_ID], map: "buyer_ID")
+  @@index([transaction_ID], map: "transaction_ID")
+}
+
+model Buyer {
+  user_ID     Int           @id
+  Bid         Bid[]
+  User        User          @relation(fields: [user_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction, map: "Buyer_ibfk_1")
+  Review      Review[]
+  Transaction Transaction[]
+}
+
+model Seller {
+  user_ID Int       @id
+  Product Product[]
+  User    User      @relation(fields: [user_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction, map: "Seller_ibfk_1")
+}
