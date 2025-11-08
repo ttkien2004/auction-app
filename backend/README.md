@@ -42,6 +42,18 @@ This will
 
 The application will be available at `http://localhost:3000`
 
+After starting docker successfully, Run migration:
+
+```bash
+docker-compose exec app npx prisma migrate dev --name init
+```
+
+Run generate (If there is any update relating to schema.prisma):
+
+```bash
+docker-compose exec app npx prisma generate
+```
+
 ## Running locally if you do not have Docker
 
 Install Dependencies
