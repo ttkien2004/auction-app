@@ -1,0 +1,521 @@
+openapi: 3.1.0
+info:
+  title: Auction App API
+  version: 1.0.0
+  description:
+    RESTful API for online auction platform built with Node.js and Express.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: Auth
+  - name: Users
+  - name: Products
+  - name: Categories
+  - name: Auctions
+  - name: Bids
+  - name: DirectSales
+  - name: Transactions
+  - name: Reviews
+
+paths:
+  ##################################
+  # Auth
+  ##################################
+  /auth/sign-up:
+    post:
+      tags: [Auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegister"
+      responses:
+        201:
+          description: User created successfully
+
+  /auth/sign-in:
+    post:
+      tags: [Auth]
+      summary: Login and receive JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLogin"
+      responses:
+        200:
+          description: Login successful
+
+  /auth/profile:
+    get:
+      tags: [Auth]
+      summary: Get current user profile
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: User profile data
+
+  ##################################
+  # Users
+  ##################################
+  /users:
+    get:
+      tags: [Users]
+      summary: Get all users (admin)
+      responses:
+        200:
+          description: List of all users
+
+  /users/{id}:
+    get:
+      tags: [Users]
+      summary: Get user by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: User detail
+
+    put:
+      tags: [Users]
+      summary: Update user info
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        200:
+          description: User updated
+
+    delete:
+      tags: [Users]
+      summary: Delete a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        204:
+          description: User deleted
+
+  ##################################
+  # Products
+  ##################################
+  /products:
+    get:
+      tags: [Products]
+      summary: List all products
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: status
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product list
+
+    post:
+      tags: [Products]
+      summary: Create a new product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreate"
+      responses:
+        201:
+          description: Product created
+
+  /products/{id}:
+    get:
+      tags: [Products]
+      summary: Get product detail
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product detail
+
+    put:
+      tags: [Products]
+      summary: Update product
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdate"
+      responses:
+        200:
+          description: Product updated
+
+    delete:
+      tags: [Products]
+      summary: Delete product
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        204:
+          description: Product deleted
+
+  ##################################
+  # Categories
+  ##################################
+  /categories:
+    get:
+      tags: [Categories]
+      summary: Get all categories
+      responses:
+        200:
+          description: List of categories
+
+    post:
+      tags: [Categories]
+      summary: Create a new category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        201:
+          description: Category created
+
+  /categories/{id}:
+    get:
+      tags: [Categories]
+      summary: Get category by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Category detail
+
+    put:
+      tags: [Categories]
+      summary: Update category
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        200:
+          description: Category updated
+
+    delete:
+      tags: [Categories]
+      summary: Delete category
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        204:
+          description: Category deleted
+
+  ##################################
+  # Auctions
+  ##################################
+  /auctions:
+    get:
+      tags: [Auctions]
+      summary: List all auctions
+      responses:
+        200:
+          description: List of auctions
+
+    post:
+      tags: [Auctions]
+      summary: Create a new auction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auction"
+      responses:
+        201:
+          description: Auction created
+
+  /auctions/{id}:
+    get:
+      tags: [Auctions]
+      summary: Get auction by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Auction detail
+
+    put:
+      tags: [Auctions]
+      summary: Update auction
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Auction updated
+
+    delete:
+      tags: [Auctions]
+      summary: Delete auction
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        204:
+          description: Auction deleted
+
+  /auctions/{id}/bids:
+    get:
+      tags: [Bids]
+      summary: Get all bids for an auction
+      responses:
+        200:
+          description: List of bids
+
+    post:
+      tags: [Bids]
+      summary: Place a bid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Bid"
+      responses:
+        201:
+          description: Bid placed
+
+  ##################################
+  # Direct Sales
+  ##################################
+  /direct-sales:
+    get:
+      tags: [DirectSales]
+      summary: Get all direct sales
+      responses:
+        200:
+          description: List of direct sale items
+
+    post:
+      tags: [DirectSales]
+      summary: Create direct sale
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DirectSale"
+      responses:
+        201:
+          description: Direct sale created
+
+  /direct-sales/{id}/buy:
+    post:
+      tags: [DirectSales]
+      summary: Buy a product directly
+      responses:
+        200:
+          description: Purchase successful
+
+  ##################################
+  # Transactions
+  ##################################
+  /transactions:
+    get:
+      tags: [Transactions]
+      summary: List all transactions
+      responses:
+        200:
+          description: Transaction list
+
+    post:
+      tags: [Transactions]
+      summary: Create new transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transaction"
+      responses:
+        201:
+          description: Transaction created
+
+  /transactions/{id}:
+    get:
+      tags: [Transactions]
+      summary: Get transaction detail
+      responses:
+        200:
+          description: Transaction detail
+
+    put:
+      tags: [Transactions]
+      summary: Update transaction status
+      responses:
+        200:
+          description: Transaction updated
+
+  ##################################
+  # Reviews
+  ##################################
+  /reviews:
+    get:
+      tags: [Reviews]
+      summary: Get all reviews
+      responses:
+        200:
+          description: List of reviews
+
+    post:
+      tags: [Reviews]
+      summary: Create a review
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Review"
+      responses:
+        201:
+          description: Review created
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserRegister:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        fname:
+          type: string
+        lname:
+          type: string
+
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    UserUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+        address:
+          type: string
+        phone_number:
+          type: string
+
+    ProductCreate:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        status: { type: string }
+        type: { type: string }
+        condition: { type: string }
+        category_id: { type: string }
+
+    ProductUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        status: { type: string }
+
+    Category:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+
+    Auction:
+      type: object
+      properties:
+        start_price: { type: number }
+        min_bid_incr: { type: number }
+        auc_start_time: { type: string, format: date-time }
+        auc_end_time: { type: string, format: date-time }
+
+    Bid:
+      type: object
+      properties:
+        bid_amount: { type: number }
+
+    DirectSale:
+      type: object
+      properties:
+        buy_now_price: { type: number }
+
+    Transaction:
+      type: object
+      properties:
+        trans_type: { type: string }
+        status: { type: string }
+        final_amount: { type: number }
+
+    Review:
+      type: object
+      properties:
+        rating: { type: integer }
+        comment: { type: string }
