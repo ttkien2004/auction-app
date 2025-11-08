@@ -1,12 +1,34 @@
 const express = require("express");
+const { authenticateToken } = require("../middleware/authMiddleware");
+const directSalesController = require("../controller/DirectSalesController");
 
 const routes = express.Router();
 
-routes.get("/direct-sales");
-routes.get("/direct-sales/{id}");
-routes.post("/direct-sales");
-routes.post("/direct-sales/{id}/buy");
-routes.put("/direct-sales/{id}");
-routes.delete("/direct-sales/{id}");
+routes.get("/direct-sales", directSalesController.getAllDirectSalesController);
+routes.get(
+	"/direct-sales/{id}",
+	directSalesController.getDirectSaleByIdController
+);
+
+routes.post(
+	"/direct-sales",
+	authenticateToken,
+	directSalesController.createDirectSaleController
+);
+routes.post(
+	"/direct-sales/{id}/buy",
+	authenticateToken,
+	directSalesController.buyDirectSaleController
+);
+routes.put(
+	"/direct-sales/{id}",
+	authenticateToken,
+	directSalesController.updateDirectSaleController
+);
+routes.delete(
+	"/direct-sales/{id}",
+	authenticateToken,
+	directSalesController.deleteDirectSaleController
+);
 
 module.exports = routes;
