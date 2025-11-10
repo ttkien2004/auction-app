@@ -19,7 +19,7 @@ Create an `.env` file with these contents:
 APP_PORT=3000
 MYSQL_ROOT_PASSWORD=YOUR_PASSWORD
 MYSQL_DATABASE=AUCTION_APP
-DATABASE_URL="mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE}"
+DATABASE_URL="mysql://{YOUR_USERNAME}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE}"
 ```
 
 ## Running with Docker
@@ -52,6 +52,12 @@ Run generate (If there is any update relating to schema.prisma):
 
 ```bash
 docker-compose exec app npx prisma generate
+```
+
+Run prisma studio:
+
+```bash
+docker-compose run --rm -p 5555:5555 app npm run studio
 ```
 
 ## Running locally if you do not have Docker
