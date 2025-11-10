@@ -1,5 +1,5 @@
 const express = require("express");
-const sellerService = require("../service/SellerService");
+const SellerController = require("../controller/SellerController");
 const { authenticateToken } = require("../middleware/authMiddleware");
 
 const routes = express.Router();
@@ -7,17 +7,17 @@ const routes = express.Router();
 routes.post(
 	"/seller/{id}/products",
 	authenticateToken,
-	sellerService.createProductForSellerController
+	SellerController.createProductForSellerController
 );
 routes.get(
 	"/seller/{id}/products",
 	authenticateToken,
-	sellerService.getProductsBySellerController
+	SellerController.getProductsBySellerController
 );
 routes.get(
 	"/seller/{id}/reviews",
 	authenticateToken,
-	sellerService.getReviewsForSellerController
+	SellerController.getReviewsForSellerController
 );
 
 module.exports = routes;

@@ -1,4 +1,4 @@
-const { register, login, logout } = require("../service/AuthService");
+const { register, login, logout } = require("../services/AuthService");
 
 const registerController = async (req, res) => {
 	await register(req, res);
