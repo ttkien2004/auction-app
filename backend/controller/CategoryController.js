@@ -3,7 +3,7 @@ const CategoryService = require("../services/CategoryService");
 
 const getAllCategoriesController = async (req, res, next) => {
 	try {
-		const categories = await CategoryService.getAllCategories();
+		const categories = await CategoryService.getCategories(req.query);
 		res.status(200).json(categories);
 	} catch (error) {
 		next(error);
@@ -32,7 +32,7 @@ const createCategoryController = async (req, res, next) => {
 
 const updateCategoryController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { id } = req.query;
 		const updateData = req.body;
 		const updatedCategory = await CategoryService.updateCategory(
 			Number(id),
@@ -46,7 +46,7 @@ const updateCategoryController = async (req, res, next) => {
 
 const deleteCategoryController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { id } = req.query;
 		await CategoryService.deleteCategory(Number(id));
 		res.status(204).send();
 	} catch (error) {

@@ -32,13 +32,15 @@ const createDirectSaleController = async (req, res, next) => {
 
 const buyDirectSaleController = async (req, res, next) => {
 	try {
-		const { id } = req.params; // sale ID
+		const { id } = req.query; // sale ID
 		const userId = req.user.id; // Lấy từ auth middleware
 		const transaction = await DirectSalesService.buyDirectSale(
 			Number(id),
-			userId
+			Number(userId)
 		);
-		res.status(200).json({ message: "Mua hàng thành công!", transaction });
+		res
+			.status(200)
+			.json({ message: "Buy new product successfully!", transaction });
 	} catch (error) {
 		next(error);
 	}

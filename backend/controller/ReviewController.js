@@ -3,7 +3,8 @@ const ReviewService = require("../services/ReviewService");
 
 const getAllReviewsController = async (req, res, next) => {
 	try {
-		const reviews = await ReviewService.getAllReviews();
+		const { transactionId } = req.query;
+		const reviews = await ReviewService.getAllReviews(transactionId);
 		res.status(200).json(reviews);
 	} catch (error) {
 		next(error);
@@ -22,12 +23,12 @@ const getReviewByIdController = async (req, res, next) => {
 
 const createReviewController = async (req, res, next) => {
 	try {
-		const { id } = req.params; // Thường là transactionId
+		const { transactionId } = req.query; // Thường là transactionId
 		const reviewData = req.body;
 		const userId = req.user.id; // Lấy từ auth middleware
 		const newReview = await ReviewService.createReview(
-			Number(id),
-			userId,
+			Number(transactionId),
+			Number(userId),
 			reviewData
 		);
 		res.status(201).json(newReview);
@@ -38,11 +39,13 @@ const createReviewController = async (req, res, next) => {
 
 const updateReviewController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { reviewId } = req.query;
 		const updateData = req.body;
+		const userId = req.user.id;
 		const updatedReview = await ReviewService.updateReview(
-			Number(id),
-			updateData
+			Number(reviewId),
+			updateData,
+			Number(userId)
 		);
 		res.status(200).json(updatedReview);
 	} catch (error) {
@@ -52,8 +55,9 @@ const updateReviewController = async (req, res, next) => {
 
 const deleteReviewController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		await ReviewService.deleteReview(Number(id));
+		const { id } = req.query;
+		const userId = req.user.id;
+		await ReviewService.deleteReview(Number(id), Number(userId));
 		res.status(204).send();
 	} catch (error) {
 		next(error);

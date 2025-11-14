@@ -5,20 +5,20 @@ const { authenticateToken } = require("../middleware/authMiddleware");
 const routes = express.Router();
 
 routes.get("/reviews", reviewController.getAllReviewsController);
-routes.get("/reviews/{id}", reviewController.getReviewByIdController);
+// routes.get("/reviews/{id}", reviewController.getReviewByIdController);
 
 routes.post(
-	"/reviews/{id}",
+	"/reviews",
 	authenticateToken,
 	reviewController.createReviewController
 );
 routes.put(
-	"/reviews/{id}",
+	"/reviews",
 	authenticateToken,
 	reviewController.updateReviewController
 );
 routes.delete(
-	"/reviews/{id}",
+	"/reviews",
 	authenticateToken,
 	reviewController.deleteReviewController
 );

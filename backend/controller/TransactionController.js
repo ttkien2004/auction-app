@@ -12,8 +12,11 @@ const getAllTransactionsController = async (req, res, next) => {
 
 const getTransactionByIdController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const transaction = await TransactionService.getTransactionById(Number(id));
+		const { id } = req.query;
+		const transaction = await TransactionService.getTransactionById(
+			Number(id),
+			Number(req.user.id)
+		);
 		res.status(200).json(transaction);
 	} catch (error) {
 		next(error);
@@ -22,7 +25,6 @@ const getTransactionByIdController = async (req, res, next) => {
 
 const createTransactionController = async (req, res, next) => {
 	try {
-		const { id } = req.params; // ID này có vẻ không cần thiết, tùy logic của bạn
 		const transactionData = req.body;
 		const newTransaction = await TransactionService.createTransaction(
 			transactionData
@@ -35,11 +37,12 @@ const createTransactionController = async (req, res, next) => {
 
 const updateTransactionController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { id } = req.query;
 		const updateData = req.body; // Thường là { status: "shipped" }
 		const updatedTransaction = await TransactionService.updateTransaction(
 			Number(id),
-			updateData
+			updateData,
+			Number(req.user.id)
 		);
 		res.status(200).json(updatedTransaction);
 	} catch (error) {
@@ -49,8 +52,8 @@ const updateTransactionController = async (req, res, next) => {
 
 const deleteTransactionController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		await TransactionService.deleteTransaction(Number(id));
+		const { id } = req.query;
+		await TransactionService.deleteTransaction(Number(id), Number(req.user.id));
 		res.status(204).send();
 	} catch (error) {
 		next(error);
