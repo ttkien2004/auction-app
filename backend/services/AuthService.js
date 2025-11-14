@@ -5,7 +5,12 @@ const prisma = new PrismaClient();
 
 const register = async (req, res) => {
 	try {
-		const { username, email, password, name } = req.body;
+		const { username, email, password, name, role } = req.body;
+
+		let defaultRole = "BUYER";
+		if (role) {
+			defaultRole = "SELLER";
+		}
 
 		const existingUser = await prisma.user.findFirst({
 			where: { OR: [{ email }, { username }] },
@@ -16,19 +21,50 @@ const register = async (req, res) => {
 
 		const hashed = await hashPassword(password);
 
-		const user = await prisma.user.create({
-			data: { username, email, password: hashed, name },
+		const newUser = await prisma.$transaction(async (tx) => {
+			// a. Tạo User
+			const user = await tx.user.create({
+				data: {
+					email,
+					username,
+					name,
+					password: hashed,
+				},
+			});
+
+			// b. Tự động tạo Buyer (liên kết với User vừa tạo)
+			if (defaultRole === "BUYER") {
+				await tx.buyer.create({
+					data: {
+						user_ID: user.ID,
+					},
+				});
+			} else {
+				await tx.seller.create({
+					data: {
+						user_ID: user.ID,
+					},
+				});
+			}
+
+			return user;
 		});
 
-		const token = generateToken(user);
+		const payload = {
+			id: newUser.ID,
+			username: newUser.username,
+			email: newUser.email,
+			roles: [defaultRole],
+		};
+		const token = generateToken(payload);
 
 		res.status(201).json({
 			message: "User registered successfully",
 			token,
 			user: {
-				username: user.username,
-				email: user.email,
-				name: user.name,
+				username: newUser.username,
+				email: newUser.email,
+				name: newUser.name,
 			},
 		});
 	} catch (error) {
@@ -41,7 +77,13 @@ const login = async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
-		const user = await prisma.user.findUnique({ where: { email } });
+		const user = await prisma.user.findUnique({
+			where: { email },
+			include: {
+				Buyer: true,
+				Seller: true,
+			},
+		});
 
 		if (!user)
 			return res.status(400).json({ message: "Invalid email or password" });
@@ -51,17 +93,28 @@ const login = async (req, res) => {
 		if (!valid)
 			return res.status(400).json({ message: "Invalid email or password" });
 
-		const token = generateToken(user);
+		const roles = [];
+		if (user.Buyer) {
+			roles.push("BUYER");
+		}
+		if (user.Seller) {
+			roles.push("SELLER");
+		}
+		const payload = {
+			id: user.ID,
+			username: user.username,
+			email: user.email,
+			roles: roles,
+		};
+		const token = generateToken(payload);
 
 		res.json({
 			message: "Login successful",
 			token,
 			user: {
-				id: user.id,
+				id: user.ID,
 				username: user.username,
 				email: user.email,
-				fname: user.fname,
-				lname: user.lname,
 			},
 		});
 	} catch (error) {

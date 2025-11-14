@@ -13,12 +13,12 @@ routes.post(
 	productController.createProductController
 );
 routes.patch(
-	"/products/{id}",
+	"/products",
 	authenticateToken,
 	productController.updateProductController
 );
 routes.delete(
-	"/products/{id}",
+	"/products",
 	authenticateToken,
 	productController.deleteProductController
 );

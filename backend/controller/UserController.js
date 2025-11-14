@@ -3,7 +3,8 @@ const UserService = require("../services/UserService");
 
 const getAllUsersController = async (req, res, next) => {
 	try {
-		const users = await UserService.getAllUsers();
+		const queryParams = req.query;
+		const users = await UserService.getUsers(queryParams);
 		res.status(200).json(users);
 	} catch (error) {
 		next(error);
@@ -13,6 +14,7 @@ const getAllUsersController = async (req, res, next) => {
 const getUserByIdController = async (req, res, next) => {
 	try {
 		const { userId } = req.params;
+		console.log(userId);
 		const user = await UserService.getUserById(Number(userId));
 		res.status(200).json(user);
 	} catch (error) {
@@ -22,10 +24,10 @@ const getUserByIdController = async (req, res, next) => {
 
 const updateUserController = async (req, res, next) => {
 	try {
-		const { userId } = req.params;
+		// const { userId } = req.params;
 		const updateData = req.body;
 		const updatedUser = await UserService.updateUser(
-			Number(userId),
+			Number(req.user.id),
 			updateData
 		);
 		res.status(200).json(updatedUser);
@@ -54,10 +56,21 @@ const getUserBidsController = async (req, res, next) => {
 	}
 };
 
+const getUserProfileController = async (req, res, next) => {
+	try {
+		// const { id, username, email } = req.user;
+		const profile = await UserService.getUserById(parseInt(req.user.id));
+		res.status(200).json({ message: "hello", profile });
+	} catch (err) {
+		next(err);
+	}
+};
+
 module.exports = {
 	getAllUsersController,
 	getUserByIdController,
 	updateUserController,
 	deleteUserController,
 	getUserBidsController,
+	getUserProfileController,
 };

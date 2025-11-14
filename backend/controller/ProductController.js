@@ -4,7 +4,7 @@ const ProductService = require("../services/ProductService");
 const getAllProductsController = async (req, res, next) => {
 	try {
 		const filters = req.query; // Dành cho việc lọc/phân trang
-		const products = await ProductService.getAllProducts(filters);
+		const products = await ProductService.getProducts(filters);
 		res.status(200).json(products);
 	} catch (error) {
 		next(error);
@@ -24,9 +24,13 @@ const getProductByIdController = async (req, res, next) => {
 const createProductController = async (req, res, next) => {
 	try {
 		const productData = req.body;
-		// const sellerId = req.user.id; // Lấy từ auth middleware
+		const sellerId = req.user.id; // Lấy từ auth middleware
+		console.log(sellerId);
 		// const newProduct = await ProductService.createProduct({ ...productData, seller_id: sellerId });
-		const newProduct = await ProductService.createProduct(productData);
+		const newProduct = await ProductService.createProduct(
+			productData,
+			parseInt(sellerId)
+		);
 		res.status(201).json(newProduct);
 	} catch (error) {
 		next(error);
@@ -35,7 +39,7 @@ const createProductController = async (req, res, next) => {
 
 const updateProductController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { id } = req.query;
 		const updateData = req.body;
 		const updatedProduct = await ProductService.updateProduct(
 			Number(id),
@@ -49,9 +53,9 @@ const updateProductController = async (req, res, next) => {
 
 const deleteProductController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		await ProductService.deleteProduct(Number(id));
-		res.status(204).send();
+		const { id } = req.query;
+		await ProductService.deleteProduct(parseInt(id), parseInt(req.user.id));
+		res.status(204).json({ message: "Delete successfully" });
 	} catch (error) {
 		next(error);
 	}
