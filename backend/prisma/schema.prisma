@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  ID           Int     @id @default(autoincrement())
-  username     String  @unique(map: "username") @db.VarChar(50)
-  password     String  @db.VarChar(255)
-  email        String  @unique(map: "email") @db.VarChar(100)
-  name         String? @db.VarChar(100)
-  address      String? @db.VarChar(255)
-  phone_number String? @db.VarChar(20)
+  ID           Int         @id @default(autoincrement())
+  username     String      @unique(map: "username") @db.VarChar(50)
+  password     String      @db.VarChar(255)
+  email        String      @unique(map: "email") @db.VarChar(100)
+  name         String?     @db.VarChar(100)
+  address      String?     @db.VarChar(255)
+  phone_number String?     @db.VarChar(20)
   Buyer        Buyer?
   Seller       Seller?
+  Watchlist    Watchlist[]
 }
 
 model Category {
@@ -46,6 +47,7 @@ model Product {
   Seller      Seller        @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
   Category    Category      @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
   Transaction Transaction[]
+  Watchlist   Watchlist[]
 
   @@index([category_ID], map: "category_ID")
   @@index([seller_ID], map: "seller_ID")
@@ -122,4 +124,18 @@ model Seller {
   user_ID Int       @id
   Product Product[]
   User    User      @relation(fields: [user_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction, map: "Seller_ibfk_1")
+}
+
+model Watchlist {
+  user_ID    Int
+  product_ID Int
+  added_at   DateTime @default(now())
+
+  // Định nghĩa quan hệ
+  User    User    @relation(fields: [user_ID], references: [ID])
+  Product Product @relation(fields: [product_ID], references: [ID])
+
+  // Định nghĩa khóa chính phức hợp (Composite Key)
+  // (Một user chỉ có thể theo dõi 1 sản phẩm 1 lần)
+  @@id([user_ID, product_ID])
 }
