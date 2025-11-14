@@ -16,8 +16,10 @@ services:
     command: >
       sh -c "
         echo '--- [Auction App] Đã nhận tín hiệu DB healthy.' &&
-        echo '--- [Auction App] Chạy Prisma Generate...' &&
-        npx prisma generate &&
+        echo '--- [Auction App] Chạy Prisma Migrate (Dev)...' &&
+        npx prisma migrate dev &&
+        # echo '--- [Auction App] Chạy Prisma Generate...' &&
+        # npx prisma generate &&
         echo '--- [Auction App] Khởi động server (npm run dev)...' &&
         npm run dev
       "
@@ -31,6 +33,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Lấy từ .env
       MYSQL_DATABASE: ${MYSQL_DATABASE} # Lấy từ .env
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     volumes:
       - mysql_data:/var/lib/mysql # Gắn volume để giữ lại dữ liệu khi container bị xóa
     healthcheck:
