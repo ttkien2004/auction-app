@@ -3,6 +3,7 @@ const {
 	registerController,
 	loginController,
 	logoutController,
+	sellerRegisterController,
 } = require("../controller/AuthController");
 
 const routes = express.Router();

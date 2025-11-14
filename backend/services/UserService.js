@@ -2,19 +2,58 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const getUsers = (query) => {
+	const { userId } = query;
+	if (userId) {
+		return getUserById(parseInt(userId));
+	}
+	return getAllUsers();
+};
 const getAllUsers = async () => {
 	// TODO: Viết logic (ví dụ: prisma.user.findMany())
-	return [];
+	return prisma.user.findMany();
 };
 
 const getUserById = async (userId) => {
 	// TODO: Viết logic (ví dụ: prisma.user.findUnique({ where: { user_id: userId } }))
-	return { id: userId, name: "Tên User" };
+	if (!userId) {
+		throw Error("ID not valid");
+	}
+	const existedUser = await prisma.user.findUnique({
+		where: {
+			ID: userId,
+		},
+		select: {
+			username: true,
+			email: true,
+			phone_number: true,
+			address: true,
+		},
+	});
+	if (!existedUser) {
+		throw Error("User not found");
+	}
+	return existedUser;
 };
 
 const updateUser = async (userId, updateData) => {
 	// TODO: Viết logic (ví dụ: prisma.user.update({ where: ..., data: ... }))
-	return { id: userId, ...updateData };
+	if (isNaN(userId)) {
+		throw Error("ID not valid");
+	}
+	const updatedUser = await prisma.user.update({
+		where: {
+			ID: userId,
+		},
+		data: updateData,
+		select: {
+			username: true,
+			address: true,
+			phone_number: true,
+			email: true,
+		},
+	});
+	return updatedUser;
 };
 
 const deleteUser = async (userId) => {
@@ -28,6 +67,7 @@ const getUserBids = async (userId) => {
 };
 
 module.exports = {
+	getUsers,
 	getAllUsers,
 	getUserById,
 	updateUser,
