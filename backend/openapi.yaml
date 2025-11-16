@@ -138,7 +138,7 @@ paths:
   ##################################
   # Seller (từ SellerRoutes.js)
   ##################################
-  /seller/{id}/products:
+  /seller/products:
     get:
       tags: [Seller]
       summary: Lấy tất cả sản phẩm của một người bán (Cần token)
@@ -149,30 +149,39 @@ paths:
       responses:
         "200":
           description: Danh sách sản phẩm của người bán
-    post:
-      tags: [Seller]
-      summary: Người bán tạo một sản phẩm mới (Cần token)
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      requestBody:
-        $ref: "#/components/requestBodies/ProductCreate"
-      responses:
-        "201":
-          description: Tạo sản phẩm thành công
+    # post:
+    #   tags: [Seller]
+    #   summary: Người bán tạo một sản phẩm mới (Cần token)
+    #   security:
+    #     - bearerAuth: []
+    #   parameters:
+    #     - $ref: "#/components/parameters/GenericId"
+    #   requestBody:
+    #     $ref: "#/components/requestBodies/ProductCreate"
+    #   responses:
+    #     "201":
+    #       description: Tạo sản phẩm thành công
 
-  /seller/{id}/reviews:
+  # /seller/{id}/reviews:
+  #   get:
+  #     tags: [Seller]
+  #     summary: Lấy tất cả đánh giá về một người bán (Cần token)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     responses:
+  #       "200":
+  #         description: Danh sách đánh giá
+  /seller/transactions:
     get:
       tags: [Seller]
-      summary: Lấy tất cả đánh giá về một người bán (Cần token)
+      summary: Lấy tất cả giao dịch của người bán
       security:
         - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
       responses:
         "200":
-          description: Danh sách đánh giá
+          description: Danh sách các giao dịch
 
   ##################################
   # Buyer (từ BuyerRoutes.js)
