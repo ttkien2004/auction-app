@@ -17,8 +17,35 @@ const getReviewsForSeller = async (sellerId) => {
 	return [];
 };
 
+const getTransactions = async (sellerId) => {
+	return await prisma.transaction.findMany({
+		where: {
+			Product: {
+				seller_ID: sellerId,
+			},
+		},
+		include: {
+			Product: {
+				select: { ID: true, name: true, type: true },
+			},
+			// Lấy thông tin người mua (để Seller biết giao hàng cho ai)
+			Buyer: {
+				select: {
+					User: {
+						select: { name: true, address: true, phone_number: true },
+					},
+				},
+			},
+		},
+		orderBy: {
+			created_at: "desc",
+		},
+	});
+};
+
 module.exports = {
 	createProductForSeller,
 	getProductsBySeller,
 	getReviewsForSeller,
+	getTransactions,
 };

@@ -5,7 +5,7 @@ const productController = require("../controller/ProductController");
 const routes = express.Router();
 
 routes.get("/products", productController.getAllProductsController);
-routes.get("/products/{id}", productController.getProductByIdController);
+// routes.get("/products/:productId", productController.getProductByIdController);
 
 routes.post(
 	"/products",

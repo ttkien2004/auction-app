@@ -5,10 +5,11 @@ const prisma = new PrismaClient();
 
 const register = async (req, res) => {
 	try {
-		const { username, email, password, name, role } = req.body;
+		const { username, email, password, name, roles } = req.body;
 
 		let defaultRole = "BUYER";
-		if (role) {
+		// console.log(roles);
+		if (roles.length !== 0) {
 			defaultRole = "SELLER";
 		}
 

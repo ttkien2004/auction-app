@@ -3,7 +3,11 @@ const ProductService = require("../services/ProductService");
 
 const getAllProductsController = async (req, res, next) => {
 	try {
-		const filters = req.query; // Dành cho việc lọc/phân trang
+		const { productId, ...filters } = req.query; // Dành cho việc lọc/phân trang
+		if (productId) {
+			const products = await ProductService.getProductById(productId);
+			res.status(200).json(products);
+		}
 		const products = await ProductService.getProducts(filters);
 		res.status(200).json(products);
 	} catch (error) {

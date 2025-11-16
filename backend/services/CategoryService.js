@@ -2,14 +2,54 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const getCategories = async (queryParams) => {
+	// console.log(Object.keys(queryParams).length === 0);
+	if (Object.keys(queryParams).length !== 0) {
+		return await getCategoryByFilter(queryParams);
+	}
+	return await getAllCategories();
+};
 const getAllCategories = async () => {
 	// TODO: Viết logic (ví dụ: prisma.category.findMany())
-	return [];
+	return await prisma.category.findMany({
+		where: {
+			parent_category_ID: null,
+		},
+		include: {
+			other_Category: true,
+		},
+	});
 };
 
 const getCategoryById = async (categoryId) => {
 	// TODO: Viết logic (ví dụ: prisma.category.findUnique({ where: ... }))
-	return { id: categoryId };
+	const category = await prisma.category.findUnique({
+		where: {
+			ID: categoryId,
+		},
+		include: {
+			other_Category: true,
+			Category: true,
+		},
+	});
+	if (!category) {
+		throw new Error("Category not found");
+	}
+	return category;
+};
+
+const getCategoryByFilter = async (filterQuery) => {
+	const category = await prisma.category.findUnique({
+		where: filterQuery,
+		include: {
+			other_Category: true,
+			Category: true,
+		},
+	});
+	if (!category) {
+		throw new Error("Category not found");
+	}
+	return category;
 };
 
 const createCategory = async (categoryData) => {
@@ -28,6 +68,7 @@ const deleteCategory = async (categoryId) => {
 };
 
 module.exports = {
+	getCategories,
 	getAllCategories,
 	getCategoryById,
 	createCategory,

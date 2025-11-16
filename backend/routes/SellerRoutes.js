@@ -20,4 +20,10 @@ routes.get(
 	SellerController.getReviewsForSellerController
 );
 
+routes.get(
+	"/seller/transactions",
+	authenticateToken,
+	SellerController.getTransactionsForSellerController
+);
+
 module.exports = routes;

@@ -48,6 +48,7 @@ model Product {
   Category    Category      @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
   Transaction Transaction[]
   Watchlist   Watchlist[]
+  CartItem    CartItem[]
 
   @@index([category_ID], map: "category_ID")
   @@index([seller_ID], map: "seller_ID")
@@ -118,6 +119,7 @@ model Buyer {
   User        User          @relation(fields: [user_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction, map: "Buyer_ibfk_1")
   Review      Review[]
   Transaction Transaction[]
+  CartItem    CartItem[]
 }
 
 model Seller {
@@ -138,4 +140,20 @@ model Watchlist {
   // Định nghĩa khóa chính phức hợp (Composite Key)
   // (Một user chỉ có thể theo dõi 1 sản phẩm 1 lần)
   @@id([user_ID, product_ID])
+}
+
+// THÊM MODEL MỚI CHO GIỎ HÀNG
+model CartItem {
+  buyer_ID   Int
+  product_ID Int
+  added_at   DateTime @default(now())
+
+  // Quan hệ: 
+  // (Lưu ý: Chúng ta liên kết với 'Buyer', không phải 'User',
+  // vì chỉ Buyer mới có giỏ hàng)
+  Buyer   Buyer   @relation(fields: [buyer_ID], references: [user_ID])
+  Product Product @relation(fields: [product_ID], references: [ID])
+
+  // Khóa chính: 1 Buyer chỉ có thể thêm 1 Product vào giỏ 1 lần
+  @@id([buyer_ID, product_ID])
 }

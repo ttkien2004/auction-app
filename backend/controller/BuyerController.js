@@ -3,8 +3,10 @@ const BuyerService = require("../services/BuyerService");
 
 const getTransactionsByBuyerController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const transactions = await BuyerService.getTransactionsByBuyer(Number(id));
+		const buyerId = req.user.id;
+		const transactions = await BuyerService.getTransactionsByBuyer(
+			Number(buyerId)
+		);
 		res.status(200).json(transactions);
 	} catch (error) {
 		next(error);

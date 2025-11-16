@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getProducts = async (queryParams) => {
 	// TODO: Viết logic (ví dụ: prisma.product.findMany({ where: queryParams }))
-	if (queryParams) {
+	if (Object.keys(queryParams).length !== 0) {
 		const { limit: limitStr, offset: offsetStr, ...filters } = queryParams;
 
 		const limit = parseInt(limitStr) || 10;
@@ -142,7 +142,25 @@ const getProducts = async (queryParams) => {
 
 const getProductById = async (productId) => {
 	// TODO: Viết logic (ví dụ: prisma.product.findUnique({ where: { product_id: productId } }))
-	return { id: productId };
+	const product = await prisma.product.findUnique({
+		where: { ID: productId },
+		include: {
+			Category: true,
+			Seller: {
+				select: {
+					user_ID: true,
+					User: { select: { name: true, email: true, phone_number: true } },
+				},
+			},
+			DirectSale: true,
+			Auction: true,
+		},
+	});
+
+	if (!product) {
+		throw new Error("Sản phẩm không tồn tại");
+	}
+	return product;
 };
 
 const createProduct = async (productData, sellerId) => {

@@ -4,35 +4,35 @@ const auctionController = require("../controller/AuctionController");
 
 const routes = express.Router();
 
-routes.get("/auctions", auctionController.getAllAuctionsController);
-routes.get("/auctions/{id}", auctionController.getAuctionByIdController);
-routes.get(
-	"/auctions/{id}/bids",
-	auctionController.getBidsForAuctionController
-);
+routes.get("/auctions", auctionController.getAuctionsController);
+// routes.get("/auctions/{id}", auctionController.getAuctionByIdController);
 
 routes.post(
-	"/auctions/{id}",
+	"/auctions",
 	authenticateToken,
 	auctionController.createAuctionController
 );
 routes.put(
-	"/auctions/{id}",
+	"/auctions",
 	authenticateToken,
 	auctionController.updateAuctionController
 );
 routes.delete(
-	"/auctions/{id}",
+	"/auctions",
 	authenticateToken,
 	auctionController.deleteAuctionController
 );
 routes.post(
-	"/auctions/{id}/join",
+	"/auctions/join",
 	authenticateToken,
 	auctionController.joinAuctionController
 );
+
+// Lượt đấu giá
+routes.get("/auctions/bids", auctionController.getBidsForAuctionController);
+
 routes.post(
-	"/auctions/{id}/bids",
+	"/auctions/bids",
 	authenticateToken,
 	auctionController.placeBidController
 );

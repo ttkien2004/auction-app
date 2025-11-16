@@ -5,7 +5,7 @@ const buyerController = require("../controller/BuyerController");
 const routes = express.Router();
 
 routes.get(
-	"/buyer/{id}/transactions",
+	"/buyer/transactions",
 	authenticateToken,
 	buyerController.getTransactionsByBuyerController
 );

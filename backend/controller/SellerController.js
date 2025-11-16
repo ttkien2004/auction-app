@@ -35,8 +35,19 @@ const getReviewsForSellerController = async (req, res, next) => {
 	}
 };
 
+const getTransactionsForSellerController = async (req, res, next) => {
+	try {
+		const sellerId = req.user.id;
+		const transactions = await SellerService.getTransactions(sellerId);
+		res.status(200).json(transactions);
+	} catch (err) {
+		next(err);
+	}
+};
+
 module.exports = {
 	createProductForSellerController,
 	getProductsBySellerController,
 	getReviewsForSellerController,
+	getTransactionsForSellerController,
 };
