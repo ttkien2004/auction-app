@@ -3,9 +3,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getCategories = async (queryParams) => {
-	if (queryParams) {
-		const { id } = queryParams;
-		return await getCategoryById(id);
+	// console.log(Object.keys(queryParams).length === 0);
+	if (Object.keys(queryParams).length !== 0) {
+		return await getCategoryByFilter(queryParams);
 	}
 	return await getAllCategories();
 };
@@ -27,6 +27,20 @@ const getCategoryById = async (categoryId) => {
 		where: {
 			ID: categoryId,
 		},
+		include: {
+			other_Category: true,
+			Category: true,
+		},
+	});
+	if (!category) {
+		throw new Error("Category not found");
+	}
+	return category;
+};
+
+const getCategoryByFilter = async (filterQuery) => {
+	const category = await prisma.category.findUnique({
+		where: filterQuery,
 		include: {
 			other_Category: true,
 			Category: true,

@@ -55,9 +55,9 @@ const updateReviewController = async (req, res, next) => {
 
 const deleteReviewController = async (req, res, next) => {
 	try {
-		const { id } = req.query;
+		const { reviewId } = req.query;
 		const userId = req.user.id;
-		await ReviewService.deleteReview(Number(id), Number(userId));
+		await ReviewService.deleteReview(Number(reviewId), Number(userId));
 		res.status(204).send();
 	} catch (error) {
 		next(error);

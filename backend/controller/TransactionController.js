@@ -37,10 +37,10 @@ const createTransactionController = async (req, res, next) => {
 
 const updateTransactionController = async (req, res, next) => {
 	try {
-		const { id } = req.query;
+		const { transactionId } = req.query;
 		const updateData = req.body; // Thường là { status: "shipped" }
 		const updatedTransaction = await TransactionService.updateTransaction(
-			Number(id),
+			Number(transactionId),
 			updateData,
 			Number(req.user.id)
 		);
@@ -52,8 +52,11 @@ const updateTransactionController = async (req, res, next) => {
 
 const deleteTransactionController = async (req, res, next) => {
 	try {
-		const { id } = req.query;
-		await TransactionService.deleteTransaction(Number(id), Number(req.user.id));
+		const { transactionId } = req.query;
+		await TransactionService.deleteTransaction(
+			Number(transactionId),
+			Number(req.user.id)
+		);
 		res.status(204).send();
 	} catch (error) {
 		next(error);
