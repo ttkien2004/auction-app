@@ -8,16 +8,20 @@ datasource db {
 }
 
 model User {
-  ID           Int         @id @default(autoincrement())
-  username     String      @unique(map: "username") @db.VarChar(50)
-  password     String      @db.VarChar(255)
-  email        String      @unique(map: "email") @db.VarChar(100)
-  name         String?     @db.VarChar(100)
-  address      String?     @db.VarChar(255)
-  phone_number String?     @db.VarChar(20)
-  Buyer        Buyer?
-  Seller       Seller?
-  Watchlist    Watchlist[]
+  ID              Int     @id @default(autoincrement())
+  username        String  @unique(map: "username") @db.VarChar(50)
+  password        String  @db.VarChar(255)
+  email           String  @unique(map: "email") @db.VarChar(100)
+  name            String? @db.VarChar(100)
+  address         String? @db.VarChar(255)
+  phone_number    String? @db.VarChar(20)
+  ghn_province_id Int? // ID Tỉnh (GHN)
+  ghn_district_id Int? // ID Quận/Huyện (GHN) -> Đây chính là from_district_id
+  ghn_ward_code   String? // Mã Phường/Xã (GHN)
+
+  Buyer     Buyer?
+  Seller    Seller?
+  Watchlist Watchlist[]
 }
 
 model Category {
@@ -94,6 +98,16 @@ model Transaction {
   Review       Review[]
   Buyer        Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_1")
   Product      Product?  @relation(fields: [product_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_2")
+
+  shipping_address       String? // Địa chỉ giao hàng cụ thể
+  shipping_phone         String? // SĐT người nhận hàng
+  shipping_note          String? // Ghi chú (ví dụ: "Giao giờ hành chính")
+  expected_delivery_date DateTime? // Ngày dự kiến giao hàng
+
+  shipping_province_id   Int?
+  shipping_district_id   Int?
+  shipping_ward_code     String?
+  expected_delivery_time DateTime? // Thời gian giao dự kiến
 
   @@index([buyer_ID], map: "buyer_ID")
   @@index([product_ID], map: "product_ID")

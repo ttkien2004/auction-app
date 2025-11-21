@@ -186,14 +186,12 @@ paths:
   ##################################
   # Buyer (từ BuyerRoutes.js)
   ##################################
-  /buyer/{id}/transactions:
+  /buyer/transactions:
     get:
       tags: [Buyer]
       summary: Lấy tất cả giao dịch (đơn hàng) của một người mua (Cần token)
       security:
         - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
       responses:
         "200":
           description: Danh sách giao dịch
@@ -538,6 +536,26 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        description: Thông tin tạo đánh giá
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                note:
+                  type: string
+                phone:
+                  type: string
+                to_province_id:
+                  type: integer
+                to_district_id:
+                  type: integer
+                to_ward_code:
+                  type: string
       responses:
         "200":
           description: Mua thành công, tạo giao dịch

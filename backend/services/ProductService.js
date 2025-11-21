@@ -108,6 +108,8 @@ const getProducts = async (queryParams) => {
 								select: {
 									name: true,
 									phone_number: true,
+									ghn_district_id: true,
+									ghn_ward_code: true,
 								},
 							},
 						},

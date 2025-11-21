@@ -26,6 +26,7 @@ const getTransactionsByBuyer = async (buyerId) => {
 					},
 				},
 			},
+			ID: true,
 		},
 		orderBy: {
 			created_at: "desc",

@@ -1,6 +1,7 @@
 // services/DirectSalesService.js
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const Shippingservice = require("./ShippingService");
 
 const getAllDirectSales = async () => {
 	// TODO: Viết logic (ví dụ: prisma.directSale.findMany())
@@ -84,14 +85,24 @@ const createDirectSale = async (saleData, sellerId) => {
 	});
 };
 
-const buyDirectSale = async (saleId, userId) => {
+const buyDirectSale = async (saleId, userId, shippingData) => {
 	// TODO: 1. Kiểm tra sản phẩm có tồn tại
 	// TODO: 2. Tạo Transaction (logic cho service Transaction)
+	// tính toán ngày giao hàng dự kiến
+	// const estimatedDate = new Date();
+	// estimatedDate.setDate(estimatedDate.getDate() + 5);
 	return await prisma.$transaction(async (tx) => {
 		const product = await tx.product.findUnique({
 			where: { ID: saleId },
 			include: {
 				DirectSale: true, // Cần lấy giá
+				Seller: {
+					include: {
+						User: {
+							select: { ghn_district_id: true }, // Lấy ID kho người bán
+						},
+					},
+				},
 			},
 		});
 		if (!product || !product.DirectSale) {
@@ -107,6 +118,16 @@ const buyDirectSale = async (saleId, userId) => {
 			where: { ID: saleId },
 			data: { status: "sold" },
 		});
+		const sellerDistrictId = product.Seller.User.ghn_district_id;
+		if (!sellerDistrictId) {
+			throw new Error("Seller's GHN district ID is not set");
+		}
+
+		const estimatedDate = await Shippingservice.calculateExpectedDelivery(
+			sellerDistrictId,
+			shippingData.to_district_id,
+			shippingData.to_ward_code
+		);
 
 		const newTransaction = await tx.transaction.create({
 			data: {
@@ -114,9 +135,19 @@ const buyDirectSale = async (saleId, userId) => {
 				product_ID: saleId,
 				final_amount: product.DirectSale.buy_now_price,
 				item_type: "DirectSale",
-				status: "completed", // Bán trực tiếp có thể coi là 'completed' ngay
+				status: "pending_payment", // Bán trực tiếp có thể coi là 'completed' ngay
+				shipping_address: shippingData.address,
+				shipping_phone: shippingData.phone,
+				shipping_note: shippingData.note,
+
+				// Lưu thông tin giao hàng chi tiết
+				shipping_province_id: shippingData.to_province_id,
+				shipping_district_id: shippingData.to_district_id,
+				shipping_ward_code: shippingData.to_ward_code,
+				expected_delivery_date: estimatedDate,
 			},
 		});
+
 		return newTransaction;
 	});
 };
