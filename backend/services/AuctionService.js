@@ -1,6 +1,7 @@
 // services/AuctionService.js
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const socket = require("../socket/socket");
 
 const getAuctions = async (query) => {
 	if (Object.keys(query).length !== 0) {
@@ -236,7 +237,9 @@ const placeBid = async (auctionId, userId, bidData) => {
 			if (highestBid.buyer_ID === userId) {
 				throw new Error("You're keeping the highest BID");
 			}
-			minRequiredBid = highestBid.bid_amount + (auction.min_bid_incr || 0);
+			const currentPrice = parseFloat(highestBid.bid_amount);
+			const step = parseFloat(auction.min_bid_incr) || 0;
+			minRequiredBid = parseFloat(currentPrice + step);
 		} else {
 			// Nếu là người bid đầu tiên
 			minRequiredBid = auction.start_price;
@@ -252,7 +255,32 @@ const placeBid = async (auctionId, userId, bidData) => {
 				auction_ID: auctionId,
 				// bid_time là default CURRENT_TIMESTAMP
 			},
+			include: {
+				Buyer: {
+					select: {
+						User: {
+							select: {
+								name: true, // Lấy tên để hiển thị socket
+							},
+						},
+					},
+				},
+			},
 		});
+		// Phát sự kiện Socket.io cho các client đang theo dõi auction này
+		try {
+			const io = socket.getIO();
+			// Bắn sự kiện 'new_bid' vào phòng 'auction_{id}'
+			// Tất cả client đang xem auction này sẽ nhận được
+			io.to(`auction_${auctionId}`).emit("new_bid", {
+				bid_id: newBid.ID,
+				amount: newBid.bid_amount,
+				bidder_name: newBid.Buyer.User.name,
+				time: newBid.bid_time,
+			});
+		} catch (err) {
+			console.error("Lỗi khi phát sự kiện Socket.io:", err);
+		}
 		return newBid;
 	});
 };
