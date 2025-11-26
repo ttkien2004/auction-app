@@ -9,7 +9,11 @@ const createProductForSeller = async (sellerId, productData) => {
 
 const getProductsBySeller = async (sellerId) => {
 	// TODO: Viết logic (ví dụ: prisma.product.findMany({ where: { seller_id: sellerId } }))
-	return [];
+	return await prisma.product.findMany({
+		where: {
+			seller_ID: sellerId,
+		},
+	});
 };
 
 const getReviewsForSeller = async (sellerId) => {

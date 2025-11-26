@@ -28,9 +28,20 @@ const userApi = {
 		}
 	},
 
-	updateUser: async (userId, updateData) => {
+	getUserProfile: async () => {
 		try {
-			const response = await fetch(`${BASE_URL}/users/${userId}`, {
+			const response = await fetch(`${BASE_URL}/users/profile`, {
+				headers: getFetchHeaders(),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
+
+	updateUser: async (updateData) => {
+		try {
+			const response = await fetch(`${BASE_URL}/users/profile/update`, {
 				method: "PUT",
 				headers: getFetchHeaders({ "Content-Type": "application/json" }),
 				body: JSON.stringify(updateData),

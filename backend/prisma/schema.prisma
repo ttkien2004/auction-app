@@ -37,22 +37,23 @@ model Category {
 }
 
 model Product {
-  ID          Int           @id @default(autoincrement())
-  name        String        @db.VarChar(255)
-  description String?       @db.Text
-  status      String?       @db.VarChar(50)
-  type        String?       @db.VarChar(50)
-  pcondition  String?       @db.VarChar(50)
-  created_at  DateTime?     @default(now()) @db.Timestamp(0)
+  ID          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(255)
+  description String?      @db.Text
+  status      String?      @db.VarChar(50)
+  type        String?      @db.VarChar(50)
+  pcondition  String?      @db.VarChar(50)
+  created_at  DateTime?    @default(now()) @db.Timestamp(0)
   seller_ID   Int
   category_ID Int
   Auction     Auction?
   DirectSale  DirectSale?
-  Seller      Seller        @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
-  Category    Category      @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
-  Transaction Transaction[]
+  Seller      Seller       @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
+  Category    Category     @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
+  Transaction Transaction?
   Watchlist   Watchlist[]
   CartItem    CartItem[]
+  // transactionID Int
 
   @@index([category_ID], map: "category_ID")
   @@index([seller_ID], map: "seller_ID")
@@ -94,7 +95,7 @@ model Transaction {
   final_amount Decimal   @db.Decimal(10, 2)
   created_at   DateTime? @default(now()) @db.Timestamp(0)
   buyer_ID     Int
-  product_ID   Int?
+  product_ID   Int?      @unique
   Review       Review[]
   Buyer        Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_1")
   Product      Product?  @relation(fields: [product_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_2")

@@ -1,6 +1,8 @@
 // services/UserService.js
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { hashPassword, comparePassword } = require("../utils/hash.js");
+const { hash } = require("bcrypt");
 
 const getUsers = (query) => {
 	const { userId } = query;
@@ -40,6 +42,11 @@ const updateUser = async (userId, updateData) => {
 	// TODO: Viết logic (ví dụ: prisma.user.update({ where: ..., data: ... }))
 	if (isNaN(userId)) {
 		throw Error("ID not valid");
+	}
+	let hashedPassword;
+	if (Object.keys(updateData).includes("password")) {
+		hashedPassword = await hashPassword(updateData.password);
+		updateData.password = hashedPassword;
 	}
 	const updatedUser = await prisma.user.update({
 		where: {

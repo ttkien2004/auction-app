@@ -5,12 +5,12 @@ const { authenticateToken } = require("../middleware/authMiddleware");
 const routes = express.Router();
 
 routes.post(
-	"/seller/{id}/products",
+	"/seller/products",
 	authenticateToken,
 	SellerController.createProductForSellerController
 );
 routes.get(
-	"/seller/{id}/products",
+	"/seller/products",
 	authenticateToken,
 	SellerController.getProductsBySellerController
 );

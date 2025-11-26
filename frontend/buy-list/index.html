@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Danh sách mua</title>
+		<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> -->
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../css/profile.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg">
+			<div class="container-fluid">
+				<a class="navbar-brand logo-text" href="#"
+					><i class="fas fa-circle"></i> LOGO</a
+				>
+				<div class="search-bar mx-auto">
+					<i class="fas fa-search text-white me-2"></i>
+					<input type="text" class="search-input" placeholder="Tìm kiếm" />
+				</div>
+				<div class="d-flex align-items-center">
+					<a href="#" class="nav-link me-3">Trang Chủ</a>
+					<a href="#" class="nav-link me-3">Vật Phẩm</a>
+					<a href="#" class="nav-link me-3">Liên Lạc</a>
+					<img
+						src="https://i.pravatar.cc/150?img=5"
+						class="rounded-circle"
+						width="40"
+						height="40"
+						alt="Avatar"
+					/>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-3 sidebar">
+					<a href="../profile/index.html" class="sidebar-link"
+						>Tài khoản của tôi</a
+					>
+					<a href="../buy-list/index.html" class="sidebar-link active"
+						>Danh sách mua</a
+					>
+					<a href="../sell-list/index.html" class="sidebar-link"
+						>Danh sách bán</a
+					>
+					<a href="#" class="sidebar-link logout">Đăng xuất</a>
+				</div>
+
+				<div class="col-md-8 offset-md-1" id="transaction-list">
+					<h2 class="page-title">Danh sách vật phẩm mua</h2>
+
+					<div class="product-card d-flex align-items-center">
+						<img
+							src="https://placehold.co/120x120/black/white?text=Ao"
+							class="rounded me-4"
+							alt="Product"
+						/>
+						<div class="flex-grow-1">
+							<h5 class="product-title">Áo thun Truyền hình mèo</h5>
+							<p class="product-status status-shipping mb-1">ĐANG GIAO HÀNG</p>
+							<p class="text-muted small mb-1">Huỳnh Quang Thịnh</p>
+							<h4 class="product-price">230.000đ</h4>
+						</div>
+						<div class="d-flex align-items-end gap-2">
+							<button class="btn btn-view">Xem sản phẩm</button>
+							<button class="btn btn-outline-custom">Liên lạc người bán</button>
+						</div>
+					</div>
+
+					<!-- <div class="product-card d-flex align-items-center">
+						<img
+							src="https://placehold.co/120x120/black/white?text=Ao"
+							class="rounded me-4"
+							alt="Product"
+						/>
+						<div class="flex-grow-1">
+							<h5 class="product-title">Áo thun Truyền hình mèo</h5>
+							<p class="product-status status-cancel mb-1">HỦY BỎ</p>
+							<p class="text-muted small mb-1">Huỳnh Quang Thịnh</p>
+							<h4 class="product-price">230.000đ</h4>
+						</div>
+						<div class="d-flex align-items-end gap-2">
+							<button class="btn btn-view">Xem sản phẩm</button>
+							<button class="btn btn-outline-custom">Liên lạc người bán</button>
+						</div>
+					</div>
+
+					<div class="product-card d-flex align-items-center">
+						<img
+							src="https://placehold.co/120x120/black/white?text=Ao"
+							class="rounded me-4"
+							alt="Product"
+						/>
+						<div class="flex-grow-1">
+							<h5 class="product-title">Áo thun Truyền hình mèo</h5>
+							<p class="product-status status-success mb-1">THÀNH CÔNG</p>
+							<p class="text-muted small mb-1">Huỳnh Quang Thịnh</p>
+							<h4 class="product-price">230.000đ</h4>
+						</div>
+						<div class="d-flex align-items-end gap-2">
+							<button class="btn btn-view">Xem sản phẩm</button>
+							<button class="btn btn-outline-custom">Liên lạc người bán</button>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+		<script src="../scripts/buyer.js" type="module"></script>
+	</body>
+</html>

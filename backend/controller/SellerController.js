@@ -17,8 +17,8 @@ const createProductForSellerController = async (req, res, next) => {
 
 const getProductsBySellerController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const products = await SellerService.getProductsBySeller(Number(id));
+		const userId = req.user.id;
+		const products = await SellerService.getProductsBySeller(Number(userId));
 		res.status(200).json(products);
 	} catch (error) {
 		next(error);

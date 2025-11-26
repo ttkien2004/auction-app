@@ -88,6 +88,17 @@ paths:
       responses:
         "200":
           description: Thông tin profile
+  /users/profile/update:
+    put:
+      tags: [Users]
+      summary: Cập nhật thông tin profile của chính mình (Cần token)
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: "#/components/requestBodies/UserUpdate"
+      responses:
+        "200":
+          description: Cập nhật thành công
 
   # /users/{userId}:
   #   get:
@@ -144,8 +155,6 @@ paths:
       summary: Lấy tất cả sản phẩm của một người bán (Cần token)
       security:
         - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
       responses:
         "200":
           description: Danh sách sản phẩm của người bán
@@ -770,6 +779,10 @@ components:
             type: object
             properties:
               name: # Sửa từ full_name (file gốc) sang name
+                type: string
+              email:
+                type: string
+              password:
                 type: string
               address:
                 type: string

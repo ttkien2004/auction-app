@@ -6,10 +6,10 @@ import {
 } from "./apiHelpers.js";
 
 const sellerApi = {
-	getSellerProducts: async (id) => {
+	getSellerProducts: async () => {
 		try {
-			const response = await fetch(`${BASE_URL}/seller/${id}/products`, {
-				headers: getFetchHeaders(),
+			const response = await fetch(`${BASE_URL}/seller/products`, {
+				headers: getFetchHeaders({ "Content-Type": "application/json" }),
 			});
 			return handleResponse(response);
 		} catch (err) {

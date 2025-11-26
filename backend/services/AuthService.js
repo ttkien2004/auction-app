@@ -10,7 +10,9 @@ const register = async (req, res) => {
 		let defaultRole = "BUYER";
 		// console.log(roles);
 		if (roles.length !== 0) {
-			defaultRole = "SELLER";
+			if (roles.includes("SELLER")) {
+				defaultRole = "SELLER";
+			}
 		}
 
 		const existingUser = await prisma.user.findFirst({

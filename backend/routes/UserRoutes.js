@@ -12,7 +12,11 @@ routes.get(
 	userController.getUserProfileController
 );
 
-routes.put("/users", authenticateToken, userController.updateUserController);
+routes.put(
+	"/users/profile/update",
+	authenticateToken,
+	userController.updateUserController
+);
 
 routes.delete("/users", authenticateToken, userController.deleteUserController);
 

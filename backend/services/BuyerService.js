@@ -24,6 +24,13 @@ const getTransactionsByBuyer = async (buyerId) => {
 							},
 						},
 					},
+					status: true,
+					Transaction: {
+						select: {
+							expected_delivery_date: true,
+							final_amount: true,
+						},
+					},
 				},
 			},
 			ID: true,
