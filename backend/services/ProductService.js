@@ -1,6 +1,8 @@
 // services/ProductService.js
+require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const IMAGE_BASE_URL = process.env.R2_PUBLIC_URL;
 
 const getProducts = async (queryParams) => {
 	// TODO: Viết logic (ví dụ: prisma.product.findMany({ where: queryParams }))
@@ -128,9 +130,27 @@ const getProducts = async (queryParams) => {
 			}),
 		]);
 
+		// Map để thêm URL cho ảnh
+		const productsWithImages = products.map((p) => ({
+			...p,
+			// Nếu có ảnh thì ghép URL, nếu không thì trả về null hoặc ảnh mặc định
+			imageUrl: p.image ? `${IMAGE_BASE_URL}/${p.image}` : null,
+
+			// Đối với User (Seller avatar)
+			Seller: {
+				...p.Seller,
+				User: {
+					...p.Seller.User,
+					avatarUrl: p.Seller.User.avatar
+						? `${IMAGE_BASE_URL}/${p.Seller.User.avatar}`
+						: null,
+				},
+			},
+		}));
 		// --- 4. Trả về kết quả ---
+
 		return {
-			data: products,
+			data: productsWithImages,
 			pagination: {
 				total: totalCount,
 				limit: limit,

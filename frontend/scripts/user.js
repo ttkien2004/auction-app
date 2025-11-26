@@ -1,4 +1,5 @@
 // TODO: Dùng file này cho việc gọi đến các Api services
+import { R2_PUBLIC_URL } from "../services/apiHelpers.js";
 import userApi from "../services/userApi.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.addEventListener("DOMContentLoaded", async () => {
 	try {
 		const user = await userApi.getUserProfile();
+		localStorage.setItem("userProfile", JSON.stringify(user));
 		const userProfile = user.profile;
 		// console.log("User profile:", profile);
 		document.getElementById("username-input").value =
@@ -39,6 +41,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 		document.getElementById("email-input").value = userProfile.email || "";
 		document.getElementById("phone-input").value =
 			userProfile.phone_number || "";
+		document.getElementById("user-avatar").src =
+			R2_PUBLIC_URL + (userProfile.avatar || "");
 	} catch (error) {
 		console.error("Lỗi khi lấy thông tin người dùng:", error);
 	}

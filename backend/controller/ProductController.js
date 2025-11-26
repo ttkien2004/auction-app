@@ -1,5 +1,6 @@
 // controllers/ProductController.js
 const ProductService = require("../services/ProductService");
+const R2Service = require("../services/R2Service");
 
 const getAllProductsController = async (req, res, next) => {
 	try {
@@ -27,9 +28,12 @@ const getProductByIdController = async (req, res, next) => {
 
 const createProductController = async (req, res, next) => {
 	try {
-		const productData = req.body;
 		const sellerId = req.user.id; // Lấy từ auth middleware
-		console.log(sellerId);
+		let imageFileName = null;
+		if (req.file) {
+			imageFileName = await R2Service.uploadImage(req.file);
+		}
+		const productData = { ...req.body, image: imageFileName };
 		// const newProduct = await ProductService.createProduct({ ...productData, seller_id: sellerId });
 		const newProduct = await ProductService.createProduct(
 			productData,

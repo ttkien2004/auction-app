@@ -1,4 +1,5 @@
 // TODO: Dùng file này cho việc gọi đến các Api services
+import { R2_PUBLIC_URL } from "../services/apiHelpers.js";
 import buyerApi from "../services/buyerApi.js";
 // import directSalesApi from "../services/directSalesApi.js";
 
@@ -25,12 +26,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 			}).format(Number(priceValue));
 
 			const productName = product?.name ?? "Sản phẩm";
+			const imgURl = R2_PUBLIC_URL + product?.image;
 
 			transactionList += `<div class="product-card d-flex align-items-center">
                         <img
-                            src="https://placehold.co/120x120/black/white?text=Ao"
+                            src="${imgURl}"
                             class="rounded me-4"
                             alt="Product"
+							style="width: 120px; height: 120px; object-fit: contain;"
                         />
                         <div class="flex-grow-1">
                             <h5 class="product-title">${productName}</h5>

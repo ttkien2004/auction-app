@@ -30,6 +30,7 @@ const getUserById = async (userId) => {
 			email: true,
 			phone_number: true,
 			address: true,
+			avatar: true,
 		},
 	});
 	if (!existedUser) {
