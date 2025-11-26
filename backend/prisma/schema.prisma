@@ -23,6 +23,10 @@ model User {
   Buyer     Buyer?
   Seller    Seller?
   Watchlist Watchlist[]
+
+  chats_as_buyer  Conversation[] @relation("BuyerChats")
+  chats_as_seller Conversation[] @relation("SellerChats")
+  messages_sent   Message[]
 }
 
 model Category {
@@ -38,24 +42,25 @@ model Category {
 }
 
 model Product {
-  ID          Int          @id @default(autoincrement())
-  name        String       @db.VarChar(255)
-  description String?      @db.Text
-  status      String?      @db.VarChar(50)
-  type        String?      @db.VarChar(50)
-  pcondition  String?      @db.VarChar(50)
-  created_at  DateTime?    @default(now()) @db.Timestamp(0)
-  image       String?      @db.VarChar(255)
-  seller_ID   Int
-  category_ID Int
-  Auction     Auction?
-  DirectSale  DirectSale?
-  Seller      Seller       @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
-  Category    Category     @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
-  Transaction Transaction?
-  Watchlist   Watchlist[]
-  CartItem    CartItem[]
+  ID            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(255)
+  description   String?        @db.Text
+  status        String?        @db.VarChar(50)
+  type          String?        @db.VarChar(50)
+  pcondition    String?        @db.VarChar(50)
+  created_at    DateTime?      @default(now()) @db.Timestamp(0)
+  image         String?        @db.VarChar(255)
+  seller_ID     Int
+  category_ID   Int
+  Auction       Auction?
+  DirectSale    DirectSale?
+  Seller        Seller         @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
+  Category      Category       @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
+  Transaction   Transaction?
+  Watchlist     Watchlist[]
+  CartItem      CartItem[]
   // transactionID Int
+  conversations Conversation[]
 
   @@index([category_ID], map: "category_ID")
   @@index([seller_ID], map: "seller_ID")
@@ -173,4 +178,35 @@ model CartItem {
 
   // Khóa chính: 1 Buyer chỉ có thể thêm 1 Product vào giỏ 1 lần
   @@id([buyer_ID, product_ID])
+}
+
+// Them model cho HỘI THOẠI (Conversation) giữa người mua và người bán
+model Conversation {
+  ID         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  buyer_ID   Int
+  seller_ID  Int
+  product_ID Int?
+
+  Buyer   User     @relation("BuyerChats", fields: [buyer_ID], references: [ID])
+  Seller  User     @relation("SellerChats", fields: [seller_ID], references: [ID])
+  Product Product? @relation(fields: [product_ID], references: [ID])
+
+  Message Message[]
+
+  @@unique([buyer_ID, seller_ID, product_ID]) // Mỗi cặp mua-bán-sản phẩm chỉ có 1 hội thoại
+}
+
+model Message {
+  ID         Int      @id @default(autoincrement())
+  content    String   @db.Text
+  created_at DateTime @default(now())
+
+  sender_ID       Int // Người gửi
+  conversation_ID Int
+
+  Conversation Conversation @relation(fields: [conversation_ID], references: [ID])
+  Sender       User         @relation(fields: [sender_ID], references: [ID])
 }

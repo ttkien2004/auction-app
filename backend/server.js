@@ -9,6 +9,8 @@ const prisma = new PrismaClient();
 const PORT = process.env.APP_PORT || 3000;
 const cors = require("cors");
 
+const http = require("http");
+
 // Import routes
 const authRoutes = require("./routes/AuthRoutes");
 const auctionRoutes = require("./routes/AuctionRoutes");
@@ -20,6 +22,17 @@ const reviewRoutes = require("./routes/ReviewRoutes");
 const sellerRoutes = require("./routes/SellerRoutes");
 const transRoutes = require("./routes/TransactionRoutes");
 const userRoutes = require("./routes/UserRoutes");
+const { integrateMoMoService } = require("./momo/main");
+const momoRoutes = require("./routes/MoMoRoutes");
+const shippingRoutes = require("./routes/ShippingRoutes");
+const chatRoutes = require("./routes/ChatRoutes");
+//Socket
+// const socket = require("./socket/socket");
+const httpServer = http.createServer(app);
+
+const socketManager = require("./socket/socket");
+const socketEvents = require("./socket/index");
+const io = socketManager.init(httpServer);
 // Config swagger
 const swaggerDocument = YAML.load("./openapi.yaml");
 
@@ -46,8 +59,23 @@ app.use("/api", reviewRoutes);
 app.use("/api", sellerRoutes);
 app.use("/api", transRoutes);
 app.use("/api", userRoutes);
+// app.post("/api/momo/create", (req, res) => {
+// 	integrateMoMoService(req, res);
+// });
+// app.get("/api/momo/result", (req, res) => {
+// 	console.log("Result: ", req.query);
+// });
+app.use("/api/momo", momoRoutes);
+app.use("/api/shipping", shippingRoutes);
+app.use("/api/chat", chatRoutes);
+
+// Lắng nghe kết nối từ client qua socket.io
+socketEvents(io);
 
 // Khởi động server
-app.listen(PORT, () => {
+// app.listen(PORT, () => {
+// 	console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
+// });
+httpServer.listen(PORT, () => {
 	console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
 });

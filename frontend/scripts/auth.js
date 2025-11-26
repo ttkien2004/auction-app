@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				// Lưu token (quan trọng)
 				localStorage.setItem("token", data.token);
+				localStorage.setItem("user", JSON.stringify(data.user));
 
 				// Thông báo thành công và redirect (ví dụ)
 				showMessage("Đăng nhập thành công!", "success");

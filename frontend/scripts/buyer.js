@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			}).format(Number(priceValue));
 
 			const productName = product?.name ?? "Sản phẩm";
+			const productId = product?.ID ?? 0;
 			const imgURl = R2_PUBLIC_URL + product?.image;
 
 			transactionList += `<div class="product-card d-flex align-items-center">
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </div>
                         <div class="d-flex align-items-end gap-2">
                             <button class="btn btn-view">Xem sản phẩm</button>
-                            <button class="btn btn-outline-custom">Liên lạc người bán</button>
+                            <button class="btn btn-outline-custom" onclick="goToChat(${productId})">Liên lạc người bán</button>
                         </div>
                     </div>`;
 		});
@@ -55,3 +56,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 		console.error("Lỗi khi tải dữ liệu người mua:", err);
 	}
 });
+window.goToChat = (productId) => {
+	window.location.href = `../chat/index.html?productId=${productId}`;
+};

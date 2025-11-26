@@ -68,6 +68,8 @@ const register = async (req, res) => {
 				username: newUser.username,
 				email: newUser.email,
 				name: newUser.name,
+				id: newUser.ID,
+				avatar: newUser.avatar,
 			},
 		});
 	} catch (error) {
@@ -118,6 +120,7 @@ const login = async (req, res) => {
 				id: user.ID,
 				username: user.username,
 				email: user.email,
+				avatar: user.avatar,
 			},
 		});
 	} catch (error) {

@@ -1,4 +1,6 @@
 export const BASE_URL = "http://localhost:3000/api";
+export const R2_PUBLIC_URL =
+	"https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/";
 
 /**
  * Hàm helper để lấy cấu hình headers (bao gồm token)
