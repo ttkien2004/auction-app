@@ -99,6 +99,32 @@ img {
   white-space: nowrap;
 }
 
+/* Hiệu ứng hover cho nút đăng nhập */
+.btn-login {
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.btn-login:hover {
+  color: #e77f09; /* Đổi màu chữ khi hover (tùy chọn) */
+}
+
+.btn-login::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #017bc2;
+  transition: width 0.3s ease;
+}
+
+.btn-login:hover::after {
+  width: 100%;
+}
+
 /* AVATAR */
 .avatar-btn {
   width: 35px;
@@ -129,7 +155,7 @@ img {
 .hero h1 {
   font-family: "Ubuntu Sans", system-ui, sans-serif;
   font-weight: 700;
-  font-size: clamp(32px, 4vw, 54px);
+  font-size: 50px;
   text-transform: uppercase;
   color: #02857d;
 }
