@@ -1,14 +1,94 @@
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Nền tảng mua/bán đồ cũ</title>
-		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="../css/index.css" />
-	</head>
-	<body>
-		<h1>Đây là hompage</h1>
 
-		<script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+<head>
+	<meta charset="UTF-8" />
+	<a class="navbar-brand" href="#">AuctionApp Seller</a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav ms-auto">
+			<li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+		</ul>
+	</div>
+	</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<!-- Left Column: Forms -->
+			<div class="col-lg-4">
+				<div class="card card-custom">
+					<div class="card-header card-header-custom">
+						<h4 class="mb-0">Create Product</h4>
+					</div>
+					<div class="card-body card-body-custom">
+						<form id="create-product-form">
+							<div class="mb-3">
+								<label class="form-label">Name</label>
+								<input type="text" name="name" class="form-control" placeholder="Product Name"
+									required />
+							</div>
+							<div class="mb-3">
+								<label class="form-label">Description</label>
+								<textarea name="description" class="form-control" rows="3" placeholder="Product Details"
+									required></textarea>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">Category ID</label>
+								<input type="number" name="category_id" class="form-control" required />
+							</div>
+							<button type="submit" class="btn btn-primary w-100">Create Product</button>
+						</form>
+					</div>
+				</div>
+
+				<div class="card card-custom">
+					<div class="card-header card-header-custom">
+						<h4 class="mb-0">Start Auction</h4>
+					</div>
+					<div class="card-body card-body-custom">
+						<form id="create-auction-form">
+							<div class="mb-3">
+								<label class="form-label">Product ID</label>
+								<input type="text" name="productId" class="form-control"
+									placeholder="ID of product to auction" required />
+							</div>
+							<div class="row">
+								<div class="col-6 mb-3">
+									<label class="form-label">Start Price</label>
+									<input type="number" name="start_price" class="form-control" required />
+								</div>
+								<div class="col-6 mb-3">
+									<label class="form-label">End Time</label>
+									<input type="datetime-local" name="end_time" class="form-control" required />
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary w-100">Start Auction</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="card card-custom">
+				<div class="card-header card-header-custom">
+					<h4 class="mb-0">Recent Transactions</h4>
+				</div>
+				<div class="card-body card-body-custom">
+					<div id="transaction-list">
+						<!-- Transactions will be rendered here -->
+						<div class="text-center text-muted py-4">No transactions found.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script type="module" src="../scripts/seller.js"></script>
 	</body>
+
 </html>

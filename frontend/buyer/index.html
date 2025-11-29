@@ -1,14 +1,77 @@
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Nền tảng mua/bán đồ cũ</title>
-		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="../css/index.css" />
-	</head>
-	<body>
-		<h1>Đây là hompage</h1>
 
-		<script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+<head>
+	<meta charset="UTF-8" />
+	<a class="navbar-brand" href="#">AuctionApp Buyer</a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav ms-auto">
+			<li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">My Bids</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+		</ul>
+	</div>
+	</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<!-- Left Column: Actions -->
+			<div class="col-lg-4">
+				<div class="card card-custom">
+					<div class="card-header card-header-custom">
+						<h4 class="mb-0">Place Bid</h4>
+					</div>
+					<div class="card-body card-body-custom">
+						<form id="place-bid-form">
+							<div class="mb-3">
+								<label class="form-label">Auction ID</label>
+								<input type="text" name="auctionId" class="form-control" placeholder="Enter Auction ID"
+									required />
+							</div>
+							<div class="mb-3">
+								<label class="form-label">Bid Amount</label>
+								<input type="number" name="bidAmount" class="form-control" placeholder="Your Bid"
+									required />
+							</div>
+							<button type="submit" class="btn btn-primary w-100">Place Bid</button>
+						</form>
+					</div>
+				</div>
+
+				<div class="card card-custom">
+					<div class="card-header card-header-custom">
+						<h4 class="mb-0">Quick Actions</h4>
+					</div>
+					<div class="card-body card-body-custom d-grid gap-2">
+						<button class="btn btn-info join-auction-btn text-white" data-id="1">
+							Join Auction #1
+						</button>
+						<button class="btn btn-success buy-now-btn" data-id="1">
+							Buy Direct Sale #1
+						</button>
+					</div>
+				</div>
+
+				<div class="card card-custom">
+					<div class="card-header card-header-custom">
+						<h4 class="mb-0">Purchase History</h4>
+					</div>
+					<div class="card-body card-body-custom">
+						<div id="buyer-transaction-list">
+							<!-- Transactions will be rendered here -->
+							<div class="text-center text-muted py-4">No purchases yet.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script type="module" src="../scripts/buyer.js"></script>
 	</body>
+
 </html>
