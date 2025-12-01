@@ -187,6 +187,7 @@ const getProductById = async (productId) => {
 
 const createProduct = async (productData, sellerId) => {
 	// TODO: Viết logic (ví dụ: prisma.product.create({ data: productData }))
+	console.log("Product type", productData);
 	const {
 		name,
 		description,
@@ -194,6 +195,7 @@ const createProduct = async (productData, sellerId) => {
 		pcondition,
 		type,
 		// DirectSale
+		image,
 		buy_now_price,
 		// Auction
 		start_price,
@@ -207,6 +209,7 @@ const createProduct = async (productData, sellerId) => {
 		description,
 		pcondition,
 		type,
+		image,
 		status: "active", // Mặc định là 'active' khi mới tạo
 		seller_ID: sellerId,
 		category_ID: parseInt(category_ID),

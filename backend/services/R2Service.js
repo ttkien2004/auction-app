@@ -15,6 +15,7 @@ const s3Client = new S3Client({
 
 const BUCKET_NAME = process.env.R2_BUCKET_NAME;
 const PUBLIC_URL = process.env.R2_PUBLIC_URL;
+const TARGET_FOLDER = "seller/assets";
 
 /**
  * Upload file lên Cloudflare R2
@@ -24,9 +25,7 @@ const uploadImage = async (file) => {
 	try {
 		// 1. Tạo tên file duy nhất
 		const fileExtension = path.extname(file.originalname);
-		const fileName = `${Date.now()}-${Math.round(
-			Math.random() * 1e9
-		)}${fileExtension}`;
+		const fileName = `${TARGET_FOLDER}/${file.originalname}`;
 
 		// 2. Chuẩn bị lệnh upload
 		const uploadParams = {
@@ -34,7 +33,6 @@ const uploadImage = async (file) => {
 			Key: fileName,
 			Body: file.buffer,
 			ContentType: file.mimetype,
-			// ACL: "public-read", // R2 thường quản lý public qua bucket setting, không cần dòng này
 		};
 
 		// 3. Gửi lệnh lên R2

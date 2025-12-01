@@ -1,0 +1,493 @@
+/* RESET CƠ BẢN */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Chivo Mono", system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", sans-serif;
+	background: #faf6f5;
+	color: #02857d;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}
+
+/* PAGE WRAPPER */
+.page {
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 10px 24px 32px;
+}
+
+/* NAVBAR */
+.navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	/* gap: 16px; */
+	/* padding: 4px 0 10px; */
+	/* width: 100%; */
+}
+
+.navbar-left {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.logo-dot {
+	width: 23px;
+	height: 23px;
+	border-radius: 50%;
+	background: #02857d;
+	display: inline-block;
+}
+
+.logo-text {
+	font-weight: 700;
+	font-size: 20px;
+	color: #02857d;
+	text-decoration: none;
+}
+
+/* SEARCH */
+.navbar-search {
+	flex: 0 0 40%;
+	display: flex;
+	align-items: center;
+	/* margin: 0px 200px; */
+	gap: 20px;
+	padding: 7px 18px;
+	border-radius: 30px;
+	background: #02857d;
+}
+
+.icon-search {
+	width: 18px;
+	height: 18px;
+}
+
+.navbar-search input {
+	border: none;
+	outline: none;
+	background: transparent;
+	color: #ffffff;
+	font-size: 14px;
+}
+
+.navbar-search input::placeholder {
+	color: #e2e8f0;
+}
+
+/* LINKS */
+.navbar-links {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	width: auto;
+}
+
+.navbar-links a {
+	font-size: 14px;
+	color: #02857d;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+/* Hiệu ứng hover cho nút đăng nhập */
+.btn-login {
+	text-decoration: none;
+	position: relative;
+	transition: color 0.3s;
+}
+
+.btn-login:hover {
+	color: #e77f09; /* Đổi màu chữ khi hover (tùy chọn) */
+}
+
+.btn-login::after {
+	content: "";
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: #017bc2;
+	transition: width 0.3s ease;
+}
+
+.btn-login:hover::after {
+	width: 100%;
+}
+
+/* AVATAR */
+.avatar-btn {
+	width: 35px;
+	height: 35px;
+	border-radius: 999px;
+	border: none;
+	background: url("img/frame-25.svg") center/cover no-repeat;
+	cursor: pointer;
+}
+
+/* HERO – TEXT GIỮA + ẢNH DƯỚI (GIỐNG HÌNH) */
+.hero {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px 0 32px;
+	gap: 24px;
+}
+
+.hero-content {
+	text-align: center;
+	max-width: 900px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.hero h1 {
+	font-family: "Ubuntu Sans", system-ui, sans-serif;
+	font-weight: 700;
+	font-size: 50px;
+	text-transform: uppercase;
+	color: #02857d;
+}
+
+.hero p {
+	font-size: 30px;
+	color: #02857d;
+}
+
+.hero-actions {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.hero-image {
+	width: 100%;
+	border-radius: 28px;
+	overflow: hidden;
+}
+
+.hero-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* BUTTONS */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 8px 24px;
+	border-radius: 999px;
+	font-size: 14px;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+}
+
+.btn.primary {
+	background: #1660fc;
+	color: #ffffff;
+}
+
+.btn.secondary {
+	background: #02857d;
+	color: #ffffff;
+}
+
+.btn.secondary img {
+	width: 16px;
+	height: 18px;
+}
+
+/* DIVIDER */
+.divider {
+	border: none;
+	border-top: 2px solid #e2e8f0;
+	margin: 0;
+}
+
+/* STRIP: YOUR DAILY DISCOVERY */
+.strip {
+	padding-bottom: 24px;
+}
+
+.strip-header {
+	padding: 24px 0 16px;
+	display: flex;
+	flex-direction: column; /* xếp theo cột */
+	align-items: center; /* canh giữa ngang */
+	justify-content: center; /* canh giữa dọc trong khối */
+	gap: 8px;
+}
+
+.strip-text-wrap {
+	text-align: center;
+}
+
+.strip-header .btn {
+	align-self: center;
+}
+
+.strip-title {
+	font-size: 18px;
+	color: #1660fc;
+	margin-bottom: 4px;
+}
+
+.strip-text {
+	font-size: 14px;
+	color: #1660fc;
+}
+
+/* 6 CARD GIỐNG HÀNG TRÊN HÌNH */
+/* .strip-cards {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 16px;
+} */
+
+.strip-cards {
+	display: flex;
+	gap: 20px;
+	padding: 20px 0;
+
+	/* 1. Cho phép cuộn nhưng ẩn thanh đi */
+	overflow-x: hidden; /* Đổi thành hidden để người dùng không cuộn tay can thiệp vào auto-scroll (hoặc để auto nếu muốn cả 2) */
+
+	/* 2. Ẩn thanh cuộn trên Firefox */
+	scrollbar-width: none;
+
+	/* 3. Ẩn thanh cuộn trên IE/Edge cũ */
+	-ms-overflow-style: none;
+
+	/* Để JS cuộn mượt hơn */
+	scroll-behavior: auto;
+	white-space: nowrap;
+}
+
+/* Webkit Scrollbar (Chrome/Edge/Safari) */
+
+@media (max-width: 1100px) {
+	.strip-cards {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+@media (max-width: 700px) {
+	.strip-cards {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* .strip-card {
+	background: #ffffff;
+	border-radius: 18px;
+	padding: 10px;
+	border: 2px solid #02857d;
+}
+
+.strip-card-img {
+	border-radius: 14px;
+	aspect-ratio: 1 / 1;
+	background-size: cover;
+	background-position: center;
+}
+
+.strip-card-info {
+	padding-top: 8px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.strip-card-info .price {
+	font-family: "Ubuntu Sans", system-ui, sans-serif;
+	font-weight: 700;
+	font-size: 16px;
+}
+
+.strip-card-info .time-left {
+	font-size: 12px;
+	font-weight: 700;
+} */
+.strip-card {
+	flex: 0 0 auto; /* QUAN TRỌNG: Không cho card co giãn, giữ kích thước cố định */
+	width: 220px; /* Chiều rộng cố định của mỗi card */
+	/* border: 2px solid #00897b; */
+	border-radius: 15px;
+	overflow: hidden;
+	/* background: white; */
+	transition: transform 0.2s;
+	cursor: pointer;
+}
+
+.strip-card:hover {
+	transform: translateY(-5px); /* Hiệu ứng nổi lên khi hover */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.strip-card-img {
+	height: 180px;
+	background: #00897b;
+	padding: 5px;
+	border-radius: 15px;
+}
+
+.strip-card-info {
+	/* background: #00897b; */
+	color: #00897b;
+	padding: 10px;
+	text-align: center;
+}
+
+.strip-card-info .price {
+	display: block;
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin-bottom: 5px;
+}
+
+.strip-card-info .time-left {
+	font-size: 0.8rem;
+	opacity: 0.9;
+}
+
+/* DAILY DISCOVER GRID */
+.discover {
+	padding: 24px 0 8px;
+	/* display: grid; */
+	/* grid-template-columns: auto 1fr; cột trái: title, cột phải: grid */
+	column-gap: 16px;
+	align-items: flex-start;
+}
+
+.discover-top {
+	grid-column: 1;
+	grid-row: 1;
+	align-self: flex-start;
+}
+
+.discover-top h2 {
+	font-family: "Ubuntu Sans", system-ui, sans-serif;
+	font-size: 20px;
+	margin: 0; /* cho sát khối hơn */
+	color: #00897b;
+	font-weight: bold;
+}
+
+/* Grid card bên phải */
+.discover-grid {
+	grid-column: 2;
+	grid-row: 1;
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 16px;
+}
+
+@media (max-width: 1100px) {
+	.discover-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 700px) {
+	.discover-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* Card */
+.discover-card {
+	background: #02857d;
+	border-radius: 20px;
+	padding: 8px;
+	color: #fffbf5;
+}
+
+.discover-img {
+	border-radius: 16px;
+	aspect-ratio: 1 / 1;
+	background-size: cover;
+	background-position: center;
+}
+
+.discover-info {
+	padding: 6px 4px 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.discover-info .label {
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.discover-info .price {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.discover-info .time-left {
+	font-size: 11px;
+	font-weight: 700;
+}
+
+/* Nút See more */
+
+/* Mobile: cho section trở lại dạng dọc, title trên – grid dưới */
+@media (max-width: 900px) {
+	.discover {
+		display: block;
+	}
+
+	.discover-top {
+		margin-bottom: 12px;
+	}
+
+	.see-more {
+		margin: 24px auto 0;
+	}
+}
+
+/* FOOTER */
+.footer {
+	padding-top: 24px;
+	font-size: 14px;
+	text-align: center;
+	border-top: 2px solid #a3b2d1;
+}
+
+/* RESPONSIVE NAV / HERO */
+@media (max-width: 900px) {
+	.navbar-search {
+		display: none;
+	}
+}
+
+@media (max-width: 600px) {
+	.navbar-links {
+		display: none;
+	}
+
+	.page {
+		padding-inline: 12px;
+	}
+}

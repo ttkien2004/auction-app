@@ -1,8 +1,129 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Day la profile ng dùng</title>
+		<title>Hồ sơ người dùng</title>
+		<!-- <link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/> -->
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../css/profile.css" />
+		<link rel="stylesheet" href="../css/index.css" />
 	</head>
-	<body></body>
+	<body>
+		<nav class="navbar navbar-expand-lg">
+			<div class="container-fluid">
+				<a class="navbar-brand logo-text" href="#"
+					><i class="fas fa-circle"></i> LOGO</a
+				>
+
+				<div class="search-bar mx-auto">
+					<i class="fas fa-search text-white me-2"></i>
+					<input type="text" class="search-input" placeholder="Tìm kiếm" />
+				</div>
+
+				<div class="d-flex align-items-center">
+					<a href="#" class="nav-link me-3">Trang Chủ</a>
+					<a href="#" class="nav-link me-3">Vật Phẩm</a>
+					<a href="#" class="nav-link me-3">Liên Lạc</a>
+					<img
+						src="https://i.pravatar.cc/150?img=5"
+						class="rounded-circle"
+						width="40"
+						height="40"
+						alt="Avatar"
+						id="user-avatar"
+					/>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-3 sidebar">
+					<a href="profile.html" class="sidebar-link active"
+						>Tài khoản của tôi</a
+					>
+					<a href="../buy-list/index.html" class="sidebar-link"
+						>Danh sách mua</a
+					>
+					<a href="../sell-list/index.html" class="sidebar-link"
+						>Danh sách bán</a
+					>
+					<a href="#" class="sidebar-link logout">Đăng xuất</a>
+				</div>
+
+				<div class="col-md-8 offset-md-1">
+					<h2 class="page-title">Thông tin tài khoản</h2>
+
+					<form id="user-profile-form">
+						<div class="mb-3">
+							<label class="custom-label">Tên người dùng:</label>
+							<input
+								type="text"
+								class="form-control custom-input"
+								id="username-input"
+								placeholder="Thinh.huynh"
+							/>
+						</div>
+
+						<div class="mb-3">
+							<label class="custom-label">Gmail:</label>
+							<input
+								type="email"
+								class="form-control custom-input"
+								id="email-input"
+								placeholder="thinh.huynh@gmail.com..."
+							/>
+						</div>
+
+						<div class="mb-3">
+							<label class="custom-label">Mật khẩu:</label>
+							<input
+								type="password"
+								class="form-control custom-input"
+								id="password-input"
+								placeholder="123456789..."
+							/>
+						</div>
+
+						<div class="mb-3">
+							<label class="custom-label">Số điện thoại:</label>
+							<input
+								type="text"
+								class="form-control custom-input"
+								id="phone-input"
+								placeholder="033509610"
+							/>
+						</div>
+
+						<button type="button" class="btn btn-update mt-3">
+							Thay đổi thông tin
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="foot-note">
+			Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá
+		</div>
+
+		<script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="../scripts/user.js" type="module"></script>
+		<script>
+			document.querySelector(".logout").addEventListener("click", () => {
+				// Xoá token khỏi localStorage
+				localStorage.removeItem("authToken");
+				// Chuyển hướng về trang đăng nhập
+				window.location.href = "../auth/index.html";
+			});
+		</script>
+		<script></script>
+	</body>
 </html>

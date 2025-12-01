@@ -38,8 +38,9 @@ const productApi = {
 		try {
 			const response = await fetch(`${BASE_URL}/products`, {
 				method: "POST",
-				headers: getFetchHeaders({ "Content-Type": "application/json" }),
-				body: JSON.stringify(productData),
+				// headers: getFetchHeaders({ "Content-Type": "application/json" }),
+				headers: getFetchHeaders(),
+				body: productData,
 			});
 			return handleResponse(response);
 		} catch (err) {

@@ -14,3 +14,14 @@ h1 {
 .roboto-text {
 	font-family: "Roboto", sans-serif;
 }
+#user-avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 2px solid var(--teal-color);
+}
+.nav-menu {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}

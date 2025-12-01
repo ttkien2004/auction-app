@@ -18,8 +18,9 @@ const getAllProductsController = async (req, res, next) => {
 
 const getProductByIdController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const product = await ProductService.getProductById(Number(id));
+		const { productId } = req.params;
+		console.log(productId);
+		const product = await ProductService.getProductById(Number(productId));
 		res.status(200).json(product);
 	} catch (error) {
 		next(error);

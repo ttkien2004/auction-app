@@ -1,0 +1,78 @@
+/* Kế thừa màu sắc */
+:root {
+	--primary-teal: #00897b;
+	--btn-hover: #00695c;
+}
+
+/* Giá bán to */
+.display-price {
+	font-size: 2.5rem;
+	font-weight: 900;
+	color: var(--primary-teal);
+	font-family: "Courier New", Courier, monospace;
+}
+
+/* Nút hành động */
+.action-buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.btn-action {
+	width: 100%;
+	padding: 12px;
+	border-radius: 50px; /* Viên thuốc */
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 1rem;
+	transition: all 0.3s;
+	border: 2px solid var(--primary-teal);
+}
+
+/* Nút Thêm vào giỏ (Trắng viền Xanh) */
+.btn-cart {
+	background-color: white;
+	color: var(--primary-teal);
+}
+.btn-cart:hover {
+	background-color: #e0f2f1;
+}
+
+/* Nút Mua Ngay (Xanh đặc) */
+.btn-buy {
+	background-color: var(--primary-teal);
+	color: white;
+	box-shadow: 0 4px 15px rgba(0, 137, 123, 0.3);
+}
+.btn-buy:hover {
+	background-color: var(--btn-hover);
+	transform: translateY(-2px);
+}
+
+/* Cột Người bán (Tùy biến lại cột History cũ) */
+.seller-panel {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+}
+
+.seller-avatar {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	border: 3px solid white;
+	object-fit: cover;
+}
+
+.text-teal {
+	color: var(--primary-teal) !important;
+}
+
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+	font-size: 0.9rem;
+}

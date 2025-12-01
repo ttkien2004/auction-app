@@ -1,0 +1,222 @@
+/* --- 1. TOP SECTION (Title & Tabs) --- */
+
+.product-tabs {
+	display: flex;
+	gap: 10px;
+}
+.tab-btn {
+	padding: 8px 20px;
+	border: 1px solid #00897b;
+	background: transparent;
+	color: #00897b;
+	border-radius: 20px;
+	cursor: pointer;
+	font-weight: bold;
+}
+.tab-btn.active {
+	background: #00897b;
+	color: white;
+}
+
+/* --- 2. FILTER SECTION (Giống thiết kế mới) --- */
+.filter-wrapper {
+	/* width: 100%; */
+	/* box-sizing: border-box; */
+	padding: 0 40px;
+	margin-bottom: 30px;
+}
+
+.filter-row {
+	margin-bottom: 15px;
+}
+
+.filter-heading {
+	color: #00897b; /* Màu xanh chủ đạo */
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin-bottom: 8px;
+	font-family: sans-serif;
+}
+
+/* Search Box - Bo tròn */
+.search-filter-box {
+	display: flex;
+	align-items: center;
+	border: 2px solid #00897b;
+	border-radius: 25px;
+	padding: 5px 15px;
+	width: 400px; /* Độ rộng giống hình */
+	background: white;
+}
+.search-icon-left {
+	/* color: #00897b; */
+	margin-right: 10px;
+	font-size: 1.2rem;
+	width: 20px;
+	height: 20px;
+}
+.search-filter-box input {
+	border: none;
+	outline: none;
+	width: 100%;
+	font-size: 1rem;
+	color: #333;
+}
+.search-filter-box input::placeholder {
+	color: #80cbc4;
+}
+#btn-search-icon {
+	background: #2962ff;
+	color: white;
+	border: none;
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Price Range - Bo tròn */
+.price-range-box {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.price-input-pill {
+	border: 2px solid #00897b;
+	border-radius: 20px;
+	padding: 5px 20px;
+	width: 150px;
+	background: white;
+}
+.price-input-pill input {
+	border: none;
+	outline: none;
+	width: 100%;
+	text-align: center;
+	color: #00897b;
+	font-weight: bold;
+}
+.dash {
+	color: #00897b;
+	font-weight: bold;
+	font-size: 1.5rem;
+}
+.btn-filter-go {
+	background: #00897b;
+	color: white;
+	border: none;
+	padding: 6px 15px;
+	border-radius: 15px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+/* Tags Buttons (Viên thuốc) */
+.tags-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.filter-tag {
+	background: white;
+	border: 2px solid #00897b;
+	color: #00897b;
+	padding: 6px 20px;
+	border-radius: 20px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.2s;
+	font-size: 0.9rem;
+}
+
+.filter-tag:hover {
+	background-color: #e0f2f1;
+}
+
+.filter-tag.active {
+	background-color: #00897b; /* Nền xanh khi chọn */
+	color: white; /* Chữ trắng */
+}
+
+/* --- PRODUCT GRID (Sửa lại vị trí) --- */
+.discover-grid {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 40px; /* Lề trái phải bằng với Filter */
+
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 25px; /* Khoảng cách giữa các thẻ */
+
+	margin-bottom: 40px;
+}
+
+/* Card Style (Giữ nguyên nhưng đảm bảo width 100% trong ô lưới) */
+.discover-card {
+	width: 100%;
+	border: 3px solid #00897b;
+	border-radius: 15px;
+	overflow: hidden;
+	background: #fff;
+	cursor: pointer;
+	transition: transform 0.2s;
+	display: flex; /* Đảm bảo nội dung trong card xếp đúng */
+	flex-direction: column;
+}
+
+.discover-card:hover {
+	transform: translateY(-5px);
+}
+
+.discover-img {
+	width: 100%;
+	height: 200px; /* Chiều cao cố định cho ảnh */
+	background-size: cover;
+	background-position: center;
+}
+
+.discover-info {
+	background: #00897b;
+	color: white;
+	padding: 10px;
+	flex-grow: 1; /* Để phần info lấp đầy nếu card dài ra */
+}
+.discover-info .label {
+	font-size: 0.7rem;
+	display: block;
+	opacity: 0.9;
+}
+.discover-info .price {
+	font-size: 1.2rem;
+	font-weight: bold;
+	display: block;
+	margin: 5px 0;
+}
+.discover-info .time-left {
+	font-size: 0.75rem;
+	display: block;
+}
+
+/* Button See More */
+.see-more-container {
+	/* text-align: center; */
+	margin: 30px 0 50px 0;
+	/* border: 1px solid orange; */
+	/* background-color: #02857d; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.see-more {
+	background: #00897b;
+	color: white;
+	padding: 10px 30px;
+	border-radius: 25px;
+	text-decoration: none;
+	/* font-weight: bold; */
+	transition: background-color 0.2s;
+}

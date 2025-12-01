@@ -1,0 +1,339 @@
+:root {
+	--primary-teal: #00897b;
+	--light-teal: #a7d6d1;
+	--bg-color: #faf9f6;
+	--input-bg: #f8fcfc; /* Màu nền nhẹ cho input */
+	--divider-color: #b2dfdb;
+	--sub-bg-color: #faf6f5;
+}
+
+body {
+	background-color: var(--bg-color);
+	font-family: "Courier New", Courier, monospace;
+	color: #333;
+}
+
+/* --- NAVBAR (Giữ nguyên như cũ) --- */
+.navbar {
+	padding: 15px 40px;
+	background: var(--bg-color);
+}
+.navbar-brand {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+}
+.nav-search {
+	background-color: var(--primary-teal);
+	border-radius: 20px;
+	padding: 5px 15px;
+	width: 400px;
+	display: flex;
+	align-items: center;
+}
+.nav-search i {
+	color: white;
+	margin-right: 10px;
+}
+.nav-search input {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: white;
+	width: 100%;
+}
+.nav-search input::placeholder {
+	color: #e0e0e0;
+}
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+	font-size: 0.9rem;
+}
+.user-avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 2px solid var(--primary-teal);
+}
+
+/* --- MAIN LAYOUT --- */
+.main-frame {
+	/* border: 4px solid var(--primary-teal); */
+	border-radius: 25px;
+	padding: 10px;
+	background-color: var(--primary-teal);
+
+	/* Đảm bảo chiều cao cân đối */
+	/* min-height: 800px; */
+	height: 100%;
+	border: 1px solid gray;
+}
+
+/* --- LEFT COLUMN: IMAGES & DESCRIPTION --- */
+.upload-section {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	margin-bottom: 20px;
+	padding: 15px;
+	background-color: var(--sub-bg-color);
+	border-radius: 20px;
+	justify-content: space-between;
+}
+
+.upload-box {
+	background-color: var(--light-teal);
+	border-radius: 25px; /* Bo góc lớn hơn giống mẫu */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: all 0.2s;
+	position: relative;
+	overflow: hidden;
+	border: none;
+}
+
+.upload-box:hover {
+	filter: brightness(0.95);
+}
+.upload-box i {
+	color: white;
+	font-weight: 900;
+	z-index: 1;
+}
+
+.main-upload {
+	width: 80%;
+	aspect-ratio: 1 / 1;
+	align-self: center;
+	margin-bottom: 20px;
+}
+.main-upload i {
+	font-size: 6rem;
+}
+
+.sub-upload-container {
+	display: flex;
+	gap: 15px;
+	justify-content: space-between;
+	border-top: 3px solid #5695c5;
+	padding-top: 10px;
+}
+.sub-upload {
+	flex: 1;
+	aspect-ratio: 1 / 1;
+	border-radius: 15px;
+}
+.sub-upload i {
+	font-size: 2.5rem;
+}
+
+/* Ảnh Preview */
+.preview-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+.d-none {
+	display: none;
+}
+
+/* Phần mô tả */
+.description-container {
+	/* border: 2px solid var(--primary-teal); */
+	border-radius: 25px;
+	padding: 20px;
+	background-color: var(--sub-bg-color);
+	margin-top: auto;
+}
+.section-label {
+	color: var(--primary-teal);
+	font-weight: 900; /* Đậm hơn */
+	font-size: 1.1rem;
+	margin-bottom: 10px;
+	display: block;
+}
+.custom-textarea {
+	resize: none;
+	background: transparent;
+	font-size: 0.9rem;
+	color: #666; /* Màu chữ xám nhẹ */
+	width: 100%;
+	border: 2px solid var(--primary-teal);
+	border-radius: 10px;
+}
+.custom-textarea:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+/* --- RIGHT COLUMN: FORM INPUTS --- */
+.form-wrapper {
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	border-radius: 20px;
+	/* height: 100%; */
+	background-color: var(--sub-bg-color);
+}
+
+.custom-label {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.1rem;
+	margin-bottom: 8px;
+	display: block;
+}
+
+/* Input dạng viên thuốc (Pill shape) */
+.custom-input {
+	width: 100%;
+	border: 2px solid var(--primary-teal);
+	border-radius: 50px; /* Bo tròn hoàn toàn */
+	padding: 12px 20px;
+	outline: none;
+	color: #555;
+	font-weight: bold;
+	font-size: 0.95rem;
+	background-color: var(--input-bg);
+}
+.custom-input::placeholder {
+	color: #a3d8d3;
+	font-weight: normal;
+}
+.custom-input:focus {
+	border-color: #00695c;
+}
+.custom-input:read-only {
+	background-color: #f0fdfc;
+	color: #888;
+}
+
+/* Wrapper cho input có icon đồng hồ */
+.input-with-icon {
+	position: relative;
+	width: 100%;
+}
+.input-with-icon .custom-input {
+	padding-right: 45px; /* Chừa chỗ cho icon */
+}
+.input-with-icon i {
+	position: absolute;
+	right: 15px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #004d40; /* Màu icon đậm hơn */
+	font-size: 1.2rem;
+	background: var(--primary-teal);
+	color: white;
+	padding: 5px;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* --- BUTTON AREA --- */
+.action-area {
+	background-color: white;
+	border: 2px solid var(--primary-teal); /* Giả lập khung trắng bo tròn bao quanh nút */
+	border-radius: 25px;
+	padding: 30px;
+	margin-top: 20px;
+}
+
+.btn-confirm {
+	width: 100%;
+	background-color: var(--primary-teal);
+	color: white;
+	font-weight: 900;
+	border: none;
+	padding: 12px;
+	border-radius: 50px;
+	font-size: 1.1rem;
+	transition: 0.2s;
+}
+.btn-confirm:hover {
+	background-color: #00695c;
+}
+
+/* --- SUGGESTIONS (Giữ nguyên) --- */
+.text-teal {
+	color: var(--primary-teal);
+}
+.bg-teal {
+	background-color: var(--primary-teal);
+}
+.suggest-card {
+	/* border: 2px solid var(--primary-teal); */
+	border-radius: 15px;
+	overflow: hidden;
+}
+
+.btn-nav-circle {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	background: var(--primary-teal);
+	color: white;
+	border: none;
+	margin: 0 5px;
+}
+.suggestions {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+/* --- TABS STYLE --- */
+.seller-tabs {
+	display: flex;
+	background-color: #e0f2f1; /* Màu nền nhạt cho thanh tab */
+	border-radius: 50px;
+	padding: 5px;
+	gap: 5px;
+}
+
+.tab-btn {
+	flex: 1;
+	border: none;
+	background: transparent;
+	color: var(--primary-teal);
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.tab-btn.active {
+	background-color: var(--primary-teal);
+	color: white;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ẩn hiện form mượt mà */
+.type-form {
+	animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

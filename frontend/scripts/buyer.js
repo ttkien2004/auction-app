@@ -6,7 +6,6 @@ import buyerApi from "../services/buyerApi.js";
 document.addEventListener("DOMContentLoaded", async () => {
 	try {
 		const buyerTransactions = await buyerApi.getBuyerTransactions();
-		console.log("Giao dịch của người mua:", buyerTransactions);
 		const transactionListContainer =
 			document.getElementById("transaction-list");
 		let transactionList = "";
