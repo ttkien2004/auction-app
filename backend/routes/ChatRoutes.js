@@ -12,4 +12,22 @@ routes.get(
 	ChatController.getConversationByProductController
 );
 
+routes.get(
+	"/conversations",
+	authenticateToken,
+	ChatController.getConversationsController
+);
+
+routes.get(
+	"/conversations/:id",
+	authenticateToken,
+	ChatController.getConversationByIdController
+);
+
+routes.post(
+	"/conversations/start",
+	authenticateToken,
+	ChatController.startChat
+);
+
 module.exports = routes;

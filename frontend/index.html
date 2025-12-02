@@ -1,265 +1,320 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Green Shopping, Pretty Pricing!</title>
-  <link rel="stylesheet" href="reset.css" />
-  <link rel="stylesheet" href="main_screen.css" />
-</head>
-<body>
-  <div class="page">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Green Shopping, Pretty Pricing!</title>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-      <div class="navbar-left">
-        <a href="index.html" class="logo-dot"></a>
-        <a href="index.html" class="logo-text">LOGO</a>
-      </div>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="./css/index.css" />
+		<link rel="stylesheet" href="./css/reset.css" />
+		<link rel="stylesheet" href="./css/main_screen.css" />
+	</head>
+	<body>
+		<div class="page">
+			<!-- NAVBAR -->
+			<nav class="navbar">
+				<div
+					class="container-fluid d-flex align-items-center justify-content-between"
+				>
+					<a class="navbar-brand" href="#"
+						><i class="fas fa-circle"></i> LOGO</a
+					>
+					<div class="nav-search">
+						<i class="fas fa-search"></i>
+						<input type="text" placeholder="Tìm kiếm" />
+					</div>
+					<div class="nav-menu d-flex align-items-center">
+						<a href="#" class="nav-link me-3">Trang Chủ</a>
+						<a href="#" class="nav-link me-3">Vật Phẩm</a>
+						<a href="#" class="nav-link me-3">Liên Lạc</a>
+						<a href="./cart-list/index.html" class="position-relative me-3">
+							<i class="fas fa-shopping-cart fa-lg text-teal"></i>
+							<span
+								id="count-cart-list"
+								class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+							>
+								2
+							</span>
+						</a>
+						<img
+							src="https://i.pravatar.cc/150?img=5"
+							class="rounded-circle"
+							width="35"
+							height="35"
+							alt="Avatar"
+							id="user-avatar"
+						/>
+					</div>
+				</div>
+			</nav>
 
-      <form class="navbar-search">
-        <img src="assets/images/search_main.jpg" alt="" class="icon-search" />
-        <input type="text" placeholder="Tìm kiếm" />
-      </form>
+			<!-- HERO (giống Figma: text giữa + ảnh dưới) -->
+			<section class="hero">
+				<div class="hero-content">
+					<h1>GREEN SHOPPING, PRETTY PRICING!</h1>
+					<p>
+						"Discover unique, eco-friendly treasures at budget-friendly prices –
+						from recycled furniture to second-hand fashion."
+					</p>
+					<div class="hero-actions">
+						<a href="#" class="btn primary" style="align-self: center"
+							>Get Start</a
+						>
+						<a href="#" class="btn secondary" style="display: flex">
+							<img src="assets/images/main_hand.jpg" alt="" />
+							<span>Learn more</span>
+						</a>
+					</div>
+				</div>
 
-      <nav class="navbar-links">
-        <a href="index.html">Trang Chủ</a>
-        <a href="#">Vật Phẩm</a>
-        <a href="#">Liên Lạc</a>
-        <a href="auth/index.html" class="btn-login">Đăng Nhập</a>
-      </nav>
+				<div class="hero-image">
+					<img src="assets/images/main_screen.png" alt="Hero image" />
+				</div>
+			</section>
 
+			<!-- STRIP: YOUR DAILY DISCOVERY -->
+			<section class="strip">
+				<hr class="divider" />
 
+				<div class="strip-header">
+					<div class="strip-text-wrap">
+						<div class="strip-title">Your daily discovery</div>
+						<p class="strip-text">
+							Personalised picks to help you find your next treasure. Updated
+							daily.
+						</p>
+					</div>
+					<a href="#" class="btn secondary">Find your next treasure</a>
+				</div>
 
-      <!-- <button class="avatar-btn" type="button"><img src="assets/images/avatar_main.png" alt=""></button> -->
-    </header>
+				<div class="strip-cards" id="strip-container">
+					<!-- 6 card giống hàng trên hình – tạm copy 1 rồi nhân ra 5 -->
+					<!-- <article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
 
-    <!-- HERO (giống Figma: text giữa + ảnh dưới) -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>GREEN SHOPPING, PRETTY PRICING!</h1>
-        <p>
-          "Discover unique, eco-friendly treasures at budget-friendly prices – from
-          recycled furniture to second-hand fashion."
-        </p>
-        <div class="hero-actions">
-          <a href="#" class="btn primary">Get Start</a>
-          <a href="#" class="btn secondary">
-            <img src="assets/images/main_hand.jpg" alt="" />
-            <span>Learn more</span>
-          </a>
-        </div>
-      </div>
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
 
-      <div class="hero-image">
-        <img src="assets/images/main_screen.png" alt="Hero image" />
-      </div>
-    </section>
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
 
-    <!-- STRIP: YOUR DAILY DISCOVERY -->
-    <section class="strip">
-      <hr class="divider" />
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
 
-      <div class="strip-header">
-        <div class="strip-text-wrap">
-          <div class="strip-title">Your daily discovery</div>
-          <p class="strip-text">
-            Personalised picks to help you find your next treasure. Updated daily.
-          </p>
-        </div>
-        <a href="#" class="btn secondary">Find your next treasure</a>
-      </div>
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
 
-      <div class="strip-cards">
-        <!-- 6 card giống hàng trên hình – tạm copy 1 rồi nhân ra 5 -->
-        <article class="strip-card">
-          <div class="strip-card-img" style="background-image:url('assets/products/pepe.png')"></div>
-          <div class="strip-card-info">
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article> -->
+				</div>
 
-        <article class="strip-card">
-          <div class="strip-card-img" style="background-image:url('assets/products/pepe.png')"></div>
-          <div class="strip-card-info">
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
+				<hr class="divider" />
+			</section>
 
-        <article class="strip-card">
-          <div class="strip-card-img" style="background-image:url('assets/products/pepe.png')"></div>
-          <div class="strip-card-info">
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
+			<!-- DAILY DISCOVER GRID -->
+			<section class="discover">
+				<div id="filter-section" class="filter-wrapper" style="display: none">
+					<div class="filter-row">
+						<h3 class="filter-heading">Search Filter:</h3>
+						<div class="search-filter-box">
+							<!-- <i class="fas fa-search search-icon-left"></i> -->
+							<img
+								src="./assets/icons/Vector.png"
+								alt="search-icon"
+								class="search-icon-left"
+							/>
+							<input type="text" id="filter-name" placeholder="Search..." />
+							<button id="btn-search-icon">
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
 
-        <article class="strip-card">
-          <div class="strip-card-img" style="background-image:url('assets/products/pepe.png')"></div>
-          <div class="strip-card-info">
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
+					<div class="filter-row">
+						<h3 class="filter-heading">Price Range:</h3>
+						<div class="price-range-box">
+							<div class="price-input-pill">
+								<input type="number" id="min-price" placeholder="10.000đ" />
+							</div>
+							<span class="dash">—</span>
+							<div class="price-input-pill">
+								<input type="number" id="max-price" placeholder="100.000đ" />
+							</div>
+							<button id="btn-apply-price" class="btn-filter-go">GO</button>
+						</div>
+					</div>
 
-        <article class="strip-card">
-          <div class="strip-card-img" style="background-image:url('assets/products/pepe.png')"></div>
-          <div class="strip-card-info">
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
+					<div class="filter-row">
+						<h3 class="filter-heading">Sort by:</h3>
+						<div class="tags-container" id="sort-tags">
+							<button class="filter-tag active" data-sort="relevance">
+								Relevance
+							</button>
+							<button class="filter-tag" data-sort="newest">Latest</button>
+							<button class="filter-tag" data-sort="day_left">Day Left</button>
+						</div>
+					</div>
 
-        <article class="strip-card">
-          <div class="strip-card-img" style="background-image:url('assets/products/pepe.png')"></div>
-          <div class="strip-card-info">
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-      </div>
+					<div class="filter-row">
+						<h3 class="filter-heading">Computer Category:</h3>
+						<div class="tags-container category-group">
+							<button class="filter-tag" data-cat="1">Laptop</button>
+							<button class="filter-tag" data-cat="2">Desktop</button>
+							<button class="filter-tag" data-cat="3">
+								Computer Components
+							</button>
+							<button class="filter-tag" data-cat="4">
+								Computer Accessories
+							</button>
+							<button class="filter-tag" data-cat="5">Storage</button>
+							<button class="filter-tag" data-cat="6">Software</button>
+						</div>
+					</div>
 
-      <hr class="divider" />
-    </section>
+					<div class="filter-row">
+						<h3 class="filter-heading">Clothing Category:</h3>
+						<div class="tags-container category-group">
+							<button class="filter-tag" data-cat="7">Tops</button>
+							<button class="filter-tag" data-cat="8">Bottoms</button>
+							<button class="filter-tag" data-cat="9">Dresses/Skirts</button>
+							<button class="filter-tag" data-cat="10">
+								Underwear & Sleepwear
+							</button>
+							<button class="filter-tag" data-cat="11">Sportswear</button>
+							<button class="filter-tag" data-cat="12">
+								Fashion Accessories
+							</button>
+						</div>
+					</div>
+				</div>
+				<div style="display: grid">
+					<div class="discover-top">
+						<h2>Daily Discover</h2>
+					</div>
 
-    <!-- DAILY DISCOVER GRID -->
-    <section class="discover">
-      <div class="discover-top">
-        <h2>Daily Discover</h2>
-      </div>
+					<div class="discover-grid" id="product-list">
+						<p style="text-align: center; width: 100%; margin-top: 20px">
+							Đang tải dữ liệu...
+						</p>
+					</div>
+				</div>
 
-      <div class="discover-grid">
-        <!-- 1 card mẫu, bạn copy thêm cho đủ như hình -->
-        <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
+				<div class="see-more-container">
+					<a href="#" class="see-more">See more</a>
+				</div>
+			</section>
 
-        <!-- ... các card khác (đổi background-image và price) -->
-		  <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
- <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-		 <article class="discover-card">
-          <div class="discover-img" style="background-image:url('assets/products/cat.png')"></div>
-          <div class="discover-info">
-            <span class="label">CURRENT BID</span>
-            <span class="price">1.000.000vnđ</span>
-            <span class="time-left">1D,5H LEFT</span>
-          </div>
-        </article>
-
-
-      </div>
-
-      <a href="#" class="btn primary see-more">See more</a>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <p>Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá</p>
-    </footer>
-  </div>
-</body>
+			<!-- FOOTER -->
+			<footer class="footer">
+				<p>Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá</p>
+			</footer>
+		</div>
+		<script type="module" src="scripts/home.js"></script>
+		<script type="module" src="scripts/userCommon.js"></script>
+		<script type="module" src="scripts/cartCommon.js"></script>
+	</body>
 </html>

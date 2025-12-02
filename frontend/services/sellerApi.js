@@ -40,6 +40,16 @@ const sellerApi = {
 			handleError(err);
 		}
 	},
+	getSellerTransactions: async () => {
+		try {
+			const response = await fetch(`${BASE_URL}/seller/transactions`, {
+				headers: getFetchHeaders(),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
 };
 
 export default sellerApi;

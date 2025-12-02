@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				// Chuyển hướng đến trang chủ (hoặc trang profile) sau 1 giây
 				setTimeout(() => {
-					window.location.href = "/frontend"; // Hoặc trang bạn muốn
+					window.location.href = "/frontend/index.html"; // Hoặc trang bạn muốn
 				}, 1000);
 			} catch (error) {
 				// Hiển thị lỗi

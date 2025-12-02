@@ -7,8 +7,11 @@
 
 body {
 	background-color: var(--bg-color);
-	font-family: "Courier New", Courier, monospace;
+	font-family: "Roboto", Courier, monospace;
 	color: var(--text-dark);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 /* --- NAVBAR & FOOTER (Copy từ style cũ) --- */
@@ -51,7 +54,7 @@ body {
 	margin-right: 20px;
 	font-size: 0.9rem;
 }
-.user-avatar {
+#user-avatar {
 	width: 35px;
 	height: 35px;
 	border-radius: 50%;
@@ -63,6 +66,9 @@ body {
 	color: var(--primary-teal);
 	font-weight: bold;
 	font-size: 0.8rem;
+	margin-top: auto;
+	font-size: 25px;
+	align-self: center;
 }
 
 /* --- PAGE TITLE --- */

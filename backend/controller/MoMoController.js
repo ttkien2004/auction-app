@@ -42,9 +42,34 @@ const createMoMoTransaction = async (req, res, next) => {
 const getResultFromTransaction = async (req, res, next) => {
 	try {
 		const result = await MoMoService.getMoMoTransactionResult(req, res);
-		await MoMoService.handleMoMoCallback(req.query);
-		// console.log("Result: ", result);
-		res.status(200).json({ message: "Handle transaction successfully" });
+		// await MoMoService.handleMoMoCallback(req.query);
+		const { resultCode, orderId, message } = result;
+		const transactionId = orderId.split("_")[1];
+		if (resultCode === "0") {
+			const frontendUrl = `http://127.0.0.1:5500/frontend/buy-list/index.html`;
+			await prisma.transaction.update({
+				where: {
+					ID: Number(transactionId),
+				},
+				data: {
+					status: "completed",
+				},
+			});
+			return res.redirect(frontendUrl);
+		} else {
+			// --- THANH TOÁN THẤT BẠI ---
+
+			await prisma.transaction.update({
+				where: { ID: Number(transactionId) },
+				data: { status: "failed" },
+			});
+
+			return res.redirect(
+				`${frontendUrl}?status=failed&msg=${encodeURIComponent(message)}`
+			);
+		}
+
+		// res.status(200).json({ message: "Handle transaction successfully" });
 	} catch (err) {
 		next(err);
 	}

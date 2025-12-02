@@ -30,7 +30,7 @@ const getTransactions = async (sellerId) => {
 		},
 		include: {
 			Product: {
-				select: { ID: true, name: true, type: true },
+				select: { ID: true, name: true, type: true, image: true },
 			},
 			// Lấy thông tin người mua (để Seller biết giao hàng cho ai)
 			Buyer: {

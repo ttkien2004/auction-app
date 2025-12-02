@@ -1,9 +1,12 @@
 import productApi from "../services/productApi.js";
-import cartApi from "../services/cartApi.js"; // Giả sử bạn đã tạo file này từ các turn trước
+import cartApi from "../services/cartApi.js";
+import chatApi from "../services/chatApi.js";
 import { R2_PUBLIC_URL } from "../services/apiHelpers.js";
+const socket = io("http://localhost:3000");
 
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get("id");
+const btnChatNow = document.getElementById("btn-chat-now");
 
 document.addEventListener("DOMContentLoaded", async () => {
 	if (!productId) return alert("Không tìm thấy sản phẩm");
@@ -97,3 +100,24 @@ function checkLogin(redirect = false) {
 	if (redirect) window.location.href = "../auth/index.html";
 	return false;
 }
+
+btnChatNow.addEventListener("click", async () => {
+	try {
+		// 1. Gọi API để lấy/tạo conversation
+		const conversation = await chatApi.getConversationByProductId(productId);
+		console.log(conversation);
+		if (!conversation) throw new Error("Không thể tạo cuộc trò chuyện mới");
+
+		const roomId = conversation.ID;
+
+		// 2. Tự động Join Socket (Không cần nhập tay nữa)
+		socket.emit("join_chat", roomId);
+
+		// // 3. Chuyển giao diện sang màn hình chat
+		// console.log(`Đã vào phòng chat #${roomId} thành công!`);
+		window.location.href = `../chat/index.html?productId=${productId}`;
+	} catch (error) {
+		console.log(error);
+		alert("Lỗi: " + error.message);
+	}
+});

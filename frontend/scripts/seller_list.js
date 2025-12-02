@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			"seller-products-list"
 		);
 		let productList = "";
+		console.log(sellerProducts);
 		sellerProducts.forEach((product) => {
 			const productName = product?.name ?? "Sản phẩm";
 			const productType = product?.type ?? "Loại sản phẩm";

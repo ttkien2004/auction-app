@@ -4,42 +4,46 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Hồ sơ người dùng</title>
-		<!-- <link
+		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 			rel="stylesheet"
 		/>
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-		/> -->
-		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+		/>
 		<link rel="stylesheet" href="../css/profile.css" />
 		<link rel="stylesheet" href="../css/index.css" />
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg">
-			<div class="container-fluid">
-				<a class="navbar-brand logo-text" href="#"
-					><i class="fas fa-circle"></i> LOGO</a
-				>
-
-				<div class="search-bar mx-auto">
-					<i class="fas fa-search text-white me-2"></i>
-					<input type="text" class="search-input" placeholder="Tìm kiếm" />
+		<nav class="navbar">
+			<div
+				class="container-fluid d-flex align-items-center justify-content-between"
+			>
+				<a class="navbar-brand" href="#"><i class="fas fa-circle"></i> LOGO</a>
+				<div class="nav-search">
+					<i class="fas fa-search"></i>
+					<input type="text" placeholder="Tìm kiếm" />
 				</div>
-
-				<div class="d-flex align-items-center">
-					<a href="#" class="nav-link me-3">Trang Chủ</a>
-					<a href="#" class="nav-link me-3">Vật Phẩm</a>
-					<a href="#" class="nav-link me-3">Liên Lạc</a>
-					<img
-						src="https://i.pravatar.cc/150?img=5"
-						class="rounded-circle"
-						width="40"
-						height="40"
-						alt="Avatar"
-						id="user-avatar"
-					/>
+				<div class="nav-menu d-flex align-items-center">
+					<a href="#">Trang Chủ</a>
+					<a href="#">Vật Phẩm</a>
+					<a href="#">Liên Lạc</a>
+					<a href="../cart-list/index.html" class="position-relative me-3">
+						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
+						<span
+							id="count-cart-list"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							2
+						</span>
+					</a>
+					<div
+						id="auth-section"
+						onclick="window.location.href='../profile/index.html'"
+					>
+						<img id="user-avatar" alt="User" />
+					</div>
 				</div>
 			</div>
 		</nav>
@@ -55,6 +59,9 @@
 					>
 					<a href="../sell-list/index.html" class="sidebar-link"
 						>Danh sách bán</a
+					>
+					<a href="../transaction-list/index.html" class="sidebar-link active"
+						>Danh sách giao dịch</a
 					>
 					<a href="#" class="sidebar-link logout">Đăng xuất</a>
 				</div>
@@ -103,7 +110,36 @@
 							/>
 						</div>
 
-						<button type="button" class="btn btn-update mt-3">
+						<div class="mb-3">
+							<label class="custom-label">Địa chỉ:</label>
+
+							<div class="row g-2 mb-2">
+								<div class="col-4">
+									<select class="form-select rounded-pill" id="province-select">
+										<option value="">Tỉnh/Thành</option>
+									</select>
+								</div>
+								<div class="col-4">
+									<select class="form-select rounded-pill" id="district-select">
+										<option value="">Quận/Huyện</option>
+									</select>
+								</div>
+								<div class="col-4">
+									<select class="form-select rounded-pill" id="ward-select">
+										<option value="">Phường/Xã</option>
+									</select>
+								</div>
+							</div>
+
+							<input
+								type="text"
+								class="form-control custom-input"
+								id="detail-address"
+								placeholder="Số nhà, tên đường..."
+							/>
+						</div>
+
+						<button type="submit" class="btn btn-update mt-3">
 							Thay đổi thông tin
 						</button>
 					</form>
@@ -124,6 +160,6 @@
 				window.location.href = "../auth/index.html";
 			});
 		</script>
-		<script></script>
+		<script type="module" src="../scripts/cartCommon.js"></script>
 	</body>
 </html>

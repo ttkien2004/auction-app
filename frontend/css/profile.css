@@ -141,7 +141,8 @@ body {
 }
 
 /* Status Colors */
-.status-shipping {
+.status-shipping,
+.status-pending {
 	color: #f57c00;
 } /* Cam */
 .status-success {

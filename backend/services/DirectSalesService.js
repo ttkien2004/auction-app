@@ -92,6 +92,54 @@ const buyDirectSale = async (saleId, userId, shippingData) => {
 	// const estimatedDate = new Date();
 	// estimatedDate.setDate(estimatedDate.getDate() + 5);
 	return await prisma.$transaction(async (tx) => {
+		const existingTransaction = await tx.transaction.findFirst({
+			where: {
+				product_ID: saleId,
+				buyer_ID: userId,
+				status: "pending_payment", // Chỉ lấy đơn chưa thanh toán
+			},
+		});
+
+		if (existingTransaction) {
+			// Cập nhật lại địa chỉ (phòng khi user sửa địa chỉ ở lần nhấn thứ 2)
+			const updatedTrans = await tx.transaction.update({
+				where: { ID: existingTransaction.ID },
+				data: {
+					shipping_address: shippingData.address,
+					shipping_phone: shippingData.phone,
+					shipping_note: shippingData.note,
+					shipping_province_id: shippingData.to_province_id,
+					shipping_district_id: shippingData.to_district_id,
+					shipping_ward_code: shippingData.to_ward_code,
+					// Không cần tính lại ngày giao hàng hoặc giá tiền
+				},
+			});
+
+			// Trả về transaction cũ để Controller tiếp tục gọi MoMo
+			return updatedTrans;
+		}
+
+		const buyer = await tx.user.findUnique({
+			where: {
+				ID: userId,
+			},
+		});
+		if (!buyer.ghn_district_id) {
+			await tx.user.update({
+				where: { ID: userId },
+				data: {
+					// Lưu thông tin địa chính GHN
+					ghn_province_id: shippingData.to_province_id,
+					ghn_district_id: shippingData.to_district_id,
+					ghn_ward_code: shippingData.to_ward_code,
+
+					// Lưu địa chỉ hiển thị và SĐT
+					address: shippingData.address,
+					phone_number: shippingData.phone,
+				},
+			});
+		}
+
 		const product = await tx.product.findUnique({
 			where: { ID: saleId },
 			include: {
@@ -128,12 +176,15 @@ const buyDirectSale = async (saleId, userId, shippingData) => {
 			shippingData.to_district_id,
 			shippingData.to_ward_code
 		);
+		const productPrice = Number(product.DirectSale.buy_now_price);
+		const shipFee = Number(shippingData.shipping_fee || 0);
+		const finalAmount = productPrice + shipFee;
 
 		const newTransaction = await tx.transaction.create({
 			data: {
 				buyer_ID: userId,
 				product_ID: saleId,
-				final_amount: product.DirectSale.buy_now_price,
+				final_amount: finalAmount,
 				item_type: "DirectSale",
 				status: "pending_payment", // Bán trực tiếp có thể coi là 'completed' ngay
 				shipping_address: shippingData.address,
@@ -145,6 +196,14 @@ const buyDirectSale = async (saleId, userId, shippingData) => {
 				shipping_district_id: shippingData.to_district_id,
 				shipping_ward_code: shippingData.to_ward_code,
 				expected_delivery_date: estimatedDate,
+			},
+		});
+
+		// Xóa đơn hàng khỏi giỏ hàng
+		await tx.cartItem.deleteMany({
+			where: {
+				buyer_ID: userId,
+				product_ID: saleId,
 			},
 		});
 

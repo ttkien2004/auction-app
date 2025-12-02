@@ -25,13 +25,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 		// Hiện Filter
 		filterSection.style.display = "block";
 		// dailyTitle.style.display = "none"; // (Tùy chọn: có thể giữ lại tiêu đề nếu muốn)
-
-		const avatarUrl = "assets/images/avatar_main.png";
-		authSection.innerHTML = `
-            <a href="./profile/index.html" class="user-profile-link">
-                <img src="${avatarUrl}" class="user-avatar" title="${user.name}">
-            </a>
-        `;
 	}
 
 	// 2. LOAD SẢN PHẨM (Chạy song song)
@@ -83,6 +76,7 @@ async function loadProducts(typeOverride) {
 			type: typeToLoad,
 			limit: 12,
 			...state.filters,
+			status: "active",
 		};
 
 		const response = await productApi.getAllProducts(params);

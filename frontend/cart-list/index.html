@@ -12,11 +12,12 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 		/>
-		<link rel="stylesheet" href="../css/cart.css" />
+
 		<link
 			rel="stylesheet"
 			href="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/css/index.css"
 		/>
+		<link rel="stylesheet" href="../css/cart.css" />
 	</head>
 	<body>
 		<nav class="navbar">
@@ -35,12 +36,16 @@
 					<a href="../cart-list/index.html" class="position-relative me-3">
 						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
 						<span
+							id="count-cart-list"
 							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
 						>
 							2
 						</span>
 					</a>
-					<div id="auth-section">
+					<div
+						id="auth-section"
+						onclick="window.location.href='../profile/index.html'"
+					>
 						<img id="user-avatar" alt="User" />
 					</div>
 				</div>

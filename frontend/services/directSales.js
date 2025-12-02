@@ -37,12 +37,16 @@ const directSalesApi = {
 		}
 	},
 
-	buyDirectSale: async (id) => {
+	buyDirectSale: async (id, shippingBody) => {
 		try {
-			const response = await fetch(`${BASE_URL}/direct-sales/${id}/buy`, {
-				method: "POST",
-				headers: getFetchHeaders(),
-			});
+			const response = await fetch(
+				`${BASE_URL}/direct-sales/buy?directSaleId=${id}`,
+				{
+					method: "POST",
+					headers: getFetchHeaders({ "Content-Type": "application/json" }),
+					body: shippingBody,
+				}
+			);
 			return handleResponse(response);
 		} catch (err) {
 			handleError(err);

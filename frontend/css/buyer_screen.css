@@ -11,52 +11,6 @@ body {
 	color: var(--text-dark);
 }
 
-/* --- NAVBAR --- */
-.navbar {
-	padding: 15px 40px;
-	background: var(--bg-color);
-}
-.navbar-brand {
-	color: var(--teal-color);
-	font-weight: 900;
-	font-size: 1.5rem;
-}
-.nav-search {
-	background-color: var(--teal-color);
-	border-radius: 20px;
-	padding: 5px 15px;
-	width: 400px;
-	display: flex;
-	align-items: center;
-}
-.nav-search i {
-	color: white;
-	margin-right: 10px;
-}
-.nav-search input {
-	background: transparent;
-	border: none;
-	outline: none;
-	color: white;
-	width: 100%;
-}
-.nav-search input::placeholder {
-	color: #e0e0e0;
-}
-.nav-menu a {
-	color: var(--teal-color);
-	text-decoration: none;
-	font-weight: bold;
-	margin-right: 20px;
-	font-size: 0.9rem;
-}
-.user-avatar {
-	width: 35px;
-	height: 35px;
-	border-radius: 50%;
-	border: 2px solid var(--teal-color);
-}
-
 /* --- COMMON BOX STYLE --- */
 .info-box,
 .image-container {

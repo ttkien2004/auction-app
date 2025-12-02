@@ -31,6 +31,9 @@ const getUserById = async (userId) => {
 			phone_number: true,
 			address: true,
 			avatar: true,
+			ghn_district_id: true,
+			ghn_province_id: true,
+			ghn_ward_code: true,
 		},
 	});
 	if (!existedUser) {
@@ -49,16 +52,34 @@ const updateUser = async (userId, updateData) => {
 		hashedPassword = await hashPassword(updateData.password);
 		updateData.password = hashedPassword;
 	}
+	const {
+		name,
+		address,
+		phone_number,
+		ghn_province_id,
+		ghn_district_id,
+		ghn_ward_code,
+	} = updateData;
 	const updatedUser = await prisma.user.update({
 		where: {
 			ID: userId,
 		},
-		data: updateData,
+		data: {
+			name,
+			address,
+			phone_number,
+			ghn_district_id: Number(ghn_district_id),
+			ghn_province_id: Number(ghn_province_id),
+			ghn_ward_code,
+		},
 		select: {
 			username: true,
 			address: true,
 			phone_number: true,
 			email: true,
+			ghn_district_id: true,
+			ghn_province_id: true,
+			ghn_ward_code: true,
 		},
 	});
 	return updatedUser;

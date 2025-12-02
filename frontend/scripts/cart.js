@@ -6,6 +6,7 @@ const cartListEl = document.getElementById("cart-list");
 const subtotalEl = document.getElementById("subtotal-price");
 const totalEl = document.getElementById("total-price");
 const authSection = document.getElementById("auth-section");
+const countCartList = document.getElementById("count-cart-list");
 
 // State
 let cartItems = [];
@@ -25,6 +26,7 @@ async function loadCart() {
 		console.log(response);
 		cartItems = response.data || response; // Tùy cấu trúc trả về
 
+		countCartList.innerText = response.length;
 		renderCart();
 		calculateTotal();
 	} catch (error) {

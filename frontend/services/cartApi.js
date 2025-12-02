@@ -29,6 +29,17 @@ const cartApi = {
 			handleError(err);
 		}
 	},
+	removeFromCart: async (productId) => {
+		try {
+			const response = await fetch(`${BASE_URL}/cart/${productId}`, {
+				method: "DELETE",
+				headers: getFetchHeaders(),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
 };
 
 export default cartApi;

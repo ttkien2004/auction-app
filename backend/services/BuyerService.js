@@ -32,6 +32,7 @@ const getTransactionsByBuyer = async (buyerId) => {
 						select: {
 							expected_delivery_date: true,
 							final_amount: true,
+							status: true,
 						},
 					},
 				},
