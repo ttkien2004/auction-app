@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Thông báo - Green Shopping</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="../css/notifications.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+	</head>
+	<body>
+		<nav class="navbar">
+			<div
+				class="container-fluid d-flex align-items-center justify-content-between"
+			>
+				<a class="navbar-brand" href="#"><i class="fas fa-circle"></i> LOGO</a>
+				<div class="nav-search">
+					<i class="fas fa-search"></i>
+					<input type="text" placeholder="Tìm kiếm" />
+				</div>
+				<div class="nav-menu d-flex align-items-center">
+					<a href="../index.html">Trang Chủ</a>
+					<a href="#">Sản Phẩm</a>
+					<a href="../chat/index.html">Liên Lạc</a>
+					<a href="../cart-list/index.html" class="position-relative me-3">
+						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
+						<span
+							id="count-cart-list"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							2
+						</span>
+					</a>
+					<div
+						id="auth-section"
+						onclick="window.location.href='../profile/index.html'"
+					>
+						<img id="user-avatar" alt="User" />
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container mt-5 mb-5 notification-wrapper">
+			<div id="breadcrumb-container" class="mb-3"></div>
+			<div
+				class="d-flex justify-content-between align-items-center mb-4 header-row"
+			>
+				<h2 class="page-title">Trung tâm thông báo</h2>
+				<button class="btn-read-all" id="btn-mark-all-read">
+					<i class="fas fa-check-double me-1"></i> Đánh dấu đã đọc tất cả
+				</button>
+			</div>
+
+			<div class="row">
+				<div class="col-md-3 mb-4">
+					<div class="filter-box">
+						<h5 class="filter-title">Bộ lọc</h5>
+						<div class="nav flex-column nav-pills" id="filter-tabs">
+							<button class="filter-item active" data-type="all">
+								<i class="fas fa-inbox me-2"></i> Tất cả
+							</button>
+							<button class="filter-item" data-type="unread">
+								<i class="fas fa-envelope me-2"></i> Chưa đọc
+								<span class="badge bg-danger rounded-pill ms-auto">3</span>
+							</button>
+							<div class="divider"></div>
+							<button class="filter-item" data-type="order">
+								<i class="fas fa-box-open me-2 text-primary"></i> Đơn hàng
+							</button>
+							<button class="filter-item" data-type="auction">
+								<i class="fas fa-gavel me-2 text-warning"></i> Đấu giá
+							</button>
+							<button class="filter-item" data-type="system">
+								<i class="fas fa-bullhorn me-2 text-teal"></i> Tin khuyến mãi
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-9">
+					<div id="notification-list" class="notification-list">
+						<p class="text-center mt-5">Đang tải thông báo...</p>
+					</div>
+
+					<div class="text-center mt-4">
+						<button class="btn-nav-circle">
+							<i class="fas fa-chevron-left"></i>
+						</button>
+						<button class="btn-nav-circle">
+							<i class="fas fa-chevron-right"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="site-footer">
+			Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script type="module" src="../scripts/notifications.js"></script>
+		<script type="module" src="../scripts/userCommon.js"></script>
+		<script src="../scripts/breadcrumb.js" type="module"></script>
+	</body>
+</html>

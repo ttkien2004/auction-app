@@ -43,11 +43,14 @@ const transactionApi = {
 
 	updateTransaction: async (id, updateData) => {
 		try {
-			const response = await fetch(`${BASE_URL}/transactions/${id}`, {
-				method: "PUT",
-				headers: getFetchHeaders({ "Content-Type": "application/json" }),
-				body: JSON.stringify(updateData),
-			});
+			const response = await fetch(
+				`${BASE_URL}/transactions?transactionId=${id}`,
+				{
+					method: "PUT",
+					headers: getFetchHeaders({ "Content-Type": "application/json" }),
+					body: JSON.stringify(updateData),
+				}
+			);
 			return handleResponse(response);
 		} catch (err) {
 			handleError(err);

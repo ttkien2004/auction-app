@@ -33,8 +33,8 @@
 					<input type="text" placeholder="Tìm kiếm" />
 				</div>
 				<div class="nav-menu">
-					<a href="#">Trang Chủ</a>
-					<a href="#">Vật Phẩm</a>
+					<a href="../index.html">Trang Chủ</a>
+					<a href="#">Sản Phẩm</a>
 					<a href="#">Liên Lạc</a>
 					<a href="../cart-list/index.html" class="position-relative me-3">
 						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
@@ -57,6 +57,7 @@
 		</nav>
 
 		<div class="container mt-4 mb-5">
+			<div id="breadcrumb-container" class="mb-3"></div>
 			<div class="row g-4">
 				<div class="col-lg-4">
 					<div class="image-container main-frame">
@@ -112,109 +113,100 @@
 				</div>
 
 				<div class="col-lg-4">
-					<div class="history-panel seller-panel">
-						<h5 class="history-header">Thông tin người bán</h5>
-
-						<div class="seller-card text-center">
-							<img
-								src="https://placehold.co/100"
-								class="seller-avatar mb-2"
-								id="seller-avatar"
-							/>
-							<h5 id="seller-name" class="text-white fw-bold">...</h5>
-							<div class="seller-stats text-white small mb-3">
-								<span><i class="fas fa-star text-warning"></i> 4.9</span> |
-								<span>Đã bán: 120</span>
+					<div class="seller-trust-card mb-3">
+						<div class="seller-header">
+							<div class="position-relative">
+								<img
+									src="https://placehold.co/100"
+									class="seller-avatar"
+									id="seller-avatar"
+								/>
+								<i
+									class="fas fa-check-circle text-warning verified-badge"
+									title="Người bán xác thực"
+								></i>
 							</div>
-							<button
-								id="btn-chat-now"
-								class="btn btn-light btn-sm rounded-pill fw-bold text-teal w-100"
-							>
-								<i class="fas fa-comment-alt me-1"></i> Chat ngay
-							</button>
+							<div class="ms-3">
+								<h5 id="seller-name" class="fw-bold mb-0 text-white">...</h5>
+								<span class="badge bg-warning text-dark mt-1">Shop Uy Tín</span>
+							</div>
 						</div>
 
-						<div class="policy-box mt-4 text-white">
-							<h6 class="border-bottom pb-2">
-								<i class="fas fa-shield-alt me-2"></i>Chính sách đảm bảo
-							</h6>
-							<ul class="small ps-3 mt-2">
-								<li class="mb-1">Được kiểm tra hàng trước khi nhận.</li>
-								<li class="mb-1">Hoàn tiền 100% nếu hàng không đúng mô tả.</li>
-								<li>Thanh toán an toàn qua MoMo.</li>
-							</ul>
+						<div class="seller-stats mt-3">
+							<div class="stat-item">
+								<strong class="d-block text-warning" id="seller-rating"
+									>4.9 <i class="fas fa-star"></i
+								></strong>
+								<small class="text-white-50">Đánh giá</small>
+							</div>
+							<div class="stat-divider"></div>
+							<div class="stat-item">
+								<strong class="d-block text-white" id="seller-sold"
+									>150+</strong
+								>
+								<small class="text-white-50">Đã bán</small>
+							</div>
+							<div class="stat-divider"></div>
+							<div class="stat-item">
+								<strong class="d-block text-white">98%</strong>
+								<small class="text-white-50">Phản hồi</small>
+							</div>
+						</div>
+
+						<div class="mt-3 d-flex gap-2">
+							<button
+								class="btn btn-light btn-sm flex-grow-1 rounded-pill fw-bold text-teal"
+							>
+								<i class="fas fa-store me-1"></i> Xem Shop
+							</button>
+							<button
+								id="btn-chat-now"
+								class="btn btn-outline-light btn-sm flex-grow-1 rounded-pill fw-bold"
+							>
+								<i class="fas fa-comment-dots me-1"></i> Chat
+							</button>
+						</div>
+					</div>
+
+					<div class="trust-guarantee-box">
+						<h6 class="fw-bold text-teal mb-3">
+							<i class="fas fa-shield-alt"></i> An tâm mua sắm
+						</h6>
+
+						<div class="trust-item">
+							<i class="fas fa-undo text-teal"></i>
+							<div>
+								<strong>Đổi trả trong 3 ngày</strong>
+								<p>Nếu hàng không đúng mô tả</p>
+							</div>
+						</div>
+
+						<div class="trust-item">
+							<i class="fas fa-check-double text-teal"></i>
+							<div>
+								<strong>Được kiểm tra hàng</strong>
+								<p>Kiểm tra trước khi nhận</p>
+							</div>
+						</div>
+
+						<div class="trust-item">
+							<i class="fas fa-lock text-teal"></i>
+							<div>
+								<strong>Thanh toán an toàn</strong>
+								<p>Tiền được giữ cho đến khi bạn hài lòng</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="suggestion-section mt-5">
-				<h5 class="section-title text-center mb-4">Gợi ý hôm nay</h5>
+				<div class="suggestion-section mt-5">
+					<h4 class="text-teal fw-bold text-center mb-4">
+						Có thể bạn cũng thích
+					</h4>
 
-				<div class="suggestion-grid">
-					<div class="suggest-card">
-						<div
-							class="s-img"
-							style="
-								background-image: url('https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/cat_v1.png');
-							"
-						></div>
-						<div class="s-info">
-							<div class="s-label">CURRENT BID</div>
-							<div class="s-price">1.000.000vnđ</div>
-							<div class="s-time">1D, 5H LEFT</div>
-						</div>
-					</div>
-					<div class="suggest-card">
-						<div
-							class="s-img"
-							style="
-								background-image: url('https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/cat_v1.png');
-							"
-						></div>
-						<div class="s-info">
-							<div class="s-label">CURRENT BID</div>
-							<div class="s-price">1.000.000vnđ</div>
-							<div class="s-time">1D, 5H LEFT</div>
-						</div>
-					</div>
-					<div class="suggest-card">
-						<div
-							class="s-img"
-							style="
-								background-image: url('https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/pepe_v1.png');
-							"
-						></div>
-						<div class="s-info">
-							<div class="s-label">CURRENT BID</div>
-							<div class="s-price">1.000.000vnđ</div>
-							<div class="s-time">1D, 5H LEFT</div>
-						</div>
-					</div>
-					<div class="suggest-card">
-						<div
-							class="s-img"
-							style="
-								background-image: url('https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/pepe_v1.png');
-							"
-						></div>
-						<div class="s-info">
-							<div class="s-label">CURRENT BID</div>
-							<div class="s-price">1.000.000vnđ</div>
-							<div class="s-time">1D, 5H LEFT</div>
-						</div>
-					</div>
-					<div class="suggest-card">
-						<div
-							class="s-img"
-							style="
-								background-image: url('https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/pepe_v1.png');
-							"
-						></div>
-						<div class="s-info">
-							<div class="s-label">CURRENT BID</div>
-							<div class="s-price">1.000.000vnđ</div>
-							<div class="s-time">1D, 5H LEFT</div>
-						</div>
+					<div class="row row-cols-2 row-cols-md-5 g-3" id="suggestion-list">
+						<p class="text-center w-100">Đang tải gợi ý...</p>
 					</div>
 				</div>
 
@@ -237,5 +229,6 @@
 		<script type="module" src="../scripts/product_detail.js"></script>
 		<script type="module" src="../scripts/userCommon.js"></script>
 		<script type="module" src="../scripts/cartCommon.js"></script>
+		<script type="module" src="../scripts/breadcrumb.js"></script>
 	</body>
 </html>

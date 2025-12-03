@@ -37,6 +37,17 @@ const io = socketManager.init(httpServer);
 // Config swagger
 const swaggerDocument = YAML.load("./openapi.yaml");
 
+// Khởi tạo Cron
+const cron = require("node-cron");
+const AuctionService = require("./services/AuctionService");
+// --- CRON JOB ---
+// Chạy mỗi phút một lần (* * * * *)
+cron.schedule("* * * * *", () => {
+	AuctionService.processEndedAuctions().catch((err) => {
+		console.error("Cron Job Error:", err);
+	});
+});
+
 // Middleware để parse JSON
 app.use(express.json());
 

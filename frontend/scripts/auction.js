@@ -1,141 +1,3 @@
-// // TODO: Dùng file này cho việc gọi đến các Api services
-// // import auctionApi from "../services/auctionApi";
-// import auctionApi from "../services/auctionApi.js";
-
-// const socket = io("http://localhost:3000");
-// const urlParams = new URLSearchParams(window.location.search);
-// const auctionId = urlParams.get("id");
-
-// const currentPriceEl = document.getElementById("current-price-container");
-// const historyBody = document.getElementById("bid-history-body");
-// const btnPlaceBid = document.getElementById("btn-place-bid");
-// const inputBid = document.getElementById("bid-amount");
-
-// document.addEventListener("DOMContentLoaded", async () => {
-// 	if (!auctionId) {
-// 		alert("Không tìm thấy ID phiên đấu giá");
-// 		return;
-// 	}
-
-// 	// --- BƯỚC 1: JOIN ROOM SOCKET ---
-// 	// Gửi sự kiện để server biết mình đang xem phiên này
-// 	socket.emit("join_auction", auctionId);
-// 	console.log(`Đã join room auction_${auctionId}`);
-
-// 	// --- BƯỚC 2: LẤY DỮ LIỆU BAN ĐẦU (API) ---
-// 	await loadInitialData();
-
-// 	// --- BƯỚC 3: LẮNG NGHE SỰ KIỆN 'NEW_BID' TỪ SERVER ---
-// 	socket.on("new_bid", (data) => {
-// 		console.log("⚡ Có người đặt giá mới:", data);
-
-// 		// Cập nhật giao diện NGAY LẬP TỨC
-// 		updateUI(data);
-// 	});
-// });
-
-// // Xử lý đặt giá
-// btnPlaceBid.addEventListener("click", async () => {
-// 	const amount = inputBid.value;
-
-// 	if (!amount) return alert("Vui lòng nhập số tiền");
-
-// 	// Disable nút để tránh click đúp
-// 	btnPlaceBid.disabled = true;
-// 	btnPlaceBid.innerText = "Đang xử lý...";
-
-// 	try {
-// 		// Gọi API POST /api/auctions/{id}/bids
-// 		// (Lưu ý: Không dùng socket.emit để đặt giá, mà dùng API để bảo mật)
-// 		const response = await auctionApi.placeBid(auctionId, {
-// 			bid_amount: Number(amount),
-// 		});
-
-// 		alert("Đặt giá thành công!");
-// 		inputBid.value = "";
-// 	} catch (error) {
-// 		alert("Lỗi: " + (error.message || "Không thể đặt giá"));
-// 	} finally {
-// 		btnPlaceBid.disabled = false;
-// 		btnPlaceBid.innerText = "Đặt Giá Ngay";
-// 	}
-// });
-
-// async function loadInitialData() {
-// 	try {
-// 		// Lấy thông tin chi tiết phiên đấu giá
-// 		const auction = await auctionApi.getAuctionById(auctionId);
-
-// 		// Fill thông tin sản phẩm (Tiêu đề, ảnh, mô tả...)
-// 		console.log(auction);
-// 		document.getElementById("product-name").innerText = auction.Product.name;
-// 		document.getElementById("seller-name").innerText =
-// 			auction.Product.Seller.User.name;
-// 		document.getElementById("min-step").innerText = formatMoney(
-// 			auction.min_bid_incr
-// 		);
-
-// 		// Lấy danh sách Bid lịch sử
-// 		const bids = auction.Bid; // (Giả sử API trả về include Bid)
-
-// 		// Nếu có bid, lấy giá cao nhất hiện tại
-// 		if (bids && bids.length > 0) {
-// 			const highestBid = bids[0]; // Đã sort desc
-// 			updateUI({
-// 				amount: highestBid.bid_amount,
-// 				bidder_name: highestBid.Buyer.User.name,
-// 				time: highestBid.bid_time,
-// 			});
-
-// 			// Render lại toàn bộ bảng lịch sử
-// 			bids.forEach((bid) =>
-// 				addHistoryRow(bid.bid_amount, bid.Buyer.User.name, bid.bid_time)
-// 			);
-// 		} else {
-// 			// Chưa có ai đặt, hiện giá khởi điểm
-// 			currentPriceEl.innerText = formatMoney(auction.start_price);
-// 		}
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-// }
-
-// function updateUI(data) {
-// 	// 1. Cập nhật giá to bự
-// 	currentPriceEl.innerText = formatMoney(data.amount);
-
-// 	// 2. Cập nhật tên người giữ giá
-// 	document.getElementById("highest-bidder").innerText = data.bidder_name;
-
-// 	// 3. Thêm hiệu ứng nhấp nháy (Visual feedback)
-// 	currentPriceEl.classList.remove("price-update");
-// 	void currentPriceEl.offsetWidth; // Trigger reflow
-// 	currentPriceEl.classList.add("price-update");
-
-// 	// 4. Thêm vào bảng lịch sử (thêm lên đầu)
-// 	addHistoryRow(data.amount, data.bidder_name, data.time);
-// }
-
-// function addHistoryRow(amount, name, time) {
-// 	const row = `
-//         <tr>
-//             <td>${name}</td>
-//             <td class="text-success fw-bold">${formatMoney(amount)}</td>
-//             <td class="text-muted small">${new Date(
-// 							time
-// 						).toLocaleTimeString()}</td>
-//         </tr>
-//     `;
-// 	// Chèn vào dòng đầu tiên của bảng
-// 	historyBody.insertAdjacentHTML("afterbegin", row);
-// }
-
-// function formatMoney(number) {
-// 	return new Intl.NumberFormat("vi-VN", {
-// 		style: "currency",
-// 		currency: "VND",
-// 	}).format(number);
-// }
 import auctionApi from "../services/auctionApi.js";
 // (Nếu bạn có apiHelpers để format tiền thì import, không thì dùng hàm dưới)
 import { R2_PUBLIC_URL } from "../services/apiHelpers.js";
@@ -164,7 +26,21 @@ const els = {
 	bidInput: document.getElementById("bid-input"),
 	btnPlaceBid: document.getElementById("btn-place-bid"),
 	historyList: document.getElementById("history-list"),
+
+	// Các element mới
+	statusBadge: document.getElementById("auction-status-badge"),
+	countdownTimer: document.getElementById("countdown-timer"),
+
+	activeBidSection: document.getElementById("active-bid-info"),
+	winnerSection: document.getElementById("winner-section"),
+	winnerName: document.getElementById("winner-name"),
+	winnerPrice: document.getElementById("winner-final-price"),
+	minBidPrice: document.getElementById("min-bid-price"),
 };
+
+let auctionEndTime = null;
+let countdownInterval = null;
+let minBidInr = 0;
 
 document.addEventListener("DOMContentLoaded", async () => {
 	if (!auctionId) {
@@ -206,7 +82,8 @@ els.btnPlaceBid.addEventListener("click", async () => {
 		alert("Đặt giá thành công!");
 	} catch (error) {
 		console.error(error);
-		alert("Lỗi: " + (error.message || "Không thể đặt giá"));
+		alert("Lỗi: " + "Không thể đặt giá");
+		els.bidInput.value = "";
 	} finally {
 		els.btnPlaceBid.disabled = false;
 		els.btnPlaceBid.innerText = "Xác nhận";
@@ -218,9 +95,19 @@ async function loadAuctionData() {
 		const response = await auctionApi.getAuctionById(auctionId);
 		const auction = response.data || response; // Tùy cấu trúc trả về
 
+		// --- XỬ LÝ THỜI GIAN & TRẠNG THÁI ---
+		auctionEndTime = new Date(auction.auc_end_time).getTime();
+
+		// Kiểm tra trạng thái ngay lúc load
+		checkAuctionStatus(auction);
+
+		// Bắt đầu đếm ngược
+		startCountdown();
+
 		if (!auction) throw new Error("No data");
 
 		const product = auction.Product;
+		minBidInr = formatMoney(auction.min_bid_incr);
 
 		// --- ĐIỀN DỮ LIỆU VÀO HTML ---
 		els.productName.innerText = product.name;
@@ -235,9 +122,10 @@ async function loadAuctionData() {
 		els.auctionTime.innerText = `${start} - ${end}`;
 
 		els.startPrice.innerText = formatMoney(auction.start_price);
-		els.stepPrice.innerText = formatMoney(auction.min_bid_incr);
+		els.stepPrice.innerText = minBidInr;
 
 		// Xử lý ảnh (Nếu có URL ảnh từ Cloudflare/Firebase)
+		console.log(product.image);
 		els.productImage.src =
 			R2_PUBLIC_URL + product.image || "https://placehold.co/400";
 
@@ -245,7 +133,7 @@ async function loadAuctionData() {
 		const bids = auction.Bid || [];
 
 		if (bids.length > 0) {
-			const highestBid = bids[0]; // Giả sử API trả về sort desc
+			const highestBid = bids[0];
 
 			// Cập nhật giá & người thắng
 			updateUI(
@@ -253,6 +141,7 @@ async function loadAuctionData() {
 					amount: highestBid.bid_amount,
 					bidder_name: highestBid.Buyer?.User?.name || "Unknown",
 					time: highestBid.bid_time,
+					min_bid_incr: auction.min_buid_incr,
 				},
 				false
 			); // false để không thêm trùng history
@@ -266,6 +155,7 @@ async function loadAuctionData() {
 			// Chưa có ai đặt
 			els.currentPrice.innerText = formatMoney(auction.start_price);
 			els.highestBidder.innerText = "Chưa có";
+			els.minBidPrice.innerText = formatMoney(auction.min_bid_incr);
 		}
 	} catch (error) {
 		console.error("Load Error:", error);
@@ -278,6 +168,7 @@ function updateUI(data, addToHistory = true) {
 	// 1. Cập nhật Box thông tin chính
 	els.currentPrice.innerText = formatMoney(data.amount);
 	els.highestBidder.innerText = data.bidder_name;
+	els.minBidPrice.innerText = minBidInr;
 
 	// Hiệu ứng nhấp nháy
 	els.currentPrice.style.color = "#e74c3c"; // Đổi màu đỏ
@@ -319,3 +210,111 @@ function formatMoney(amount) {
 		currency: "VND",
 	}).format(amount);
 }
+
+// --- HÀM MỚI: Kiểm tra và Render Trạng thái ---
+function checkAuctionStatus(auctionData) {
+	const now = new Date().getTime();
+	const endTime = new Date(auctionData.auc_end_time).getTime();
+	const bids = auctionData.Bid || [];
+
+	if (now >= endTime) {
+		// === TRẠNG THÁI: KẾT THÚC ===
+
+		// 1. UI Badge
+		els.statusBadge.innerText = "ĐÃ KẾT THÚC";
+		els.statusBadge.className = "badge rounded-pill status-badge ended p-2";
+
+		// 2. Ẩn Form đặt giá
+		els.activeBidSection.style.display = "none";
+
+		// 3. Hiện Người thắng (Nếu có bid)
+		els.winnerSection.style.display = "block";
+
+		if (bids.length > 0) {
+			const winner = bids[0]; // Bid cao nhất
+			els.winnerName.innerText = winner.Buyer?.User?.name || "Ẩn danh";
+			els.winnerPrice.innerText = formatMoney(winner.bid_amount);
+		} else {
+			els.winnerName.innerText = "Không có người mua";
+			els.winnerPrice.innerText = "";
+		}
+
+		els.countdownTimer.innerText = "00:00:00";
+		els.countdownTimer.classList.add("text-muted");
+	} else {
+		// === TRẠNG THÁI: ĐANG DIỄN RA ===
+
+		els.statusBadge.innerText = "ĐANG DIỄN RA";
+		els.statusBadge.className = "badge rounded-pill status-badge active p-2";
+
+		els.activeBidSection.style.display = "block";
+		els.winnerSection.style.display = "none";
+	}
+}
+
+// --- HÀM MỚI: Đếm ngược ---
+function startCountdown() {
+	if (countdownInterval) clearInterval(countdownInterval);
+
+	countdownInterval = setInterval(() => {
+		const now = new Date().getTime();
+		const distance = auctionEndTime - now;
+
+		if (distance < 0) {
+			clearInterval(countdownInterval);
+			els.countdownTimer.innerText = "Đã kết thúc";
+			// Reload lại trạng thái UI để ẩn form nếu người dùng đang treo máy
+			// checkAuctionStatus(...) // Cần gọi lại logic ẩn form tại đây
+			els.activeBidSection.style.display = "none";
+			els.winnerSection.style.display = "block";
+			return;
+		}
+
+		const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		const hours = Math.floor(
+			(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+		);
+		const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		let timeStr = "";
+		if (days > 0) timeStr += `${days}d `;
+		timeStr += `${hours.toString().padStart(2, "0")}:${minutes
+			.toString()
+			.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+		els.countdownTimer.innerText = timeStr;
+	}, 1000);
+}
+
+// LẮNG NGHE SỰ KIỆN KẾT THÚC TỪ SERVER
+socket.on("auction_ended", (data) => {
+	console.log("Kết thúc:", data);
+
+	// 1. Dừng đếm ngược (nếu có)
+	if (window.countdownInterval) clearInterval(window.countdownInterval);
+	document.getElementById("countdown-timer").innerText = "ĐÃ KẾT THÚC";
+
+	// 2. Ẩn form đặt giá
+	const activeBidInfo = document.getElementById("active-bid-info"); // ID trong code cũ
+	if (activeBidInfo) activeBidInfo.style.display = "none";
+
+	// 3. Hiện thông báo người thắng
+	// (Bạn cần thêm ID 'winner-section' vào HTML như hướng dẫn ở Turn #129)
+	const winnerSection = document.getElementById("winner-section");
+	if (winnerSection) {
+		winnerSection.style.display = "block";
+		document.getElementById("winner-name").innerText =
+			data.winner || "Không có";
+
+		if (data.success) {
+			const price = new Intl.NumberFormat("vi-VN", {
+				style: "currency",
+				currency: "VND",
+			}).format(data.price);
+			document.getElementById("winner-final-price").innerText = price;
+		}
+	}
+
+	alert(data.message);
+});

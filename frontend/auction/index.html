@@ -12,11 +12,12 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 		/>
+		<link rel="stylesheet" href="../css/index.css" />
 		<link
 			rel="stylesheet"
 			href="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/buyer/css/buyer_screen.css"
 		/>
-		<link rel="stylesheet" href="../css/index.css" />
+		<link rel="stylesheet" href="../css/buyer_screen.css" />
 	</head>
 	<body>
 		<nav class="navbar">
@@ -29,9 +30,9 @@
 					<input type="text" placeholder="Tìm kiếm" />
 				</div>
 				<div class="nav-menu">
-					<a href="#">Trang Chủ</a>
-					<a href="#">Vật Phẩm</a>
-					<a href="#">Liên Lạc</a>
+					<a href="../index.html">Trang Chủ</a>
+					<a href="../index.html#filter-section">Sản Phẩm</a>
+					<a href="../chat/index.html">Liên Lạc</a>
 					<a href="../cart-list/index.html" class="position-relative me-3">
 						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
 						<span
@@ -41,18 +42,18 @@
 							2
 						</span>
 					</a>
-					<div id="auth-section">
-						<img
-							src="https://i.pravatar.cc/150?img=5"
-							id="user-avatar"
-							alt="User"
-						/>
+					<div
+						id="auth-section"
+						onclick="window.location.href='../profile/index.html'"
+					>
+						<img id="user-avatar" alt="User" />
 					</div>
 				</div>
 			</div>
 		</nav>
 
 		<div class="container mt-4 mb-5">
+			<div id="breadcrumb-container" class="mb-3"></div>
 			<div class="row g-4">
 				<div
 					class="col-lg-8"
@@ -121,7 +122,7 @@
 								</div>
 							</div>
 
-							<div class="info-box">
+							<!-- <div class="info-box">
 								<div class="info-row">
 									<span class="label">Giá hiện tại:</span>
 									<span class="value price-highlight" id="current-price"
@@ -144,6 +145,77 @@
 								/>
 
 								<button class="btn-confirm" id="btn-place-bid">Xác nhận</button>
+							</div> -->
+							<div>
+								<div class="info-box mb-3">
+									<div class="d-flex justify-content-between align-items-start">
+										<h4 class="product-name" id="product-name">Loading...</h4>
+										<span
+											id="auction-status-badge"
+											class="badge rounded-pill status-badge active p-2"
+										>
+											ĐANG DIỄN RA
+										</span>
+									</div>
+
+									<div class="info-row">
+										<span class="label">Thời gian:</span>
+										<span class="value text-danger fw-bold" id="countdown-timer"
+											>...</span
+										>
+									</div>
+								</div>
+
+								<div class="info-box">
+									<div class="info-row">
+										<span class="label">Giá cao nhất:</span>
+										<span class="value price-highlight" id="current-price"
+											>...</span
+										>
+									</div>
+									<div class="info-row">
+										<span class="label">Bước giá:</span>
+										<span
+											class="value min-bid-incr-highlight"
+											id="min-bid-price"
+											>...</span
+										>
+									</div>
+
+									<div id="active-bid-info">
+										<div class="info-row mb-3">
+											<span class="label">Người dẫn đầu:</span>
+											<span class="value user-highlight" id="highest-bidder"
+												>Chưa có</span
+											>
+										</div>
+
+										<label class="label mb-2 d-block">Giá đấu mới:</label>
+										<input
+											type="number"
+											id="bid-input"
+											class="bid-input"
+											placeholder="Nhập giá..."
+										/>
+										<button class="btn-confirm" id="btn-place-bid">
+											Xác nhận đặt giá
+										</button>
+									</div>
+
+									<div
+										id="winner-section"
+										class="winner-box"
+										style="display: none"
+									>
+										<div class="winner-icon"><i class="fas fa-trophy"></i></div>
+										<h5>NGƯỜI CHIẾN THẮNG</h5>
+										<div class="winner-name" id="winner-name">...</div>
+										<div class="winner-price" id="winner-final-price">...</div>
+										<p class="small text-muted mt-2 mb-0">
+											Phiên đấu giá đã kết thúc.
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -240,5 +312,6 @@
 		<script type="module" src="../scripts/auction.js"></script>
 		<script type="module" src="../scripts/userCommon.js"></script>
 		<script type="module" src="../scripts/cartCommon.js"></script>
+		<script type="module" src="../scripts/breadcrumb.js"></script>
 	</body>
 </html>

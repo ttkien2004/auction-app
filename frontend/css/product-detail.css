@@ -76,3 +76,127 @@
 	margin-right: 20px;
 	font-size: 0.9rem;
 }
+
+/* --- SELLER TRUST CARD --- */
+.seller-trust-card {
+	background: linear-gradient(
+		135deg,
+		#00897b 0%,
+		#00695c 100%
+	); /* Gradient xanh Teal */
+	border-radius: 20px;
+	padding: 20px;
+	color: white;
+	box-shadow: 0 5px 15px rgba(0, 137, 123, 0.2);
+}
+
+.seller-header {
+	display: flex;
+	align-items: center;
+}
+
+.seller-avatar {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	border: 2px solid white;
+	object-fit: cover;
+}
+
+.verified-badge {
+	position: absolute;
+	bottom: 0;
+	right: -5px;
+	background: white;
+	border-radius: 50%;
+	border: 2px solid white;
+	font-size: 0.9rem;
+}
+
+.seller-stats {
+	display: flex;
+	justify-content: space-around;
+	background: rgba(255, 255, 255, 0.1); /* Nền mờ */
+	border-radius: 15px;
+	padding: 10px 0;
+}
+
+.stat-divider {
+	width: 1px;
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.stat-item {
+	text-align: center;
+	line-height: 1.2;
+}
+
+/* --- TRUST GUARANTEE BOX --- */
+.trust-guarantee-box {
+	background: white;
+	border: 2px solid #e0f2f1;
+	border-radius: 20px;
+	padding: 20px;
+}
+
+.trust-item {
+	display: flex;
+	gap: 15px;
+	margin-bottom: 15px;
+	align-items: flex-start;
+}
+
+.trust-item i {
+	font-size: 1.2rem;
+	background: #e0f2f1;
+	padding: 10px;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.trust-item strong {
+	font-size: 0.9rem;
+	display: block;
+	color: #333;
+}
+.trust-item p {
+	font-size: 0.8rem;
+	color: #777;
+	margin: 0;
+}
+
+/* --- SUGGESTION CARD STYLE (Tái sử dụng style thẻ bài) --- */
+.suggest-card {
+	border: 2px solid #00897b;
+	border-radius: 15px;
+	overflow: hidden;
+	background: white;
+	cursor: pointer;
+	transition: transform 0.2s;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.suggest-card:hover {
+	transform: translateY(-5px);
+}
+
+.s-img {
+	height: 150px;
+	background-size: cover;
+	background-position: center;
+}
+.s-info {
+	background: #00897b;
+	color: white;
+	padding: 8px;
+	flex-grow: 1;
+}
+.s-price {
+	font-weight: bold;
+	font-size: 1rem;
+}

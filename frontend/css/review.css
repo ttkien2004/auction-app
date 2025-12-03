@@ -1,0 +1,237 @@
+:root {
+	--primary-teal: #00897b;
+	--bg-color: #faf9f6;
+	--text-dark: #333;
+	--box-bg: #fff;
+	--star-color: #ffc107;
+}
+
+body {
+	background-color: var(--bg-color);
+	font-family: "Courier New", Courier, monospace;
+	color: var(--text-dark);
+}
+
+/* Navbar & Footer (Kế thừa) */
+.navbar {
+	padding: 15px 40px;
+	background: var(--bg-color);
+}
+.navbar-brand {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+	text-decoration: none;
+}
+.nav-search {
+	background-color: var(--primary-teal);
+	border-radius: 20px;
+	padding: 5px 15px;
+	width: 400px;
+	display: flex;
+	align-items: center;
+}
+.nav-search i {
+	color: white;
+	margin-right: 10px;
+}
+.nav-search input {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: white;
+	width: 100%;
+}
+.nav-search input::placeholder {
+	color: #e0e0e0;
+}
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+	font-size: 0.9rem;
+}
+.user-avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 2px solid var(--primary-teal);
+}
+.site-footer {
+	padding: 20px 40px;
+	color: var(--primary-teal);
+	font-weight: bold;
+	font-size: 0.8rem;
+	margin-top: auto;
+}
+
+/* Breadcrumb */
+.breadcrumb a {
+	color: var(--primary-teal);
+	text-decoration: none;
+}
+.breadcrumb-item.active {
+	color: #666;
+}
+
+/* Product Snippet */
+.product-snippet {
+	background: white;
+	border: 2px solid var(--primary-teal);
+	border-radius: 15px;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.btn-outline-teal {
+	border: 1px solid var(--primary-teal);
+	color: var(--primary-teal);
+	border-radius: 20px;
+	font-weight: bold;
+}
+.btn-outline-teal:hover {
+	background-color: var(--primary-teal);
+	color: white;
+}
+
+.text-teal {
+	color: var(--primary-teal) !important;
+}
+
+/* Rating Overview Box */
+.rating-overview {
+	background: white;
+	border: 2px solid var(--primary-teal);
+	border-radius: 20px;
+	padding: 25px;
+	text-align: center;
+}
+
+.score-big {
+	font-size: 3rem;
+	font-weight: 900;
+	color: var(--primary-teal);
+	line-height: 1;
+}
+.stars i {
+	color: var(--star-color);
+	margin: 0 2px;
+}
+.divider {
+	border-top: 2px solid var(--primary-teal);
+	opacity: 0.2;
+	margin: 20px 0;
+}
+
+/* Progress Bars */
+.bar-row {
+	display: flex;
+	align-items: center;
+	margin-bottom: 8px;
+	font-size: 0.9rem;
+}
+.bar-row span:first-child {
+	width: 40px;
+	font-weight: bold;
+}
+.progress {
+	flex-grow: 1;
+	height: 8px;
+	margin: 0 10px;
+	background-color: #e0f2f1;
+}
+.progress-bar {
+	background-color: var(--primary-teal);
+}
+.count {
+	width: 30px;
+	text-align: right;
+	color: #888;
+}
+
+/* Review Filters */
+.filter-pill {
+	background: transparent;
+	border: 1px solid var(--primary-teal);
+	color: var(--primary-teal);
+	padding: 5px 15px;
+	border-radius: 50px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-weight: bold;
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition: 0.2s;
+}
+.filter-pill:hover,
+.filter-pill.active {
+	background: var(--primary-teal);
+	color: white;
+}
+
+/* Review Item Card */
+.review-card {
+	background: white;
+	border-bottom: 1px solid #eee;
+	padding: 20px 0;
+}
+.review-card:last-child {
+	border-bottom: none;
+}
+
+.reviewer-info {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+.reviewer-avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-right: 10px;
+	border: 1px solid #ddd;
+}
+.reviewer-name {
+	font-weight: bold;
+	font-size: 0.95rem;
+	margin-bottom: 0;
+}
+.review-time {
+	font-size: 0.75rem;
+	color: #999;
+}
+
+.review-content {
+	margin-top: 10px;
+	font-size: 0.95rem;
+	line-height: 1.5;
+	color: #333;
+}
+.review-images {
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
+}
+.r-img {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: 10px;
+	border: 1px solid #eee;
+	cursor: pointer;
+}
+
+/* Nav Buttons */
+.btn-nav-circle {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	background: var(--primary-teal);
+	color: white;
+	border: none;
+	margin: 0 5px;
+}

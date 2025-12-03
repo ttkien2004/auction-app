@@ -142,7 +142,7 @@ body {
 	border-radius: 15px;
 	padding: 10px 15px;
 	margin-bottom: 12px;
-	font-size: 0.85rem;
+	font-size: 1rem;
 }
 .h-row {
 	margin-bottom: 2px;
@@ -211,4 +211,65 @@ body {
 	color: var(--teal-color);
 	font-size: 0.8rem;
 	font-weight: bold;
+}
+
+/* --- TRẠNG THÁI: ĐANG DIỄN RA --- */
+.status-badge.active {
+	background-color: #00897b; /* Xanh Teal */
+	color: white;
+}
+
+/* --- TRẠNG THÁI: ĐÃ KẾT THÚC --- */
+.status-badge.ended {
+	background-color: #d32f2f; /* Đỏ đậm */
+	color: white;
+}
+
+/* Box thông báo người thắng cuộc (Chỉ hiện khi kết thúc) */
+.winner-box {
+	background-color: #fff8e1; /* Vàng nhạt */
+	border: 2px solid #ffc107; /* Viền vàng */
+	border-radius: 20px;
+	padding: 20px;
+	text-align: center;
+	margin-top: 15px;
+	animation: popIn 0.5s ease;
+}
+
+.winner-icon {
+	font-size: 2rem;
+	color: #ffc107;
+	margin-bottom: 10px;
+}
+
+.winner-name {
+	font-size: 1.3rem;
+	font-weight: bold;
+	color: #333;
+}
+
+.winner-price {
+	color: #d32f2f;
+	font-weight: bold;
+	font-size: 1.1rem;
+}
+
+/* Vô hiệu hóa input khi kết thúc */
+.bid-disabled {
+	background-color: #eee;
+	color: #999;
+	border-color: #ccc;
+	pointer-events: none;
+}
+
+/* Hiệu ứng xuất hiện */
+@keyframes popIn {
+	0% {
+		transform: scale(0.8);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
 }

@@ -198,3 +198,44 @@ body {
 	color: var(--text-teal);
 	font-family: "Ubuntu Sans", sans-serif;
 }
+.custom-radio .form-check-input:checked {
+	background-color: #00897b;
+	border-color: #00897b;
+}
+.text-teal {
+	color: #00897b;
+}
+
+/* Style cho mục con */
+.sidebar-link.sub-item {
+	padding-left: 2.5rem !important; /* Thụt vào sâu hơn */
+	font-size: 0.9rem; /* Chữ nhỏ hơn một chút */
+	color: #666; /* Màu nhạt hơn để phân biệt */
+	position: relative;
+}
+
+/* Tạo đường kẻ nối (Tùy chọn - làm cho giống cây thư mục) */
+.sidebar-link.sub-item::before {
+	content: "";
+	position: absolute;
+	left: 1.5rem;
+	top: 50%;
+	width: 10px;
+	height: 1px;
+	background-color: #ccc;
+}
+
+/* Hiệu ứng khi hover vào mục con */
+.sidebar-link.sub-item:hover,
+.sidebar-link.sub-item.active {
+	color: var(--primary-teal); /* Đổi màu xanh khi chọn */
+	background-color: #f0fdfc; /* Nền nhạt */
+}
+.site-footer {
+	padding: 20px 40px;
+	color: var(--primary-teal);
+	font-weight: bold;
+	font-size: 1rem;
+	text-align: left;
+	margin-top: auto;
+}

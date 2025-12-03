@@ -76,6 +76,11 @@ img {
 	color: #e2e8f0;
 }
 
+.search-filter-container {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
 /* LINKS */
 .navbar-links {
 	display: flex;
@@ -138,7 +143,7 @@ img {
 
 .hero-content {
 	text-align: center;
-	max-width: 900px;
+	max-width: 1000px;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
@@ -368,14 +373,15 @@ img {
 }
 
 .discover-top {
-	grid-column: 1;
-	grid-row: 1;
-	align-self: flex-start;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	display: flex;
+	justify-content: center;
 }
 
 .discover-top h2 {
 	font-family: "Ubuntu Sans", system-ui, sans-serif;
-	font-size: 20px;
+	font-size: 30px;
 	margin: 0; /* cho sát khối hơn */
 	color: #00897b;
 	font-weight: bold;

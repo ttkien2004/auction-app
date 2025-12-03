@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Thành viên & Uy tín</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+
+		<link rel="stylesheet" href="../css/membership.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+	</head>
+	<body>
+		<nav class="navbar">
+			<div
+				class="container-fluid d-flex align-items-center justify-content-between"
+			>
+				<a class="navbar-brand" href="#"><i class="fas fa-circle"></i> LOGO</a>
+				<div class="nav-search">
+					<i class="fas fa-search"></i>
+					<input type="text" placeholder="Tìm kiếm" />
+				</div>
+				<div class="nav-menu d-flex align-items-center">
+					<a href="../index.html">Trang Chủ</a>
+					<a href="#">Sản Phẩm</a>
+					<a href="../chat/index.html">Liên Lạc</a>
+					<a href="../cart-list/index.html" class="position-relative me-3">
+						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
+						<span
+							id="count-cart-list"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							2
+						</span>
+					</a>
+					<div
+						id="auth-section"
+						onclick="window.location.href='../profile/index.html'"
+					>
+						<img id="user-avatar" alt="User" />
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container mt-5 mb-5">
+			<section class="reputation-section mb-5">
+				<div id="breadcrumb-container" class="mb-3"></div>
+				<h2 class="section-title text-center mb-4">Hồ Sơ Uy Tín Của Bạn</h2>
+
+				<div class="row g-4">
+					<div class="col-md-4">
+						<div class="card-box h-100 text-center">
+							<div class="rank-badge mb-3">
+								<i class="fas fa-crown fa-3x text-warning"></i>
+							</div>
+							<h4 class="fw-bold text-teal">Thành Viên Vàng</h4>
+							<p class="text-muted small">Tham gia từ: 20/10/2025</p>
+
+							<div class="score-circle mt-3">
+								<span class="score-number">850</span>
+								<span class="score-label">Điểm Xanh</span>
+							</div>
+							<p class="mt-3 small">
+								Bạn cần <strong>150 điểm</strong> nữa để lên hạng Bạch Kim.
+							</p>
+						</div>
+					</div>
+
+					<div class="col-md-8">
+						<div class="card-box h-100">
+							<h5 class="text-teal fw-bold mb-3">Thống kê hiệu quả</h5>
+
+							<div class="mb-4">
+								<div class="d-flex justify-content-between mb-1">
+									<span>Đánh giá tích cực (4.9/5)</span>
+									<span class="fw-bold">98%</span>
+								</div>
+								<div class="progress rounded-pill" style="height: 10px">
+									<div class="progress-bar bg-teal" style="width: 98%"></div>
+								</div>
+							</div>
+
+							<div class="mb-4">
+								<div class="d-flex justify-content-between mb-1">
+									<span>Tỷ lệ hoàn thành đơn</span>
+									<span class="fw-bold">95%</span>
+								</div>
+								<div class="progress rounded-pill" style="height: 10px">
+									<div class="progress-bar bg-teal" style="width: 95%"></div>
+								</div>
+							</div>
+
+							<hr class="divider" />
+
+							<h5 class="text-teal fw-bold mb-3">Huy hiệu đạt được</h5>
+							<div class="badges-grid">
+								<div class="badge-item unlocked" title="Đã xác thực danh tính">
+									<i class="fas fa-id-card"></i>
+									<span>Xác thực</span>
+								</div>
+								<div
+									class="badge-item unlocked"
+									title="Giao hàng nhanh trong 24h"
+								>
+									<i class="fas fa-shipping-fast"></i>
+									<span>Tốc độ</span>
+								</div>
+								<div class="badge-item unlocked" title="Người bán thân thiện">
+									<i class="fas fa-smile"></i>
+									<span>Thân thiện</span>
+								</div>
+								<div
+									class="badge-item locked"
+									title="Bán trên 100 đơn (Chưa đạt)"
+								>
+									<i class="fas fa-box-open"></i>
+									<span>Siêu Sale</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="membership-section">
+				<div class="text-center mb-5">
+					<h2 class="section-title">Nâng Cấp Gói Bán Hàng</h2>
+					<p class="text-muted">
+						Chọn gói phù hợp để tối ưu doanh thu và tiếp cận khách hàng tốt hơn
+					</p>
+
+					<div class="toggle-container">
+						<span class="fw-bold">Tháng</span>
+						<label class="switch mx-2">
+							<input type="checkbox" />
+							<span class="slider round"></span>
+						</label>
+						<span class="text-muted">Năm (Tiết kiệm 20%)</span>
+					</div>
+				</div>
+
+				<div class="row g-4 justify-content-center">
+					<div class="col-md-4">
+						<div class="pricing-card">
+							<h4 class="plan-name">Người Bán Mới</h4>
+							<div class="plan-price">0đ<span class="period">/tháng</span></div>
+							<ul class="plan-features">
+								<li>
+									<i class="fas fa-check text-teal"></i> Đăng tối đa 5 sản
+									phẩm/tháng
+								</li>
+								<li>
+									<i class="fas fa-check text-teal"></i> Phí giao dịch: 5%
+								</li>
+								<li><i class="fas fa-check text-teal"></i> Hỗ trợ cơ bản</li>
+								<li class="text-muted">
+									<i class="fas fa-times"></i> Không có huy hiệu uy tín
+								</li>
+								<li class="text-muted">
+									<i class="fas fa-times"></i> Không đẩy tin
+								</li>
+							</ul>
+							<button class="btn-plan btn-outline">Đang sử dụng</button>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="pricing-card featured">
+							<div class="popular-tag">Phổ biến nhất</div>
+							<h4 class="plan-name text-white">Chuyên Nghiệp</h4>
+							<div class="plan-price text-white">
+								99.000đ<span class="period text-white-50">/tháng</span>
+							</div>
+							<ul class="plan-features text-white">
+								<li>
+									<i class="fas fa-check"></i>
+									<strong>Đăng 50 sản phẩm/tháng</strong>
+								</li>
+								<li>
+									<i class="fas fa-check"></i> Phí giao dịch ưu đãi:
+									<strong>2.5%</strong>
+								</li>
+								<li>
+									<i class="fas fa-check"></i>
+									<strong>3 lần đẩy tin</strong> miễn phí
+								</li>
+								<li><i class="fas fa-check"></i> Huy hiệu "Shop Uy Tín"</li>
+								<li><i class="fas fa-check"></i> Hỗ trợ ưu tiên 24/7</li>
+							</ul>
+							<button class="btn-plan btn-white">Nâng cấp ngay</button>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="pricing-card">
+							<h4 class="plan-name">Doanh Nghiệp</h4>
+							<div class="plan-price">
+								299.000đ<span class="period">/tháng</span>
+							</div>
+							<ul class="plan-features">
+								<li>
+									<i class="fas fa-check text-teal"></i>
+									<strong>Không giới hạn</strong> đăng tin
+								</li>
+								<li>
+									<i class="fas fa-check text-teal"></i> Phí giao dịch:
+									<strong>1%</strong>
+								</li>
+								<li>
+									<i class="fas fa-check text-teal"></i>
+									<strong>10 lần đẩy tin</strong> miễn phí
+								</li>
+								<li>
+									<i class="fas fa-check text-teal"></i> Tùy chỉnh giao diện
+									Shop
+								</li>
+								<li>
+									<i class="fas fa-check text-teal"></i> Quản lý kho hàng nâng
+									cao
+								</li>
+							</ul>
+							<button class="btn-plan btn-solid">Liên hệ</button>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<footer class="site-footer">
+			Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="../scripts/userCommon.js" type="module"></script>
+		<script src="../scripts/breadcrumb.js" type="module"></script>
+	</body>
+</html>

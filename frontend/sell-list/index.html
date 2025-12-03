@@ -29,7 +29,7 @@
 				</div>
 				<div class="nav-menu d-flex align-items-center">
 					<a href="#">Trang Chủ</a>
-					<a href="#">Vật Phẩm</a>
+					<a href="#">Sản Phẩm</a>
 					<a href="#">Liên Lạc</a>
 					<a href="../cart-list/index.html" class="position-relative me-3">
 						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
@@ -52,7 +52,7 @@
 
 		<div class="container mt-4">
 			<div class="row">
-				<div class="col-md-3 sidebar">
+				<div class="col-md-3 sidebar" id="menu-sidebar">
 					<a href="../profile/index.html" class="sidebar-link"
 						>Tài khoản của tôi</a
 					>
@@ -62,14 +62,14 @@
 					<a href="../sell-list/index.html" class="sidebar-link active"
 						>Danh sách bán</a
 					>
-					<a href="../transaction-list/index.html" class="sidebar-link active"
+					<a href="../transaction-list/index.html" class="sidebar-link"
 						>Danh sách giao dịch</a
 					>
 					<a href="#" class="sidebar-link logout">Đăng xuất</a>
 				</div>
 
 				<div class="col-md-8 offset-md-1" id="seller-products-list">
-					<h2 class="page-title">Danh sách vật phẩm bán</h2>
+					<h2 class="page-title">Danh sách Sản Phẩm bán</h2>
 
 					<div class="product-card d-flex">
 						<img
@@ -117,7 +117,134 @@
 				</div>
 			</div>
 		</div>
+		<div
+			class="modal fade"
+			id="cancelSellerModal"
+			tabindex="-1"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content border-0 rounded-4 shadow">
+					<div class="modal-header border-bottom-0 pb-0">
+						<h5 class="modal-title fw-bold text-teal">Hủy đơn hàng này?</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-danger py-2 small">
+							<i class="fas fa-exclamation-triangle me-1"></i>
+							Lưu ý: Việc hủy đơn hàng có thể ảnh hưởng đến
+							<strong>Tỷ lệ phục vụ</strong> và <strong>Điểm uy tín</strong> của
+							Shop.
+						</div>
+
+						<form id="seller-cancel-form">
+							<p class="mb-2 fw-bold small text-muted">Vui lòng chọn lý do:</p>
+
+							<div class="reason-group d-flex flex-column gap-2">
+								<div class="form-check custom-radio">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="sellerReason"
+										id="s1"
+										value="Sản phẩm đã hết hàng"
+									/>
+									<label class="form-check-label" for="s1"
+										>Sản phẩm đã hết hàng (Out of stock)</label
+									>
+								</div>
+
+								<div class="form-check custom-radio">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="sellerReason"
+										id="s2"
+										value="Địa chỉ giao hàng không được hỗ trợ"
+									/>
+									<label class="form-check-label" for="s2"
+										>Địa chỉ giao hàng không được hỗ trợ / Quá xa</label
+									>
+								</div>
+
+								<div class="form-check custom-radio">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="sellerReason"
+										id="s3"
+										value="Sản phẩm bị lỗi/hư hỏng trước khi giao"
+									/>
+									<label class="form-check-label" for="s3"
+										>Sản phẩm bị lỗi/hư hỏng trước khi giao</label
+									>
+								</div>
+
+								<div class="form-check custom-radio">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="sellerReason"
+										id="s4"
+										value="Người mua yêu cầu hủy"
+									/>
+									<label class="form-check-label" for="s4"
+										>Người mua yêu cầu hủy</label
+									>
+								</div>
+
+								<div class="form-check custom-radio">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="sellerReason"
+										id="s5"
+										value="other"
+									/>
+									<label class="form-check-label" for="s5">Lý do khác</label>
+								</div>
+
+								<div
+									id="seller-other-reason"
+									class="mt-2 ms-4"
+									style="display: none"
+								>
+									<textarea
+										class="form-control"
+										id="seller-reason-text"
+										rows="2"
+										placeholder="Nhập lý do cụ thể..."
+									></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer border-top-0 pt-0">
+						<button
+							type="button"
+							class="btn btn-light rounded-pill px-4"
+							data-bs-dismiss="modal"
+						>
+							Đóng
+						</button>
+						<button
+							type="button"
+							class="btn btn-danger rounded-pill px-4"
+							id="btn-seller-confirm-cancel"
+						>
+							Xác nhận Hủy
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script src="../scripts/seller_list.js" type="module"></script>
 		<script src="../scripts/userCommon.js" type="module"></script>
+		<script src="../scripts/menuCommon.js" type="module"></script>
 	</body>
 </html>

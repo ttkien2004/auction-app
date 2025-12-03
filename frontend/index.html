@@ -33,8 +33,10 @@
 					</div>
 					<div class="nav-menu d-flex align-items-center">
 						<a href="#" class="nav-link me-3">Trang Chủ</a>
-						<a href="#" class="nav-link me-3">Vật Phẩm</a>
-						<a href="#" class="nav-link me-3">Liên Lạc</a>
+						<a href="index.html#filter-section" class="nav-link me-3"
+							>Sản Phẩm</a
+						>
+						<a href="./chat/index.html" class="nav-link me-3">Liên Lạc</a>
 						<a href="./cart-list/index.html" class="position-relative me-3">
 							<i class="fas fa-shopping-cart fa-lg text-teal"></i>
 							<span
@@ -44,14 +46,17 @@
 								2
 							</span>
 						</a>
-						<img
-							src="https://i.pravatar.cc/150?img=5"
-							class="rounded-circle"
-							width="35"
-							height="35"
-							alt="Avatar"
-							id="user-avatar"
-						/>
+						<div id="auth-section">
+							<img
+								src="https://i.pravatar.cc/150?img=5"
+								class="rounded-circle"
+								width="35"
+								height="35"
+								alt="Avatar"
+								id="user-avatar"
+								onclick="window.location.href='./profile/index.html'"
+							/>
+						</div>
 					</div>
 				</div>
 			</nav>
@@ -59,10 +64,10 @@
 			<!-- HERO (giống Figma: text giữa + ảnh dưới) -->
 			<section class="hero">
 				<div class="hero-content">
-					<h1>GREEN SHOPPING, PRETTY PRICING!</h1>
+					<h1>Mua sắm xanh – Giá yêu xịn!</h1>
 					<p>
-						"Discover unique, eco-friendly treasures at budget-friendly prices –
-						from recycled furniture to second-hand fashion."
+						"Khám phá những món đồ độc đáo, thân thiện với môi trường với mức
+						giá phải chăng – từ nội thất tái chế đến thời trang đã qua sử dụng"
 					</p>
 					<div class="hero-actions">
 						<a href="#" class="btn primary" style="align-self: center"
@@ -86,13 +91,18 @@
 
 				<div class="strip-header">
 					<div class="strip-text-wrap">
-						<div class="strip-title">Your daily discovery</div>
+						<div class="strip-title">Khám phá mỗi ngày dành cho bạn</div>
 						<p class="strip-text">
-							Personalised picks to help you find your next treasure. Updated
-							daily.
+							Gợi ý được cá nhân hóa giúp bạn tìm ra món đồ quý tiếp theo. Cập
+							nhật mỗi ngày.
 						</p>
 					</div>
-					<a href="#" class="btn secondary">Find your next treasure</a>
+					<a
+						href="#"
+						class="btn secondary"
+						style="font-size: 1rem; font-weight: bold"
+						>✨Khám phá món đồ thú vị tiếp theo</a
+					>
 				</div>
 
 				<div class="strip-cards" id="strip-container">
@@ -220,17 +230,21 @@
 				<div id="filter-section" class="filter-wrapper" style="display: none">
 					<div class="filter-row">
 						<h3 class="filter-heading">Search Filter:</h3>
-						<div class="search-filter-box">
-							<!-- <i class="fas fa-search search-icon-left"></i> -->
-							<img
-								src="./assets/icons/Vector.png"
-								alt="search-icon"
-								class="search-icon-left"
-							/>
-							<input type="text" id="filter-name" placeholder="Search..." />
-							<button id="btn-search-icon">
-								<i class="fas fa-search"></i>
-							</button>
+						<div class="search-filter-container">
+							<div class="search-filter-box">
+								<!-- <i class="fas fa-search search-icon-left"></i> -->
+								<img
+									src="./assets/icons/Vector.png"
+									alt="search-icon"
+									class="search-icon-left"
+								/>
+								<input type="text" id="filter-name" placeholder="Search..." />
+							</div>
+							<div>
+								<button id="btn-search-icon">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
 						</div>
 					</div>
 
@@ -291,10 +305,13 @@
 						</div>
 					</div>
 				</div>
+				<div class="discover-top">
+					<h2>⭐ Gợi ý hôm nay</h2>
+				</div>
 				<div style="display: grid">
-					<div class="discover-top">
+					<!-- <div class="discover-top">
 						<h2>Daily Discover</h2>
-					</div>
+					</div> -->
 
 					<div class="discover-grid" id="product-list">
 						<p style="text-align: center; width: 100%; margin-top: 20px">
@@ -304,7 +321,7 @@
 				</div>
 
 				<div class="see-more-container">
-					<a href="#" class="see-more">See more</a>
+					<a href="#" class="see-more">Xem thêm</a>
 				</div>
 			</section>
 

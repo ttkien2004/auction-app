@@ -2,6 +2,7 @@
 import { BASE_URL, R2_PUBLIC_URL } from "../services/apiHelpers.js";
 import buyerApi from "../services/buyerApi.js";
 import MoMoApi from "../services/MoMoApi.js";
+import transactionApi from "../services/transactionApi.js";
 // import directSalesApi from "../services/directSalesApi.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <button class="btn btn-danger btn-sm fw-bold" onclick="retryPayment(${transaction.ID})">
                 Thanh toán ngay
             </button>
-            <button class="btn btn-outline-secondary btn-sm" onclick="cancelOrder(${transaction.ID})">
+            <button class="btn btn-outline-secondary btn-sm" onclick="openCancelModal(${transaction.ID})">
                 Hủy đơn
             </button>
         `;
@@ -114,3 +115,94 @@ window.retryPayment = async (transactionId) => {
 		alert("Có lỗi xảy ra");
 	}
 };
+
+// 1. Khai báo biến toàn cục để lưu ID đơn hàng đang chọn
+let selectedTransactionId = null;
+const cancelModal = new bootstrap.Modal(
+	document.getElementById("cancelOrderModal")
+);
+
+// 2. Hàm này được gọi khi bấm nút "Hủy đơn" trên danh sách
+window.openCancelModal = (transactionId) => {
+	selectedTransactionId = transactionId;
+
+	// Reset form về mặc định
+	document.getElementById("cancel-form").reset();
+	document.getElementById("other-reason-container").style.display = "none";
+
+	// Hiển thị modal
+	cancelModal.show();
+};
+
+// 3. Xử lý hiển thị ô "Lý do khác"
+const radioButtons = document.querySelectorAll('input[name="cancelReason"]');
+radioButtons.forEach((radio) => {
+	radio.addEventListener("change", (e) => {
+		const otherContainer = document.getElementById("other-reason-container");
+		if (e.target.value === "other") {
+			otherContainer.style.display = "block";
+		} else {
+			otherContainer.style.display = "none";
+		}
+	});
+});
+
+// 4. XỬ LÝ NÚT "XÁC NHẬN HỦY" (Logic chính)
+document
+	.getElementById("btn-confirm-cancel")
+	.addEventListener("click", async () => {
+		if (!selectedTransactionId) return;
+
+		// Lấy lý do được chọn
+		const selectedRadio = document.querySelector(
+			'input[name="cancelReason"]:checked'
+		);
+		if (!selectedRadio) {
+			alert("Vui lòng chọn lý do hủy đơn!");
+			return;
+		}
+
+		let finalReason = selectedRadio.value;
+
+		// Nếu chọn "Khác", lấy nội dung từ textarea
+		if (finalReason === "other") {
+			finalReason = document.getElementById("other-reason-text").value.trim();
+			if (!finalReason) {
+				alert("Vui lòng nhập chi tiết lý do!");
+				return;
+			}
+		}
+
+		// Gọi API Hủy
+		await cancelOrder(selectedTransactionId, finalReason);
+	});
+
+// 5. Hàm gọi API (Cập nhật từ hàm cũ của bạn)
+async function cancelOrder(transactionId, reason) {
+	const btn = document.getElementById("btn-confirm-cancel");
+	btn.disabled = true;
+	btn.innerText = "Đang xử lý...";
+
+	try {
+		const response = await transactionApi.updateTransaction(transactionId, {
+			status: "cancelled",
+			cancel_reason: reason, // Gửi kèm lý do
+		});
+
+		if (response) {
+			alert("Đã hủy đơn hàng thành công.");
+			cancelModal.hide();
+			// Reload lại danh sách
+			loadTransactions();
+		} else {
+			const data = await response.json();
+			alert("Lỗi: " + data.message);
+		}
+	} catch (error) {
+		console.error(error);
+		alert("Lỗi kết nối server");
+	} finally {
+		btn.disabled = false;
+		btn.innerText = "Hủy Đơn Hàng";
+	}
+}

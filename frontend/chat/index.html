@@ -17,6 +17,7 @@
 			href="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/css/index.css"
 		/>
 		<link rel="stylesheet" href="../css/chat.css" />
+		<link rel="stylesheet" href="../css/index.css" />
 	</head>
 	<body>
 		<nav class="navbar">
@@ -30,8 +31,8 @@
 				</div>
 				<div class="nav-menu">
 					<a href="../index.html">Trang Chủ</a>
-					<a href="#">Vật Phẩm</a>
-					<a href="../chat/index.html">Liên Lạc</a>
+					<a href="../index.html#filter-section">Sản Phẩm</a>
+					<a href="#">Liên Lạc</a>
 					<a href="../cart-list/index.html" class="position-relative me-3">
 						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
 						<span
@@ -56,6 +57,7 @@
 		</nav>
 
 		<div class="container mt-4 mb-5 chat-wrapper">
+			<div id="breadcrumb-container" class="mb-3"></div>
 			<div
 				id="login-section"
 				class="card mx-auto p-4 shadow login-card"
@@ -175,5 +177,6 @@
 		<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 		<script type="module" src="../scripts/chat.js"></script>
 		<script type="module" src="../scripts/userCommon.js"></script>
+		<script type="module" src="../scripts/breadcrumb.js"></script>
 	</body>
 </html>

@@ -121,6 +121,8 @@ const login = async (req, res) => {
 				username: user.username,
 				email: user.email,
 				avatar: user.avatar,
+				Buyer: user.Buyer,
+				Seller: user.Seller,
 			},
 		});
 	} catch (error) {

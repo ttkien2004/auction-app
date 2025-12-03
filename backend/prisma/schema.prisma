@@ -96,16 +96,17 @@ model Bid {
 }
 
 model Transaction {
-  ID           Int       @id @default(autoincrement())
-  item_type    String?   @db.VarChar(50)
-  status       String?   @default("pending") @db.VarChar(50)
-  final_amount Decimal   @db.Decimal(10, 2)
-  created_at   DateTime? @default(now()) @db.Timestamp(0)
-  buyer_ID     Int
-  product_ID   Int?      @unique
-  Review       Review[]
-  Buyer        Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_1")
-  Product      Product?  @relation(fields: [product_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_2")
+  ID            Int       @id @default(autoincrement())
+  item_type     String?   @db.VarChar(50)
+  status        String?   @default("pending") @db.VarChar(50)
+  final_amount  Decimal   @db.Decimal(10, 2)
+  created_at    DateTime? @default(now()) @db.Timestamp(0)
+  buyer_ID      Int
+  product_ID    Int?      @unique
+  Review        Review[]
+  Buyer         Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_1")
+  Product       Product?  @relation(fields: [product_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_2")
+  cancel_reason String?   @db.Text
 
   shipping_address       String? // Địa chỉ giao hàng cụ thể
   shipping_phone         String? // SĐT người nhận hàng

@@ -118,7 +118,7 @@ const getProducts = async (queryParams) => {
 					},
 					// (Bao gồm cả giá nếu bạn muốn)
 					DirectSale: { select: { buy_now_price: true } },
-					Auction: { select: { start_price: true } },
+					Auction: { select: { start_price: true, auc_end_time: true } },
 				},
 				orderBy: {
 					created_at: "desc",
