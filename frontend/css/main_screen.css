@@ -342,6 +342,8 @@ img {
 	background: #00897b;
 	padding: 5px;
 	border-radius: 15px;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 .strip-card-info {
@@ -485,4 +487,52 @@ img {
 	.page {
 		padding-inline: 12px;
 	}
+}
+
+/* --- PRODUCT STATUS RIBBON --- */
+
+/* Đảm bảo thẻ chứa ảnh có vị trí tương đối để banner bám vào */
+.discover-img,
+.strip-card-img {
+	position: relative !important;
+	overflow: hidden !important; /* Cắt phần thừa của ruy băng */
+}
+
+/* Kiểu dáng ruy băng */
+.status-ribbon {
+	position: absolute;
+	top: 15px;
+	right: -30px; /* Thụt vào để tạo độ chéo */
+	transform: rotate(45deg); /* Xoay 45 độ */
+	width: 120px;
+	text-align: center;
+	font-size: 0.75rem;
+	font-weight: bold;
+	color: white;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+	z-index: 10;
+	padding: 5px 0;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+/* Màu sắc cho các trạng thái */
+.status-sold-out {
+	background-color: #7f8c8d; /* Màu xám cho hết hàng */
+}
+
+.status-active {
+	background-color: #00897b; /* Màu Teal cho hàng mới/đang bán */
+	/* Hoặc dùng linear-gradient để đẹp hơn */
+	background: linear-gradient(45deg, #00897b, #4db6ac);
+}
+
+.status-ending {
+	background-color: #e74c3c; /* Màu đỏ cho sắp kết thúc */
+}
+
+/* Hiệu ứng làm mờ ảnh khi hết hàng (Tùy chọn) */
+.img-sold-out {
+	filter: grayscale(100%);
+	opacity: 0.8;
 }

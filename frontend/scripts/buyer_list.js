@@ -38,8 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			if (transactionStatus === "completed") {
 				statusLabel =
 					'<p class="product-status status-success mb-1">THÀNH CÔNG</p>';
-				actionButtons =
-					'<button class="btn btn-outline-secondary btn-sm">Đánh giá</button>';
+				actionButtons = `<button class="btn btn-outline-secondary btn-sm" onclick="goToWriteReview(${transaction.ID})">Đánh giá</button>`;
 			} else if (
 				transactionStatus === "failed" ||
 				transactionStatus === "cancelled"
@@ -206,3 +205,6 @@ async function cancelOrder(transactionId, reason) {
 		btn.innerText = "Hủy Đơn Hàng";
 	}
 }
+window.goToWriteReview = (transactionId) => {
+	window.location.href = `../write-review/index.html?transactionId=${transactionId}`;
+};

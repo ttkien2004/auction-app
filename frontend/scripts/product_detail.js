@@ -8,9 +8,17 @@ const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get("id");
 const btnChatNow = document.getElementById("btn-chat-now");
 const productSuggestList = document.querySelector(".suggestion-grid");
+let successModal;
+let sellerId;
 
 document.addEventListener("DOMContentLoaded", async () => {
 	if (!productId) return alert("Không tìm thấy sản phẩm");
+
+	const modalElement = document.getElementById("addToCartSuccessModal");
+	if (modalElement) {
+		// Khởi tạo Bootstrap Modal
+		successModal = new bootstrap.Modal(modalElement);
+	}
 
 	await loadProductData();
 	// checkLogin();
@@ -21,6 +29,8 @@ async function loadProductData() {
 	try {
 		const response = await productApi.getProductById(productId);
 		const product = response.data || response;
+		console.log(product);
+		sellerId = product.Seller?.user_ID || 0;
 
 		// 1. Điền thông tin chung
 		document.getElementById("product-name").innerText = product.name;
@@ -89,12 +99,27 @@ document
 	.addEventListener("click", async () => {
 		if (!checkLogin(true)) return;
 
+		// Hiệu ứng loading cho nút (UX)
+		const btn = document.getElementById("btn-add-to-cart");
+		const originalText = btn.innerHTML;
+		btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang thêm...';
+		btn.disabled = true;
+
 		try {
 			// Gọi API Cart (Turn #104)
 			await cartApi.addToCart({ productId: Number(productId) });
-			alert("Đã thêm vào giỏ hàng thành công!");
+			if (successModal) {
+				successModal.show();
+			} else {
+				alert("Đã thêm vào giỏ hàng thành công!"); // Fallback nếu quên copy HTML
+			}
 		} catch (error) {
-			alert(error.message || "Lỗi thêm vào giỏ");
+			console.log(error);
+			// alert(error.message || "Lỗi thêm vào giỏ");
+		} finally {
+			// Trả lại trạng thái nút
+			btn.innerHTML = originalText;
+			btn.disabled = false;
 		}
 	});
 
@@ -192,3 +217,6 @@ async function loadSuggestions() {
 		container.innerHTML = ""; // Ẩn nếu lỗi
 	}
 }
+document.getElementById("btn-watch-reviews").addEventListener("click", () => {
+	window.location.href = `../reviews/index.html?sellerId=${sellerId}`;
+});

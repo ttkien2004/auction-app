@@ -25,7 +25,11 @@
 					class="container-fluid d-flex align-items-center justify-content-between"
 				>
 					<a class="navbar-brand" href="#"
-						><i class="fas fa-circle"></i> LOGO</a
+						><img
+							src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
+							style="width: 50px; height: 50px; display: inline-block"
+						/>
+						CŨ MÀ CHẤT</a
 					>
 					<div class="nav-search">
 						<i class="fas fa-search"></i>
@@ -37,6 +41,16 @@
 							>Sản Phẩm</a
 						>
 						<a href="./chat/index.html" class="nav-link me-3">Liên Lạc</a>
+						<a href="./notifications/index.html" class="position-relative me-3">
+							<i class="fas fa-bell fa-lg text-teal"></i>
+							<span
+								id="count-notification"
+								class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+							>
+								0
+								<span class="visually-hidden">unread messages</span>
+							</span>
+						</a>
 						<a href="./cart-list/index.html" class="position-relative me-3">
 							<i class="fas fa-shopping-cart fa-lg text-teal"></i>
 							<span
@@ -49,7 +63,7 @@
 						<div id="auth-section">
 							<img
 								src="https://i.pravatar.cc/150?img=5"
-								class="rounded-circle"
+								class="rounded-circle user-avatar"
 								width="35"
 								height="35"
 								alt="Avatar"
@@ -71,11 +85,15 @@
 					</p>
 					<div class="hero-actions">
 						<a href="#" class="btn primary" style="align-self: center"
-							>Get Start</a
+							>Bắt đầu ngay</a
 						>
-						<a href="#" class="btn secondary" style="display: flex">
+						<a
+							href="./about/index.html"
+							class="btn secondary"
+							style="display: flex"
+						>
 							<img src="assets/images/main_hand.jpg" alt="" />
-							<span>Learn more</span>
+							<span>Tìm hiểu thêm</span>
 						</a>
 					</div>
 				</div>
@@ -229,7 +247,7 @@
 			<section class="discover">
 				<div id="filter-section" class="filter-wrapper" style="display: none">
 					<div class="filter-row">
-						<h3 class="filter-heading">Search Filter:</h3>
+						<h3 class="filter-heading">Bộ lọc tìm kiếm:</h3>
 						<div class="search-filter-container">
 							<div class="search-filter-box">
 								<!-- <i class="fas fa-search search-icon-left"></i> -->
@@ -238,7 +256,7 @@
 									alt="search-icon"
 									class="search-icon-left"
 								/>
-								<input type="text" id="filter-name" placeholder="Search..." />
+								<input type="text" id="filter-name" placeholder="Tìm kiếm..." />
 							</div>
 							<div>
 								<button id="btn-search-icon">
@@ -249,7 +267,7 @@
 					</div>
 
 					<div class="filter-row">
-						<h3 class="filter-heading">Price Range:</h3>
+						<h3 class="filter-heading">Mức giá:</h3>
 						<div class="price-range-box">
 							<div class="price-input-pill">
 								<input type="number" id="min-price" placeholder="10.000đ" />
@@ -258,49 +276,40 @@
 							<div class="price-input-pill">
 								<input type="number" id="max-price" placeholder="100.000đ" />
 							</div>
-							<button id="btn-apply-price" class="btn-filter-go">GO</button>
+							<button id="btn-apply-price" class="btn-filter-go">
+								Áp dụng
+							</button>
 						</div>
 					</div>
 
 					<div class="filter-row">
-						<h3 class="filter-heading">Sort by:</h3>
+						<h3 class="filter-heading">Sắp xếp theo:</h3>
 						<div class="tags-container" id="sort-tags">
 							<button class="filter-tag active" data-sort="relevance">
-								Relevance
+								Liên quan
 							</button>
-							<button class="filter-tag" data-sort="newest">Latest</button>
-							<button class="filter-tag" data-sort="day_left">Day Left</button>
+							<button class="filter-tag" data-sort="newest">Mới nhất</button>
 						</div>
 					</div>
 
 					<div class="filter-row">
-						<h3 class="filter-heading">Computer Category:</h3>
+						<h3 class="filter-heading">Danh mục đồ điện tử:</h3>
 						<div class="tags-container category-group">
-							<button class="filter-tag" data-cat="1">Laptop</button>
-							<button class="filter-tag" data-cat="2">Desktop</button>
-							<button class="filter-tag" data-cat="3">
-								Computer Components
-							</button>
-							<button class="filter-tag" data-cat="4">
-								Computer Accessories
-							</button>
-							<button class="filter-tag" data-cat="5">Storage</button>
-							<button class="filter-tag" data-cat="6">Software</button>
+							<button class="filter-tag" data-cat="1">Công nghệ</button>
+							<button class="filter-tag" data-cat="4">Bàn phím</button>
+							<button class="filter-tag" data-cat="5">Chuột</button>
 						</div>
 					</div>
 
 					<div class="filter-row">
-						<h3 class="filter-heading">Clothing Category:</h3>
+						<h3 class="filter-heading">Danh mục thời trang:</h3>
 						<div class="tags-container category-group">
-							<button class="filter-tag" data-cat="7">Tops</button>
-							<button class="filter-tag" data-cat="8">Bottoms</button>
-							<button class="filter-tag" data-cat="9">Dresses/Skirts</button>
-							<button class="filter-tag" data-cat="10">
-								Underwear & Sleepwear
-							</button>
-							<button class="filter-tag" data-cat="11">Sportswear</button>
-							<button class="filter-tag" data-cat="12">
-								Fashion Accessories
+							<button class="filter-tag" data-cat="2">Thời trang</button>
+							<button class="filter-tag" data-cat="6">Áo khoác</button>
+							<button class="filter-tag" data-cat="8">Túi xách</button>
+							<button class="filter-tag" data-cat="7">Giày thể thao</button>
+							<button class="filter-tag" data-cat="9">
+								Phụ kiện thời trang
 							</button>
 						</div>
 					</div>
@@ -333,5 +342,6 @@
 		<script type="module" src="scripts/home.js"></script>
 		<script type="module" src="scripts/userCommon.js"></script>
 		<script type="module" src="scripts/cartCommon.js"></script>
+		<script type="module" src="scripts/notifCommon.js"></script>
 	</body>
 </html>

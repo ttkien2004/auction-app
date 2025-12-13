@@ -6,9 +6,9 @@ import {
 } from "./apiHelpers.js";
 
 const reviewApi = {
-	getAllReviews: async () => {
+	getAllReviews: async (transactionId) => {
 		try {
-			const response = await fetch(`${BASE_URL}/reviews`);
+			const response = await fetch(`${BASE_URL}/reviews/${transactionId}`);
 			return handleResponse(response);
 		} catch (err) {
 			handleError(err);
@@ -24,9 +24,9 @@ const reviewApi = {
 		}
 	},
 
-	createReview: async (id, reviewData) => {
+	createReview: async (reviewData) => {
 		try {
-			const response = await fetch(`${BASE_URL}/reviews/${id}`, {
+			const response = await fetch(`${BASE_URL}/reviews`, {
 				method: "POST",
 				headers: getFetchHeaders({ "Content-Type": "application/json" }),
 				body: JSON.stringify(reviewData),
@@ -54,6 +54,18 @@ const reviewApi = {
 		try {
 			const response = await fetch(`${BASE_URL}/reviews/${id}`, {
 				method: "DELETE",
+				headers: getFetchHeaders(),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
+
+	getReviewsBySeller: async (sellerId) => {
+		try {
+			const response = await fetch(`${BASE_URL}/reviews/seller/${sellerId}`, {
+				method: "GET",
 				headers: getFetchHeaders(),
 			});
 			return handleResponse(response);

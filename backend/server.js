@@ -22,11 +22,11 @@ const reviewRoutes = require("./routes/ReviewRoutes");
 const sellerRoutes = require("./routes/SellerRoutes");
 const transRoutes = require("./routes/TransactionRoutes");
 const userRoutes = require("./routes/UserRoutes");
-const { integrateMoMoService } = require("./momo/main");
 const momoRoutes = require("./routes/MoMoRoutes");
 const shippingRoutes = require("./routes/ShippingRoutes");
 const chatRoutes = require("./routes/ChatRoutes");
 const cartRoutes = require("./routes/CartRoutes");
+const notificationRoutes = require("./routes/NotificationRoutes");
 //Socket
 // const socket = require("./socket/socket");
 const httpServer = http.createServer(app);
@@ -72,12 +72,8 @@ app.use("/api", sellerRoutes);
 app.use("/api", transRoutes);
 app.use("/api", userRoutes);
 app.use("/api", cartRoutes);
-// app.post("/api/momo/create", (req, res) => {
-// 	integrateMoMoService(req, res);
-// });
-// app.get("/api/momo/result", (req, res) => {
-// 	console.log("Result: ", req.query);
-// });
+app.use("/api", notificationRoutes);
+
 app.use("/api/momo", momoRoutes);
 app.use("/api/shipping", shippingRoutes);
 app.use("/api/chat", chatRoutes);

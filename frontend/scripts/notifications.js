@@ -1,3 +1,7 @@
+import { BASE_URL } from "../services/apiHelpers.js";
+import notifApi from "../services/notificationApi.js";
+const socket = io("http://localhost:3000");
+
 // Dữ liệu giả lập (Sau này sẽ gọi API)
 const mockNotifications = [
 	{
@@ -54,10 +58,37 @@ const mockNotifications = [
 const listContainer = document.getElementById("notification-list");
 const filters = document.querySelectorAll(".filter-item");
 const btnMarkAll = document.getElementById("btn-mark-all-read");
+let notifications = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-	renderNotifications(mockNotifications);
+document.addEventListener("DOMContentLoaded", async () => {
+	// 1. Join Room Socket của User
+	const user = JSON.parse(localStorage.getItem("user"));
+	if (user) {
+		socket.emit("join_user_room", user.id); // Cần xử lý bên backend socket handler
+	}
+
+	// 2. Load thông báo
+	await loadNotifications();
 });
+
+// Lắng nghe thông báo mới
+socket.on("new_notification", (notif) => {
+	console.log("Có thông báo mới:", notif);
+	// Hiển thị Popup (Toast) hoặc reload list
+	alert(`Thông báo mới: ${notif.title}`);
+	loadNotifications(); // Reload lại list
+});
+
+async function loadNotifications() {
+	try {
+		const res = await notifApi.getNotifications();
+		notifications = res;
+
+		renderNotifications(mockNotifications);
+	} catch (error) {
+		console.error(error);
+	}
+}
 
 // Xử lý bộ lọc
 filters.forEach((btn) => {

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Chính sách & Điều khoản - Green Shopping</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="../css/policy.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+	</head>
+	<body>
+		<nav class="navbar">
+			<div
+				class="container-fluid d-flex align-items-center justify-content-between"
+			>
+				<a class="navbar-brand" href="../index.html"
+					><img
+						src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
+						style="width: 50px; height: 50px; display: inline-block"
+					/>
+					CŨ MÀ CHẤT</a
+				>
+				<div class="nav-menu">
+					<a href="../index.html">Trang Chủ</a>
+					<a href="../index.html#filter-section">Vật Phẩm</a>
+					<a href="../chat/index.html">Liên Lạc</a>
+					<a href="./notifications/index.html" class="position-relative me-3">
+						<i class="fas fa-bell fa-lg text-teal"></i>
+						<span
+							id="count-notification"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							0
+							<span class="visually-hidden">unread messages</span>
+						</span>
+					</a>
+					<div id="auth-section">
+						<a href="../auth/index.html" class="btn-login">Đăng Nhập</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<header class="policy-header text-center">
+			<div class="container">
+				<h1 class="fw-bold text-white mb-3">Trung tâm Chính sách</h1>
+				<p class="text-white-50">Minh bạch - An toàn - Trách nhiệm</p>
+			</div>
+		</header>
+
+		<div class="container mt-5 mb-5">
+			<div class="row g-5">
+				<div class="col-md-3">
+					<div class="policy-sidebar">
+						<h5 class="sidebar-title">Mục lục</h5>
+						<div class="nav flex-column nav-pills" id="policy-tabs">
+							<a href="#terms" class="nav-link active"
+								><i class="fas fa-file-contract me-2"></i> Điều khoản sử dụng</a
+							>
+							<a href="#auction" class="nav-link"
+								><i class="fas fa-gavel me-2"></i> Quy chế Đấu giá</a
+							>
+							<a href="#privacy" class="nav-link"
+								><i class="fas fa-user-shield me-2"></i> Bảo mật thông tin</a
+							>
+							<a href="#payment" class="nav-link"
+								><i class="fas fa-credit-card me-2"></i> Thanh toán & Hoàn
+								tiền</a
+							>
+							<a href="#shipping" class="nav-link"
+								><i class="fas fa-truck me-2"></i> Vận chuyển</a
+							>
+							<a href="#prohibited" class="nav-link text-danger"
+								><i class="fas fa-ban me-2"></i> Hàng hóa cấm</a
+							>
+						</div>
+
+						<div class="support-box mt-4">
+							<h6>Cần hỗ trợ thêm?</h6>
+							<p class="small text-muted">
+								Liên hệ với đội ngũ pháp lý của chúng tôi.
+							</p>
+							<button class="btn btn-sm btn-outline-teal rounded-pill w-100">
+								Gửi yêu cầu
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-9">
+					<div class="policy-content">
+						<section id="terms" class="policy-section">
+							<h3 class="section-heading">1. Điều khoản sử dụng chung</h3>
+							<p class="last-updated">Cập nhật lần cuối: 20/10/2025</p>
+							<div class="text-block">
+								<p>
+									Chào mừng bạn đến với Green Shopping. Khi truy cập và sử dụng
+									nền tảng, bạn đồng ý tuân thủ các quy định dưới đây:
+								</p>
+								<ul>
+									<li>
+										Người dùng phải từ đủ 18 tuổi trở lên để tham gia giao dịch.
+									</li>
+									<li>
+										Không sử dụng nền tảng cho các mục đích lừa đảo, rửa tiền
+										hoặc vi phạm pháp luật Việt Nam.
+									</li>
+									<li>
+										Chúng tôi có quyền khóa tài khoản vĩnh viễn nếu phát hiện
+										hành vi gian lận.
+									</li>
+								</ul>
+							</div>
+						</section>
+
+						<hr class="divider" />
+
+						<section id="auction" class="policy-section">
+							<h3 class="section-heading">2. Quy chế Đấu giá trực tuyến</h3>
+							<div class="text-block">
+								<p>Để đảm bảo môi trường đấu giá công bằng:</p>
+								<div class="alert alert-info border-0 rounded-3">
+									<i class="fas fa-info-circle me-2"></i>
+									<strong>Nguyên tắc quan trọng:</strong> Một khi đã đặt giá
+									(Bid), bạn không thể rút lại. Nếu thắng đấu giá mà không thanh
+									toán, tài khoản sẽ bị khóa và bị phạt uy tín.
+								</div>
+								<ul>
+									<li>
+										<strong>Bước giá:</strong> Số tiền đặt lần sau phải cao hơn
+										giá hiện tại tối thiểu bằng một bước giá.
+									</li>
+									<li>
+										<strong>Gia hạn tự động:</strong> Nếu có người đặt giá ở 5
+										phút cuối, phiên đấu giá sẽ tự động gia hạn thêm 5 phút để
+										tránh "úp sọt" (sniping).
+									</li>
+								</ul>
+							</div>
+						</section>
+
+						<hr class="divider" />
+
+						<section id="privacy" class="policy-section">
+							<h3 class="section-heading">3. Chính sách Bảo mật</h3>
+							<div class="text-block">
+								<p>
+									Chúng tôi cam kết bảo vệ dữ liệu cá nhân của bạn theo tiêu
+									chuẩn quốc tế:
+								</p>
+								<p>
+									Dữ liệu thanh toán (thẻ, ví điện tử) được mã hóa và xử lý bởi
+									đối tác thứ ba (MoMo, ZaloPay). Green Shopping
+									<strong>không lưu trữ</strong> thông tin thẻ của bạn.
+								</p>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="site-footer">
+			<div class="container py-4 border-top">
+				<div class="row">
+					<div class="col-md-6 text-start">
+						<p class="text-teal fw-bold m-0">&copy; 2025 Green Shopping</p>
+					</div>
+					<div class="col-md-6 text-end">
+						<a href="#" class="text-muted text-decoration-none small me-3"
+							>Về chúng tôi</a
+						>
+						<a href="#" class="text-muted text-decoration-none small"
+							>Liên hệ</a
+						>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+			// Script nhỏ để Active menu khi cuộn trang
+			const sections = document.querySelectorAll("section");
+			const navLi = document.querySelectorAll("#policy-tabs a");
+			window.onscroll = () => {
+				var current = "";
+				sections.forEach((section) => {
+					const sectionTop = section.offsetTop;
+					if (scrollY >= sectionTop - 150) {
+						current = section.getAttribute("id");
+					}
+				});
+				navLi.forEach((a) => {
+					a.classList.remove("active");
+					if (a.getAttribute("href").includes(current)) {
+						a.classList.add("active");
+					}
+				});
+			};
+		</script>
+		<script type="module" src="../scripts/notifCommon.js"></script>
+	</body>
+</html>

@@ -4,7 +4,7 @@ const { authenticateToken } = require("../middleware/authMiddleware");
 
 const routes = express.Router();
 
-routes.get("/reviews", reviewController.getAllReviewsController);
+routes.get("/reviews/:transactionId", reviewController.getAllReviewsController);
 // routes.get("/reviews/{id}", reviewController.getReviewByIdController);
 
 routes.post(
@@ -12,6 +12,13 @@ routes.post(
 	authenticateToken,
 	reviewController.createReviewController
 );
+
+// GET: Lấy đánh giá của một Seller (Public)
+routes.get(
+	"/reviews/seller/:sellerId",
+	reviewController.getReviewsBySellerController
+);
+
 routes.put(
 	"/reviews",
 	authenticateToken,

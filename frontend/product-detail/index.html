@@ -27,15 +27,31 @@
 			<div
 				class="container-fluid d-flex align-items-center justify-content-between"
 			>
-				<a class="navbar-brand" href="#"><i class="fas fa-circle"></i> LOGO</a>
+				<a class="navbar-brand" href="#"
+					><img
+						src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
+						style="width: 100px; height: 100px"
+					/>
+					CŨ MÀ CHẤT</a
+				>
 				<div class="nav-search">
 					<i class="fas fa-search"></i>
 					<input type="text" placeholder="Tìm kiếm" />
 				</div>
 				<div class="nav-menu">
 					<a href="../index.html">Trang Chủ</a>
-					<a href="#">Sản Phẩm</a>
-					<a href="#">Liên Lạc</a>
+					<a href="../index.html#filter-section">Sản Phẩm</a>
+					<a href="../chat/index.html">Liên Lạc</a>
+					<a href="./notifications/index.html" class="position-relative me-3">
+						<i class="fas fa-bell fa-lg text-teal"></i>
+						<span
+							id="count-notification"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							0
+							<span class="visually-hidden">unread messages</span>
+						</span>
+					</a>
 					<a href="../cart-list/index.html" class="position-relative me-3">
 						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
 						<span
@@ -156,8 +172,9 @@
 						<div class="mt-3 d-flex gap-2">
 							<button
 								class="btn btn-light btn-sm flex-grow-1 rounded-pill fw-bold text-teal"
+								id="btn-watch-reviews"
 							>
-								<i class="fas fa-store me-1"></i> Xem Shop
+								<i class="fas fa-store me-1"></i> Xem Đánh giá
 							</button>
 							<button
 								id="btn-chat-now"
@@ -220,6 +237,47 @@
 				</div>
 			</div>
 		</div>
+		<div
+			class="modal fade"
+			id="addToCartSuccessModal"
+			tabindex="-1"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content border-0 rounded-4 shadow">
+					<div class="modal-body text-center p-4">
+						<div class="mb-3">
+							<i
+								class="fas fa-check-circle text-success"
+								style="font-size: 3.5rem"
+							></i>
+						</div>
+
+						<h4 class="fw-bold mb-2 text-teal">Đã thêm vào giỏ!</h4>
+						<p class="text-muted mb-4">
+							Sản phẩm đã được thêm vào giỏ hàng của bạn.
+						</p>
+
+						<div class="d-flex justify-content-center gap-2">
+							<button
+								type="button"
+								class="btn btn-outline-secondary rounded-pill px-4 fw-bold"
+								data-bs-dismiss="modal"
+							>
+								Ở lại trang này
+							</button>
+							<a
+								href="../cart-list/index.html"
+								class="btn btn-success rounded-pill px-4 fw-bold text-white"
+								style="background-color: #00897b; border: none"
+							>
+								Xem giỏ hàng <i class="fas fa-arrow-right ms-1"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<footer class="site-footer">
 			Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá
@@ -230,5 +288,6 @@
 		<script type="module" src="../scripts/userCommon.js"></script>
 		<script type="module" src="../scripts/cartCommon.js"></script>
 		<script type="module" src="../scripts/breadcrumb.js"></script>
+		<script type="module" src="../scripts/notifCommon.js"></script>
 	</body>
 </html>

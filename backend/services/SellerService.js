@@ -13,6 +13,21 @@ const getProductsBySeller = async (sellerId) => {
 		where: {
 			seller_ID: sellerId,
 		},
+		include: {
+			DirectSale: {
+				select: {
+					buy_now_price: true,
+				},
+			},
+			Auction: {
+				select: {
+					start_price: true,
+					auc_start_time: true,
+					auc_end_time: true,
+					min_bid_incr: true,
+				},
+			},
+		},
 	});
 };
 

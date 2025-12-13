@@ -1,3 +1,10 @@
+import { R2_PUBLIC_URL } from "../services/apiHelpers.js";
+import reviewApi from "../services/reviewApi.js";
+import transactionApi from "../services/transactionApi.js";
+
+const urlParams = new URLSearchParams(window.location.search);
+const transactionId = urlParams.get("transactionId");
+
 // 1. XỬ LÝ SAO LỚN (CHẤT LƯỢNG SẢN PHẨM)
 const stars = document.querySelectorAll(".star-rating .star");
 const ratingText = document.getElementById("rating-text");
@@ -10,6 +17,79 @@ const textMap = {
 };
 
 let currentRating = 5; // Mặc định
+let selectedRating = 5;
+
+document.addEventListener("DOMContentLoaded", async () => {
+	if (!transactionId) {
+		alert("Không tìm thấy đơn hàng cần đánh giá");
+		return;
+	}
+	const trans = await transactionApi.getTransactionById(transactionId);
+	renderProductInfo(trans);
+	setupStarRating();
+});
+
+function setupStarRating() {
+	const stars = document.querySelectorAll(".star-rating .star");
+	const textEl = document.getElementById("rating-text");
+	const texts = [
+		"Tệ",
+		"Không hài lòng",
+		"Bình thường",
+		"Hài lòng",
+		"Tuyệt vời",
+	];
+
+	stars.forEach((star, index) => {
+		star.addEventListener("click", () => {
+			selectedRating = index + 1;
+			// Update UI
+			stars.forEach((s, i) => {
+				if (i < selectedRating) s.classList.add("active");
+				else s.classList.remove("active");
+			});
+			textEl.innerText = texts[index];
+		});
+	});
+}
+
+// Xử lý nút Gửi
+const btnSubmit = document.getElementById("btn-submit");
+if (btnSubmit) {
+	btnSubmit.addEventListener("click", async () => {
+		const comment = document.querySelector(".custom-textarea").value;
+
+		try {
+			btnSubmit.disabled = true;
+			btnSubmit.innerText = "Đang gửi...";
+
+			await reviewApi.createReview({
+				transactionId: parseInt(transactionId),
+				rating: selectedRating,
+				comment: comment,
+			});
+
+			alert("Cảm ơn bạn đã đánh giá!");
+			window.location.href = "../buy-list/index.html"; // Quay về danh sách mua
+		} catch (error) {
+			console.error(error);
+			alert("Lỗi: " + error.message);
+			btnSubmit.disabled = false;
+			btnSubmit.innerText = "Gửi Đánh Giá";
+		}
+	});
+}
+
+function renderProductInfo(trans) {
+	const productNameHtml = document.getElementById("product-name");
+	const productImgHtml = document.getElementById("product-img");
+
+	const productName = trans.Product?.name || "ÁO Tliet";
+	const productImg =
+		R2_PUBLIC_URL + trans.Product?.image || "https://placehold.co/80";
+	productNameHtml.innerHTML = productName;
+	productImgHtml.src = productImg;
+}
 
 // Set trạng thái ban đầu
 highlightStars(5);

@@ -1,218 +1,303 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nền tảng mua/bán đồ cũ</title>
-  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="../css/index.css"/>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Nền tảng mua/bán đồ cũ</title>
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../css/index.css" />
 
-  <style>
-    :root{
-      --teal:#02857D;
-      --shell-pad:18px;
-      --radius:26px;
-    }
-    html,body{height:100%;}
-    body{
-      background:#FAF6F5;
-      margin:0;
-    }
-    /* Khung ngoài bo tròn xanh */
-    .auth-shell{
-      min-height:100vh;
-      padding:20px;
-      box-sizing:border-box;
-    }
-    .auth-frame{
-      height:calc(100vh - 40px);
-      border:1px solid var(--teal);
-      border-radius:var(--radius);
-      padding:0;
-      display:grid;
-      grid-template-columns: 35% 65%;
-      gap:2px;
-      background:#02857D;
-    }
-    /* Panel trái (ảnh) */
-    .hero{
-      border:6px solid var(--teal);
-      border-radius:var(--radius) ;
-      overflow:hidden;
-      display:flex;
-    }
-    .hero > img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-    /* Panel phải (form) */
-    .auth-panel{
-      border:6px solid var(--teal);
-      border-radius:var(--radius) ;
-      background:#FAF6F5;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: clamp(16px, 3vw, 32px);
-      position:relative;
-    }
+		<style>
+			:root {
+				--teal: #02857d;
+				--shell-pad: 18px;
+				--radius: 26px;
+			}
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				background: #faf6f5;
+				margin: 0;
+			}
+			/* Khung ngoài bo tròn xanh */
+			.auth-shell {
+				min-height: 100vh;
+				padding: 20px;
+				box-sizing: border-box;
+			}
+			.auth-frame {
+				height: calc(100vh - 40px);
+				border: 1px solid var(--teal);
+				border-radius: var(--radius);
+				padding: 0;
+				display: grid;
+				grid-template-columns: 35% 65%;
+				gap: 2px;
+				background: #02857d;
+			}
+			/* Panel trái (ảnh) */
+			.hero {
+				border: 6px solid var(--teal);
+				border-radius: var(--radius);
+				overflow: hidden;
+				display: flex;
+			}
+			.hero > img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				display: block;
+			}
+			/* Panel phải (form) */
+			.auth-panel {
+				border: 6px solid var(--teal);
+				border-radius: var(--radius);
+				background: #faf6f5;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: clamp(16px, 3vw, 32px);
+				position: relative;
+			}
 
-    .auth-card{
-      width:min(520px, 100%);
-    }
-    .auth-title{
-      text-align:center;
-      color:var(--teal);
-      font-weight:700;
-      margin-bottom:26px;
-    }
-    label.form-label{
-      font-weight:700;
-      letter-spacing:.6px;
-      color:#02857D;
-    }
-    .form-control{
-      border-radius:999px;
-      padding:.65rem 1rem;
-      background:#FFFFFF;
-      border:1px solid #FFFFFF;
-      box-shadow:none;
-    }
-    .btn-pill{
-      border-radius:999px;
-      padding:.5rem 1.25rem;
-      font-weight:700;
-    }
-    /* Ẩn thanh tab gốc – vẫn giữ ID để không phá logic JS cũ */
-    #authTabs{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
-    /* Khối form dùng Bootstrap tab-pane để tái sử dụng JS cũ */
-    .tab-pane{
-      background:transparent;
-      border:0 !important;
-      padding:0 !important;
-    }
-    /* Message container (giữ nguyên id) */
-    #message-container{ margin-bottom:10px; }
+			.auth-card {
+				width: min(520px, 100%);
+			}
+			.auth-title {
+				text-align: center;
+				color: var(--teal);
+				font-weight: 700;
+				margin-bottom: 26px;
+			}
+			label.form-label {
+				font-weight: 700;
+				letter-spacing: 0.6px;
+				color: #02857d;
+			}
+			.form-control {
+				border-radius: 999px;
+				padding: 0.65rem 1rem;
+				background: #ffffff;
+				border: 1px solid #ffffff;
+				box-shadow: none;
+			}
+			.btn-pill {
+				border-radius: 999px;
+				padding: 0.5rem 1.25rem;
+				font-weight: 700;
+			}
+			/* Ẩn thanh tab gốc – vẫn giữ ID để không phá logic JS cũ */
+			#authTabs {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				overflow: hidden;
+				clip: rect(0 0 0 0);
+			}
+			/* Khối form dùng Bootstrap tab-pane để tái sử dụng JS cũ */
+			.tab-pane {
+				background: transparent;
+				border: 0 !important;
+				padding: 0 !important;
+			}
+			/* Message container (giữ nguyên id) */
+			#message-container {
+				margin-bottom: 10px;
+			}
 
-    /* Responsive */
-    @media (max-width: 992px){
-      .auth-frame{
-        grid-template-columns: 1fr;
-        height:auto;
-      }
-      .hero{ min-height:60px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="auth-shell">
-    <div class="auth-frame">
+			/* Responsive */
+			@media (max-width: 992px) {
+				.auth-frame {
+					grid-template-columns: 1fr;
+					height: auto;
+				}
+				.hero {
+					min-height: 60px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="auth-shell">
+			<div class="auth-frame">
+				<!-- TRÁI: Ảnh -->
+				<div class="hero">
+					<!-- Đổi đường dẫn ảnh cho phù hợp dự án của bạn -->
+					<img src="../assets/images/image_login.png" alt="auction hero" />
+				</div>
 
-      <!-- TRÁI: Ảnh -->
-      <div class="hero">
-        <!-- Đổi đường dẫn ảnh cho phù hợp dự án của bạn -->
-        <img src="../assets/images/image_login.png" alt="auction hero"/>
-      </div>
+				<!-- PHẢI: Form auth -->
+				<div class="auth-panel">
+					<div class="auth-card">
+						<div id="message-container"></div>
 
-      <!-- PHẢI: Form auth -->
-      <div class="auth-panel">
-        <div class="auth-card">
+						<!-- Tabs (ẩn nhưng giữ nguyên ID/structure để JS cũ hoạt động) -->
+						<ul class="nav nav-tabs" id="authTabs" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button
+									class="nav-link active"
+									id="login-tab"
+									data-bs-toggle="tab"
+									data-bs-target="#login-pane"
+									type="button"
+									role="tab"
+								>
+									Đăng Nhập
+								</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button
+									class="nav-link"
+									id="register-tab"
+									data-bs-toggle="tab"
+									data-bs-target="#register-pane"
+									type="button"
+									role="tab"
+								>
+									Đăng Ký
+								</button>
+							</li>
+						</ul>
 
-          <div id="message-container"></div>
+						<div class="tab-content" id="authTabsContent">
+							<!-- LOGIN -->
+							<div
+								class="tab-pane fade show active"
+								id="login-pane"
+								role="tabpanel"
+							>
+								<form id="login-form">
+									<h3 class="auth-title">Đăng nhập vào tài khoản của bạn</h3>
 
-          <!-- Tabs (ẩn nhưng giữ nguyên ID/structure để JS cũ hoạt động) -->
-          <ul class="nav nav-tabs" id="authTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="login-tab"
-                      data-bs-toggle="tab" data-bs-target="#login-pane"
-                      type="button" role="tab">Đăng Nhập</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="register-tab"
-                      data-bs-toggle="tab" data-bs-target="#register-pane"
-                      type="button" role="tab">Đăng Ký</button>
-            </li>
-          </ul>
+									<div class="mb-3">
+										<label for="login-email" class="form-label"
+											>User&nbsp;Name:</label
+										>
+										<input
+											type="email"
+											class="form-control"
+											id="login-email"
+											placeholder="thinh.huynh@gmail.com..."
+											required
+										/>
+									</div>
 
-          <div class="tab-content" id="authTabsContent">
-            <!-- LOGIN -->
-            <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
-              <form id="login-form">
-                <h3 class="auth-title">Log In to Your Account</h3>
+									<div class="mb-4">
+										<label for="login-password" class="form-label"
+											>Password:</label
+										>
+										<input
+											type="password"
+											class="form-control"
+											id="login-password"
+											placeholder="123456789..."
+											required
+										/>
+									</div>
 
-                <div class="mb-3">
-                  <label for="login-email" class="form-label">User&nbsp;Name:</label>
-                  <input type="email" class="form-control" id="login-email"
-                         placeholder="thinh.huynh@gmail.com..." required/>
-                </div>
+									<div class="d-flex gap-2">
+										<button type="submit" class="btn btn-primary btn-pill">
+											Đăng nhập
+										</button>
+										<button
+											type="button"
+											id="btn-goto-register"
+											class="btn btn-success btn-pill"
+										>
+											Đăng ký
+										</button>
+									</div>
+								</form>
+							</div>
 
-                <div class="mb-4">
-                  <label for="login-password" class="form-label">Password:</label>
-                  <input type="password" class="form-control" id="login-password"
-                         placeholder="123456789..." required/>
-                </div>
+							<!-- REGISTER -->
+							<div class="tab-pane fade" id="register-pane" role="tabpanel">
+								<form id="register-form">
+									<h3 class="auth-title">Tạo tài khoản</h3>
 
-                <div class="d-flex gap-2">
-                  <button type="submit" class="btn btn-primary btn-pill">Login</button>
-                  <button type="button" id="btn-goto-register"
-                          class="btn btn-success btn-pill">Register</button>
-                </div>
-              </form>
-            </div>
+									<div class="mb-3">
+										<label for="reg-username" class="form-label"
+											>Tên tài khoản</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="reg-username"
+											placeholder="thinh.huynh"
+											required
+										/>
+									</div>
 
-            <!-- REGISTER -->
-            <div class="tab-pane fade" id="register-pane" role="tabpanel">
-              <form id="register-form">
-                <h3 class="auth-title">Create Your Account</h3>
+									<div class="mb-3">
+										<label for="reg-fullname" class="form-label"
+											>Họ và tên</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="reg-fullname"
+											placeholder="Huynh Quang A"
+											required
+										/>
+									</div>
 
-                <div class="mb-3">
-                  <label for="reg-username" class="form-label">User Name</label>
-                  <input type="text" class="form-control" id="reg-username" placeholder="thinh.huynh" required/>
-                </div>
+									<div class="mb-3">
+										<label for="reg-email" class="form-label">Email</label>
+										<input
+											type="email"
+											class="form-control"
+											id="reg-email"
+											placeholder="thinh.huynh@gmail.com"
+											required
+										/>
+									</div>
 
-                <div class="mb-3">
-                  <label for="reg-fullname" class="form-label">Full Name</label>
-                  <input type="text" class="form-control" id="reg-fullname" placeholder="Huynh Quang A"  required/>
-                </div>
+									<div class="mb-4">
+										<label for="reg-password" class="form-label"
+											>Mật khẩu</label
+										>
+										<input
+											type="password"
+											class="form-control"
+											id="reg-password"
+											placeholder="123456789..."
+											required
+										/>
+									</div>
 
-                <div class="mb-3">
-                  <label for="reg-email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="reg-email" placeholder="thinh.huynh@gmail.com" required/>
-                </div>
+									<div class="d-flex gap-2">
+										<button type="submit" class="btn btn-success btn-pill">
+											Đăng ký
+										</button>
+										<button
+											type="button"
+											id="btn-goto-login"
+											class="btn btn-outline-secondary btn-pill"
+										>
+											Trở về đăng nhập
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="mb-4">
-                  <label for="reg-password" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="reg-password" placeholder="123456789..." required/>
-                </div>
+		<script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script type="module">
+			// Nút chuyển form – vẫn tận dụng Bootstrap Tab + giữ nguyên ID
+			const gotoReg = document.getElementById("btn-goto-register");
+			const gotoLogin = document.getElementById("btn-goto-login");
+			const loginTabBtn = document.getElementById("login-tab");
+			const registerTabBtn = document.getElementById("register-tab");
 
-                <div class="d-flex gap-2">
-                  <button type="submit" class="btn btn-success btn-pill">Register</button>
-                  <button type="button" id="btn-goto-login"
-                          class="btn btn-outline-secondary btn-pill">Return Login</button>
-                </div>
-              </form>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script type="module">
-    // Nút chuyển form – vẫn tận dụng Bootstrap Tab + giữ nguyên ID
-    const gotoReg = document.getElementById('btn-goto-register');
-    const gotoLogin = document.getElementById('btn-goto-login');
-    const loginTabBtn = document.getElementById('login-tab');
-    const registerTabBtn = document.getElementById('register-tab');
-
-    gotoReg?.addEventListener('click', () => registerTabBtn?.click());
-    gotoLogin?.addEventListener('click', () => loginTabBtn?.click());
-  </script>
-  <script type="module" src="../scripts/auth.js"></script>
-</body>
+			gotoReg?.addEventListener("click", () => registerTabBtn?.click());
+			gotoLogin?.addEventListener("click", () => loginTabBtn?.click());
+		</script>
+		<script type="module" src="../scripts/auth.js"></script>
+	</body>
 </html>

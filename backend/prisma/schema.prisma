@@ -27,6 +27,7 @@ model User {
   chats_as_buyer  Conversation[] @relation("BuyerChats")
   chats_as_seller Conversation[] @relation("SellerChats")
   messages_sent   Message[]
+  Notification    Notification[]
 }
 
 model Category {
@@ -210,4 +211,19 @@ model Message {
 
   Conversation Conversation @relation(fields: [conversation_ID], references: [ID])
   Sender       User         @relation(fields: [sender_ID], references: [ID])
+}
+
+model Notification {
+  ID         Int      @id @default(autoincrement())
+  type       String // 'auction', 'order', 'system', 'chat'
+  title      String   @db.VarChar(255)
+  message    String   @db.Text
+  is_read    Boolean  @default(false)
+  created_at DateTime @default(now())
+  link       String? // Đường dẫn khi click vào (VD: /html/auction/detail.html?id=1)
+
+  user_ID Int // Người nhận thông báo
+  User    User @relation(fields: [user_ID], references: [ID], onDelete: Cascade)
+
+  @@index([user_ID])
 }

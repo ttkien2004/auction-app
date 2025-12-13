@@ -38,6 +38,8 @@ h1 {
 	color: #00897b !important;
 	font-weight: 900;
 	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
 }
 .nav-search {
 	background-color: var(--teal-color);

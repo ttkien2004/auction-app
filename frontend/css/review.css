@@ -85,6 +85,11 @@ body {
 	align-items: center;
 	gap: 15px;
 }
+.product-snippet img {
+	width: 200px;
+	height: 200px;
+	object-fit: contain;
+}
 
 .btn-outline-teal {
 	border: 1px solid var(--primary-teal);
@@ -234,4 +239,23 @@ body {
 	color: white;
 	border: none;
 	margin: 0 5px;
+}
+
+/* Hiệu ứng khi hover */
+.review-card {
+	cursor: pointer;
+	transition: all 0.2s ease;
+	border: 2px solid transparent; /* Giữ chỗ cho viền */
+}
+
+.review-card:hover {
+	background-color: #f9f9f9;
+}
+
+/* TRẠNG THÁI ĐANG CHỌN */
+.review-card.active {
+	border-color: var(--primary-teal); /* Viền xanh */
+	background-color: #e0f2f1; /* Nền xanh nhạt */
+	transform: translateX(10px); /* Dịch sang phải 1 chút */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

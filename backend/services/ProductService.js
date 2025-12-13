@@ -19,7 +19,7 @@ const getProducts = async (queryParams) => {
 			const value = filters[key];
 
 			// Bỏ qua nếu value rỗng (ví dụ: ?name=)
-			if (!value) {
+			if (value === "undefined") {
 				continue;
 			}
 
@@ -35,7 +35,24 @@ const getProducts = async (queryParams) => {
 
 				case "categoryId":
 					// Luật: 'categoryId' phải map sang 'category_ID' và là số
-					where.category_ID = parseInt(value);
+					const catId = parseInt(value);
+
+					// Danh sách các ID được coi là Parent (Cha)
+					const parentIds = [1, 2];
+
+					if (parentIds.includes(catId)) {
+						// LOGIC MỚI: Nếu chọn 1 hoặc 2 -> Tìm tất cả sản phẩm thuộc danh mục con của nó
+						// Sử dụng relation filter của Prisma (Lọc qua bảng Category)
+						where.Category = {
+							OR: [
+								{ parent_category_ID: catId }, // Lấy sản phẩm mà Category của nó có parent_ID = 1 hoặc 2
+								{ ID: catId }, // (Optional) Lấy cả sản phẩm nằm trực tiếp trong danh mục cha
+							],
+						};
+					} else {
+						// LOGIC CŨ: Giữ nguyên cho các ID khác
+						where.category_ID = catId;
+					}
 					break;
 
 				case "status":
@@ -57,12 +74,12 @@ const getProducts = async (queryParams) => {
 						priceConditions.push({
 							OR: [
 								{
-									directSale: {
+									DirectSale: {
 										buy_now_price: { gte: minPrice },
 									},
 								},
 								{
-									auction: {
+									Auction: {
 										start_price: { gte: minPrice },
 									},
 								},
@@ -76,12 +93,12 @@ const getProducts = async (queryParams) => {
 						priceConditions.push({
 							OR: [
 								{
-									directSale: {
+									DirectSale: {
 										buy_now_price: { lte: maxPrice },
 									},
 								},
 								{
-									auction: {
+									Auction: {
 										start_price: { lte: maxPrice },
 									},
 								},

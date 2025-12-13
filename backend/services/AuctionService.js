@@ -2,6 +2,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const socket = require("../socket/socket");
+const NotifService = require("./NotificationService");
 
 const getAuctions = async (query) => {
 	if (Object.keys(query).length !== 0) {
@@ -240,6 +241,12 @@ const placeBid = async (auctionId, userId, bidData) => {
 			const currentPrice = parseFloat(highestBid.bid_amount);
 			const step = parseFloat(auction.min_bid_incr) || 0;
 			minRequiredBid = parseFloat(currentPrice + step);
+			await NotifService.createNotification(highestBid.buyer_ID, {
+				type: "auction",
+				title: "Bạn đã bị vượt giá!",
+				message: `Ai đó vừa đặt giá cao hơn cho sản phẩm ${auction.Product.name}`,
+				link: `/html/auction/detail.html?id=${auctionId}`,
+			});
 		} else {
 			// Nếu là người bid đầu tiên
 			minRequiredBid = auction.start_price;

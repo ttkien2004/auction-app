@@ -1,6 +1,7 @@
 // services/TransactionService.js
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const NotifService = require("./NotificationService");
 
 const getAllTransactions = async () => {
 	// TODO: Viết logic (ví dụ: prisma.transaction.findMany())
@@ -65,6 +66,14 @@ const updateTransaction = async (transactionId, updateData, userId) => {
 
 	// }
 	// throw new Error("Forbidden to access this service");
+	if (status === "completed") {
+		await NotifService.createNotification(transaction.buyer_ID, {
+			type: "order",
+			title: "Giao hàng thành công",
+			message: `Đơn hàng #${transaction.ID} đã hoàn tất. Hãy đánh giá ngay!`,
+			link: `/html/write-review.html?transactionId=${transaction.ID}`,
+		});
+	}
 	return prisma.transaction.update({
 		where: { ID: transactionId },
 		data: {

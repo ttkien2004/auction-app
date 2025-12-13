@@ -19,12 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <a href="../membership/index.html" class="sidebar-link sub-item"
 						>Hồ sơ uy tín</a
         >
-        <a href="../sell-list/index.html" class="sidebar-link"
-            >Danh sách bán</a
-        >
-        <a href="../transaction-list/index.html" class="sidebar-link"
-            >Danh sách giao dịch</a
-        >
         <a href="#" class="sidebar-link logout">Đăng xuất</a>
         `;
 	}

@@ -20,7 +20,13 @@
 			<div
 				class="container-fluid d-flex align-items-center justify-content-between"
 			>
-				<a class="navbar-brand" href="#"><i class="fas fa-circle"></i> LOGO</a>
+				<a class="navbar-brand" href="../index.html"
+					><img
+						src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
+						style="width: 50px; height: 50px; display: inline-block"
+					/>
+					CŨ MÀ CHẤT</a
+				>
 				<div class="nav-search">
 					<i class="fas fa-search"></i>
 					<input type="text" placeholder="Tìm kiếm" />
@@ -29,6 +35,16 @@
 					<a href="../index.html">Trang Chủ</a>
 					<a href="#">Sản Phẩm</a>
 					<a href="../chat/index.html">Liên Lạc</a>
+					<a href="./notifications/index.html" class="position-relative me-3">
+						<i class="fas fa-bell fa-lg text-teal"></i>
+						<span
+							id="count-notification"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							0
+							<span class="visually-hidden">unread messages</span>
+						</span>
+					</a>
 					<a href="../cart-list/index.html" class="position-relative me-3">
 						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
 						<span
@@ -160,7 +176,9 @@
 				window.location.href = "../auth/index.html";
 			});
 		</script>
+		<script type="module" src="../scripts/headerCommon.js"></script>
 		<script type="module" src="../scripts/cartCommon.js"></script>
 		<script type="module" src="../scripts/menuCommon.js"></script>
+		<script type="module" src="../scripts/notifCommon.js"></script>
 	</body>
 </html>

@@ -19,7 +19,7 @@ const transactionApi = {
 
 	getTransactionById: async (id) => {
 		try {
-			const response = await fetch(`${BASE_URL}/transactions/${id}`, {
+			const response = await fetch(`${BASE_URL}/transactions?id=${id}`, {
 				headers: getFetchHeaders(),
 			});
 			return handleResponse(response);

@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 				statusLabel =
 					'<p class="product-status status-success mb-1">THÀNH CÔNG</p>';
 				actionButtons =
-					'<button class="btn btn-outline-secondary btn-sm">Xem Đánh giá</button>';
+					'<button class="btn btn-outline-secondary btn-sm" onclick="goToWatchReviews()">Xem Đánh giá</button>';
 			} else if (
 				transactionStatus === "failed" ||
 				transactionStatus === "cancelled"
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 				statusLabel =
 					'<p class="product-status status-cancel mb-1">HỦY ĐƠN</p>';
 				actionButtons =
-					'<button class="btn btn-outline-secondary btn-sm">Xem Đánh giá</button>';
+					'<button class="btn btn-outline-secondary btn-sm" onclick="goToWatchReviews()">Xem Đánh giá</button>';
 			} else if (transactionStatus === "pending_payment") {
 				statusLabel =
 					'<p class="product-status status-pending mb-1">CHỜ THANH TOÁN</p>';
@@ -184,3 +184,6 @@ async function cancelTransaction(id, reason) {
 		btn.innerText = "Xác nhận Hủy";
 	}
 }
+window.goToWatchReviews = () => {
+	window.location.href = "../reviews/reviews.html";
+};

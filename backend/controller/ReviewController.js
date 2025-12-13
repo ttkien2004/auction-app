@@ -3,8 +3,8 @@ const ReviewService = require("../services/ReviewService");
 
 const getAllReviewsController = async (req, res, next) => {
 	try {
-		const { transactionId } = req.query;
-		const reviews = await ReviewService.getAllReviews(transactionId);
+		const { transactionId } = req.params;
+		const reviews = await ReviewService.getAllReviews(Number(transactionId));
 		res.status(200).json(reviews);
 	} catch (error) {
 		next(error);
@@ -23,15 +23,23 @@ const getReviewByIdController = async (req, res, next) => {
 
 const createReviewController = async (req, res, next) => {
 	try {
-		const { transactionId } = req.query; // Thường là transactionId
 		const reviewData = req.body;
 		const userId = req.user.id; // Lấy từ auth middleware
 		const newReview = await ReviewService.createReview(
-			Number(transactionId),
 			Number(userId),
 			reviewData
 		);
 		res.status(201).json(newReview);
+	} catch (error) {
+		next(error);
+	}
+};
+
+const getReviewsBySellerController = async (req, res, next) => {
+	try {
+		const { sellerId } = req.params;
+		const reviews = await ReviewService.getReviewsBySeller(parseInt(sellerId));
+		res.status(200).json(reviews);
 	} catch (error) {
 		next(error);
 	}
@@ -70,4 +78,5 @@ module.exports = {
 	createReviewController,
 	updateReviewController,
 	deleteReviewController,
+	getReviewsBySellerController,
 };
