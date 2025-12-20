@@ -50,6 +50,29 @@ const sellerApi = {
 			handleError(err);
 		}
 	},
+	updateProduct: async (id, updatedData) => {
+		try {
+			const response = await fetch(`${BASE_URL}/seller/products/${id}`, {
+				method: "PATCH",
+				headers: getFetchHeaders({ "Content-Type": "application/json" }),
+				body: JSON.stringify(updatedData),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
+	deleteProduct: async (id) => {
+		try {
+			const response = await fetch(`${BASE_URL}/seller/products/${id}`, {
+				method: "DELETE",
+				headers: getFetchHeaders({ "Content-Type": "application/json" }),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
 };
 
 export default sellerApi;

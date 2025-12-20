@@ -1,13 +1,24 @@
 import userApi from "../services/userApi.js";
 import sellerApi from "../services/sellerApi.js";
 import transactionApi from "../services/transactionApi.js";
+import productApi from "../services/productApi.js";
 import { R2_PUBLIC_URL } from "../services/apiHelpers.js";
 
 // Biến toàn cục
 let sellerModal;
+let editProductModal;
+let editSuccessModal;
+let deleteProductModal;
+let deleteSuccessModal;
+
 let targetTransactionId = null;
 const user = JSON.parse(localStorage.getItem("user" || "{}"));
 let currentUserId = user.id;
+
+// --- THÊM BIẾN CHO PHÂN TRANG ---
+let allDashboardTransactions = []; // Lưu toàn bộ danh sách để phân trang
+let currentDashboardPage = 1;
+const dashboardItemsPerPage = 5; // Số dòng mỗi trang
 
 document.addEventListener("DOMContentLoaded", async () => {
 	console.log("Seller Dashboard Loaded");
@@ -72,6 +83,27 @@ function initUI() {
 				txt.style.display = e.target.value === "other" ? "block" : "none";
 		});
 	});
+
+	// --- KHỞI TẠO MODAL SỬA ---
+	const editEl = document.getElementById("editProductModal");
+	if (editEl) editProductModal = new bootstrap.Modal(editEl);
+
+	const successEl = document.getElementById("editSuccessModal");
+	if (successEl) editSuccessModal = new bootstrap.Modal(successEl);
+
+	// Gắn sự kiện nút Lưu
+	const btnSave = document.getElementById("btn-save-edit");
+	if (btnSave) btnSave.addEventListener("click", submitEditProduct);
+
+	// --- KHỞI TẠO MODAL XÓA ---
+	const deleteEl = document.getElementById("deleteProductModal");
+	if (deleteEl) deleteProductModal = new bootstrap.Modal(deleteEl);
+
+	// Gắn sự kiện cho nút Xác nhận Xóa
+	const btnDelete = document.getElementById("btn-confirm-delete");
+	if (btnDelete) btnDelete.addEventListener("click", executeDeleteProduct);
+	const delSuccessEl = document.getElementById("deleteSuccessModal");
+	if (delSuccessEl) deleteSuccessModal = new bootstrap.Modal(delSuccessEl);
 }
 
 // --- HÀM TẢI DỮ LIỆU CHUNG ---
@@ -129,10 +161,13 @@ async function loadDashboardData(userId) {
 
 		// Render Bảng (5 đơn mới nhất)
 		if (listContainer) {
-			const recentOrders = transactions.slice(0, 5);
-			listContainer.innerHTML = recentOrders
-				.map((t) => createTransactionRow(t))
-				.join("");
+			// const recentOrders = transactions.slice(0, 5);
+			// listContainer.innerHTML = recentOrders
+			// 	.map((t) => createTransactionRow(t))
+			// 	.join("");
+			allDashboardTransactions = transactions || [];
+			currentDashboardPage = 1; // Reset về trang 1 mỗi khi tải lại
+			renderDashboardTable(); // Gọi hàm render mới
 		}
 	} catch (error) {
 		console.error(error);
@@ -202,8 +237,12 @@ async function loadProducts() {
                     
                     <div class="d-flex gap-2">
                         <a href="${watchProduct}" class="btn btn-sm btn-outline-secondary">Xem</a>
-                        <button class="btn btn-sm btn-outline-primary">Sửa</button>
-                        <button class="btn btn-sm btn-outline-danger">Xóa</button>
+                        <button class="btn btn-sm btn-outline-primary" onclick="window.handleEditProduct(${
+													p.ID
+												})">Sửa</button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="window.handleDeleteProduct(${
+													p.ID
+												},'${p.name}')">Xóa</button>
                     </div>
                 </div>
             </div>
@@ -343,7 +382,90 @@ function formatMoney(amount) {
 		currency: "VND",
 	}).format(amount || 0);
 }
+// --- HÀM RENDER BẢNG PHÂN TRANG ---
+function renderDashboardTable() {
+	const listContainer = document.getElementById("dashboard-order-list");
+	const paginationContainer = document.getElementById("dashboard-pagination");
 
+	if (!listContainer) return;
+
+	// 1. Kiểm tra dữ liệu rỗng
+	if (allDashboardTransactions.length === 0) {
+		listContainer.innerHTML =
+			'<tr><td colspan="4" class="text-center py-4 text-muted">Chưa có đơn hàng nào.</td></tr>';
+		paginationContainer.innerHTML = "";
+		return;
+	}
+
+	// 2. Cắt dữ liệu theo trang
+	const startIndex = (currentDashboardPage - 1) * dashboardItemsPerPage;
+	const endIndex = startIndex + dashboardItemsPerPage;
+	const pageData = allDashboardTransactions.slice(startIndex, endIndex);
+
+	// 3. Render các dòng dữ liệu
+	listContainer.innerHTML = pageData
+		.map((t) => createTransactionRow(t)) // Hàm này bạn đã có sẵn ở dưới
+		.join("");
+
+	// 4. Render nút phân trang
+	renderPaginationControls();
+}
+
+function renderPaginationControls() {
+	const paginationContainer = document.getElementById("dashboard-pagination");
+	const totalPages = Math.ceil(
+		allDashboardTransactions.length / dashboardItemsPerPage
+	);
+
+	if (totalPages <= 1) {
+		paginationContainer.innerHTML = ""; // Không cần phân trang nếu ít dữ liệu
+		return;
+	}
+
+	let html = "";
+
+	// Nút Previous
+	const prevDisabled = currentDashboardPage === 1 ? "disabled" : "";
+	html += `
+        <li class="page-item ${prevDisabled}">
+            <button class="page-link" onclick="changeDashboardPage(${
+							currentDashboardPage - 1
+						})" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+    `;
+
+	// Các nút số trang
+	for (let i = 1; i <= totalPages; i++) {
+		const activeClass = currentDashboardPage === i ? "active" : "";
+		// Lưu ý: class 'bg-teal' border-teal để đồng bộ màu xanh của bạn
+		const style =
+			currentDashboardPage === i
+				? "background-color: #00897B; border-color: #00897B; color: white;"
+				: "color: #00897B;";
+
+		html += `
+            <li class="page-item ${activeClass}">
+                <button class="page-link" style="${style}" onclick="changeDashboardPage(${i})">${i}</button>
+            </li>
+        `;
+	}
+
+	// Nút Next
+	const nextDisabled = currentDashboardPage === totalPages ? "disabled" : "";
+	html += `
+        <li class="page-item ${nextDisabled}">
+            <button class="page-link" onclick="changeDashboardPage(${
+							currentDashboardPage + 1
+						})" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    `;
+
+	paginationContainer.innerHTML = html;
+}
 // --- Gắn hàm vào Window để gọi từ HTML (onclick) ---
 
 window.openSellerCancel = (id) => {
@@ -358,6 +480,17 @@ window.goToChat = (productId, partnerId) => {
 	// (Logic này đã được chúng ta thảo luận ở phần Chat)
 	console.log(`Chat với user ${partnerId} về sp ${productId}`);
 	window.location.href = `../chat/index.html?productId=${productId}`;
+};
+
+window.changeDashboardPage = (newPage) => {
+	const totalPages = Math.ceil(
+		allDashboardTransactions.length / dashboardItemsPerPage
+	);
+
+	if (newPage < 1 || newPage > totalPages) return;
+
+	currentDashboardPage = newPage;
+	renderDashboardTable();
 };
 
 async function handleCancelOrder() {
@@ -390,5 +523,144 @@ async function handleCancelOrder() {
 	} finally {
 		btn.disabled = false;
 		btn.innerText = "Xác nhận Hủy";
+	}
+}
+
+// --- LOGIC SỬA SẢN PHẨM ---
+
+// 1. Mở Modal và Điền dữ liệu
+window.handleEditProduct = async (id) => {
+	try {
+		// Gọi API lấy chi tiết sản phẩm
+		const product = await productApi.getProductById(id); // Hàm này bạn đã có trong context ProductService
+
+		// Điền dữ liệu vào Form
+		document.getElementById("edit-product-id").value = product.ID;
+		document.getElementById("edit-product-type").value = product.type;
+		document.getElementById("edit-name").value = product.name;
+		document.getElementById("edit-desc").value = product.description || "";
+		document.getElementById("edit-condition").value =
+			product.pcondition || "Đã qua sử dụng";
+
+		// Xử lý giá & Label dựa trên loại sản phẩm
+		const priceInput = document.getElementById("edit-price");
+		const priceLabel = document.getElementById("edit-price-label");
+
+		if (product.type === "Auction") {
+			priceLabel.innerText = "Giá khởi điểm (VNĐ)";
+			priceInput.value = product.Auction?.start_price || 0;
+		} else {
+			priceLabel.innerText = "Giá bán ngay (VNĐ)";
+			priceInput.value = product.DirectSale?.buy_now_price || 0;
+		}
+
+		// Xử lý trạng thái switch
+		document.getElementById("edit-status").checked =
+			product.status === "active";
+
+		// Hiện Modal
+		if (editProductModal) editProductModal.show();
+	} catch (error) {
+		console.error(error);
+		alert("Lỗi tải thông tin sản phẩm: " + error.message);
+	}
+};
+
+// 2. Gửi dữ liệu lên Server
+async function submitEditProduct() {
+	console.log("Hello");
+	const btn = document.getElementById("btn-save-edit");
+	const id = document.getElementById("edit-product-id").value;
+	const type = document.getElementById("edit-product-type").value;
+
+	// Thu thập dữ liệu
+	const updateData = {
+		name: document.getElementById("edit-name").value,
+		description: document.getElementById("edit-desc").value,
+		pcondition: document.getElementById("edit-condition").value,
+		status: document.getElementById("edit-status").checked
+			? "active"
+			: "inactive",
+	};
+
+	// Lấy giá tùy theo loại
+	const priceVal = document.getElementById("edit-price").value;
+	if (type === "Auction") {
+		updateData.start_price = priceVal;
+	} else {
+		updateData.buy_now_price = priceVal;
+	}
+
+	// UX: Loading
+	btn.disabled = true;
+	btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+
+	try {
+		// Gọi API Update (Map với ProductService.updateProduct bên Backend)
+		await sellerApi.updateProduct(id, updateData);
+
+		// 1. Ẩn Modal Sửa
+		editProductModal.hide();
+
+		// 2. Hiện Modal Thành Công
+		editSuccessModal.show();
+
+		// 3. Tải lại danh sách sản phẩm để cập nhật giao diện
+		loadProducts();
+	} catch (error) {
+		console.error(error);
+		alert("Lỗi cập nhật: " + error.message);
+	} finally {
+		// Reset nút
+		btn.disabled = false;
+		btn.innerHTML = '<i class="fas fa-save me-1"></i> Lưu thay đổi';
+	}
+}
+
+// Hàm này được gọi khi bấm nút "Xóa" trên danh sách
+window.handleDeleteProduct = (id, name) => {
+	// 1. Lưu ID vào hidden input
+	document.getElementById("hidden-delete-id").value = id;
+
+	// 2. Hiển thị tên sản phẩm lên modal cho người dùng dễ nhìn
+	document.getElementById("delete-product-name").innerText = `${name}`;
+
+	// 3. Hiện Modal
+	if (deleteProductModal) deleteProductModal.show();
+};
+// Hàm thực thi gọi API
+async function executeDeleteProduct() {
+	const btn = document.getElementById("btn-confirm-delete");
+	const id = document.getElementById("hidden-delete-id").value;
+
+	if (!id) return;
+
+	// UX: Hiệu ứng loading
+	const originalText = btn.innerHTML;
+	btn.disabled = true;
+	btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xóa...';
+
+	try {
+		// Dựa vào code route backend bạn cung cấp trước đó:
+		// routes.patch("/seller/products/:id", ...) -> Dùng PATCH để xóa
+		// Bạn cần đảm bảo sellerApi.deleteProduct gọi đúng method PATCH hoặc DELETE tùy backend
+		await sellerApi.deleteProduct(id);
+
+		// 1. Ẩn Modal
+		deleteProductModal.hide();
+
+		// 2. Load lại danh sách sản phẩm
+		loadProducts();
+
+		// 3. Thông báo (Có thể dùng lại Modal Success hoặc alert nhỏ)
+		if (deleteSuccessModal) deleteSuccessModal.show();
+		// alert("Đã xóa sản phẩm thành công!");
+	} catch (error) {
+		console.error(error);
+		alert("Lỗi khi xóa: " + error.message);
+	} finally {
+		// Reset nút
+		btn.disabled = false;
+		btn.innerHTML = originalText;
 	}
 }

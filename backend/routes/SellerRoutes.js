@@ -26,4 +26,16 @@ routes.get(
 	SellerController.getTransactionsForSellerController
 );
 
+routes.patch(
+	"/seller/products/:id",
+	authenticateToken,
+	SellerController.updateProductForSellerController
+);
+
+routes.delete(
+	"/seller/products/:id",
+	authenticateToken,
+	SellerController.deleteProductForSellerController
+);
+
 module.exports = routes;

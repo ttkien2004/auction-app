@@ -39,6 +39,49 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
+// --- LOGIC DANH MỤC ĐỘNG (Thêm mới) ---
+const categoryMap = {
+	1: [
+		// Điện tử
+		{ id: 4, name: "Bàn phím" },
+		{ id: 5, name: "Chuột" },
+	],
+	2: [
+		// Thời trang
+		{ id: 3, name: "Đồng hồ" },
+		{ id: 6, name: "Áo khoác" },
+		{ id: 7, name: "Giày" },
+		{ id: 8, name: "Túi xách" },
+		{ id: 9, name: "Phụ kiện" },
+	],
+};
+
+const inpParent = document.getElementById("inp-parent-category");
+const inpChild = document.getElementById("inp-child-category");
+
+if (inpParent && inpChild) {
+	inpParent.addEventListener("change", function () {
+		const parentId = this.value;
+		const subCategories = categoryMap[parentId] || [];
+
+		// Reset danh mục con
+		inpChild.innerHTML =
+			'<option value="" selected disabled>-- Chọn chi tiết --</option>';
+
+		if (subCategories.length > 0) {
+			inpChild.disabled = false;
+			subCategories.forEach((cat) => {
+				const option = document.createElement("option");
+				option.value = cat.id;
+				option.textContent = cat.name;
+				inpChild.appendChild(option);
+			});
+		} else {
+			inpChild.disabled = true;
+		}
+	});
+}
+
 // 3. XỬ LÝ SUBMIT FORM
 document.getElementById("btn-submit").addEventListener("click", async () => {
 	const token = localStorage.getItem("token");
@@ -47,12 +90,12 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
 	// Lấy dữ liệu chung
 	const name = document.getElementById("inp-name").value;
 	const description = document.querySelector(".custom-textarea").value; // Class của textarea mô tả
-	const categoryId = document.getElementById("inp-category").value;
+	const categoryId = document.getElementById("inp-child-category").value;
 	const pcondition = document.getElementById("inp-condition").value;
 	const fileInput = document.querySelector('.main-upload input[type="file"]');
 
-	console.log(fileInput.files[0]);
 	if (!name) return alert("Vui lòng nhập tên sản phẩm");
+	if (!categoryId) return alert("Vui lòng chọn đầy đủ danh mục sản phẩm");
 
 	// Tạo FormData
 	const productData = {
@@ -96,11 +139,6 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
 		formData.append("min_bid_incr", stepPrice || 0);
 		formData.append("auc_start_time", new Date(startTime).toISOString());
 		formData.append("auc_end_time", new Date(endTime).toISOString());
-
-		productData[start_price] = startPrice;
-		productData[min_bid_incr] = stepPrice;
-		productData[auc_start_time] = new Date(startTime).toISOString();
-		productData[auc_end_time] = new Date(endTime).toISOString();
 	}
 
 	// Gửi API
@@ -109,11 +147,23 @@ document.getElementById("btn-submit").addEventListener("click", async () => {
 		document.getElementById("btn-submit").disabled = true;
 
 		const response = await productApi.createProduct(formData);
-		console.log(response);
 
 		if (response) {
-			alert("Đăng bán thành công!");
-			window.location.href = "../index.html";
+			const successModalEl = document.getElementById("successModal");
+			const successModal = new bootstrap.Modal(successModalEl);
+
+			// 2. Xử lý sự kiện nút "Về trang quản lý"
+			const btnRedirect = document.getElementById("btn-redirect-dashboard");
+
+			// Xóa event cũ để tránh bị gán chồng nhiều lần (nếu người dùng ko reload trang)
+			const newBtnRedirect = btnRedirect.cloneNode(true);
+			btnRedirect.parentNode.replaceChild(newBtnRedirect, btnRedirect);
+
+			newBtnRedirect.addEventListener("click", () => {
+				window.location.href = "../seller-dashboard/index.html";
+			});
+
+			successModal.show();
 		} else {
 			const err = await response.json();
 			alert("Lỗi: " + err.message);

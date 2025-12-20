@@ -645,9 +645,10 @@ async function loadProducts(typeOverride) {
 
 	try {
 		// Chuẩn bị params gửi lên API
+		const limitCount = typeToLoad === "Auction" ? 50 : 12;
 		const params = {
 			type: typeToLoad,
-			limit: 12,
+			limit: limitCount,
 
 			...state.filters,
 		};
@@ -761,12 +762,19 @@ function renderGrid(products) {
 // --- RENDER STRIP (Sản phẩm đấu giá ngang) ---
 function renderAuctionCard(products) {
 	if (!stripCardsContainer || !products.length) return;
-
+	const now = new Date().getTime();
 	const html = products
 		.map((p) => {
 			const priceRaw = p.Auction?.start_price || 0;
 			const price = formatMoney(priceRaw);
 
+			// Lấy thời gian
+			const startTimeStr = p.Auction?.auc_start_time;
+			const endTimeStr = p.Auction?.auc_end_time;
+			const startTime = new Date(startTimeStr).getTime();
+			const endTime = new Date(endTimeStr).getTime();
+			let statusText = "Đang tải...";
+			let dataAttrs = ""; // Lưu thời gian vào DOM để JS xử lý đếm ngược
 			// Logic Banner & Time
 			let bannerHTML = "";
 			let imgClass = "";
@@ -774,16 +782,29 @@ function renderAuctionCard(products) {
 			let endTimeAttr = "";
 			const timerId = `timer-strip-${p.ID}`;
 
-			if (p.Auction?.auc_end_time) {
-				const timeLeft = calculateTimeLeft(p.Auction.auc_end_time);
-				endTimeAttr = `data-endtime="${p.Auction.auc_end_time}"`;
-				if (timeLeft.isExpired) {
-					bannerHTML = `<div class="status-ribbon status-sold-out">Kết thúc</div>`;
-					imgClass = "img-sold-out";
-					timeStyle = "color: #d32f2f; font-weight: bold;";
-				} else {
-					bannerHTML = `<div class="status-ribbon status-active">Đấu giá</div>`;
-				}
+			// Case 1: Đã kết thúc
+			if (now >= endTime) {
+				bannerHTML = `<div class="status-ribbon status-sold-out">Kết thúc</div>`;
+				imgClass = "img-sold-out";
+				timeStyle += ";color: #d32f2f;"; // Đỏ
+				statusText = "ĐÃ KẾT THÚC";
+				dataAttrs = `data-status="ended"`;
+			}
+			// Case 2: Sắp diễn ra (Chưa đến giờ bắt đầu)
+			else if (now < startTime) {
+				console.log("Hello dang dien ra");
+				bannerHTML = `<div class="status-ribbon" style="background: #ff9800;">Sắp diễn ra</div>`; // Màu cam
+				timeStyle += ";color: #e67e22;"; // Cam
+				statusText = "Sắp bắt đầu...";
+				// Truyền cả start và end để bộ đếm tự chuyển trạng thái
+				dataAttrs = `data-status="upcoming" data-start="${startTimeStr}" data-end="${endTimeStr}"`;
+			}
+			// Case 3: Đang diễn ra (Trong khoảng Start - End)
+			else {
+				bannerHTML = `<div class="status-ribbon status-active">Đang đấu giá</div>`;
+				timeStyle += ";color: #2ecc71;"; // Xanh lá
+				statusText = "Đang diễn ra...";
+				dataAttrs = `data-status="active" data-end="${endTimeStr}"`;
 			}
 
 			const img = p.imageUrl || "assets/products/cat.png";
@@ -799,7 +820,7 @@ function renderAuctionCard(products) {
                     <i class="fas fa-user"></i> ${sellerName}
                 </div>
                 <span class="price" style="font-size: 1.1rem; display:block; margin-bottom:2px;">${price}</span>
-                <span class="time-left" style="${timeStyle}" id="${timerId}" ${endTimeAttr}>Đang tải...</span>
+                <span class="time-left" style="${timeStyle}" id="${timerId}" ${dataAttrs}>${statusText}</span>
             </div>
         </article>
         `;
@@ -819,13 +840,37 @@ function formatMoney(amount) {
 	}).format(amount);
 }
 
-function calculateTimeLeft(endTimeISO) {
-	if (!endTimeISO) return { text: "", isExpired: false };
+function calculateTimeLeft(endTimeISO, startTimeISO) {
+	if (!endTimeISO) return { text: "", isExpired: false, isUpcoming: false };
+
 	const now = new Date().getTime();
 	const end = new Date(endTimeISO).getTime();
-	const distance = end - now;
-	if (distance < 0) return { text: "ĐÃ KẾT THÚC", isExpired: true };
+	const start = startTimeISO ? new Date(startTimeISO).getTime() : 0;
 
+	// 1. Kiểm tra SẮP DIỄN RA
+	if (now < start) {
+		const distance = start - now;
+		const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		const hours = Math.floor(
+			(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+		);
+		const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+		// Format text: "Mở sau: 2d 5h"
+		let timeString = "Mở sau: ";
+		if (days > 0) timeString += `${days}d `;
+		timeString += `${hours}h ${minutes}m`;
+
+		return { text: timeString, isExpired: false, isUpcoming: true };
+	}
+
+	// 2. Kiểm tra ĐÃ KẾT THÚC
+	const distance = end - now;
+	if (distance < 0) {
+		return { text: "ĐÃ KẾT THÚC", isExpired: true, isUpcoming: false };
+	}
+
+	// 3. ĐANG DIỄN RA
 	const days = Math.floor(distance / (1000 * 60 * 60 * 24));
 	const hours = Math.floor(
 		(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -836,22 +881,66 @@ function calculateTimeLeft(endTimeISO) {
 	if (days > 0) timeString += `${days}D `;
 	if (hours > 0) timeString += `${hours}H `;
 	timeString += `${minutes}M LEFT`;
-	return { text: timeString, isExpired: false };
-}
 
+	return { text: timeString, isExpired: false, isUpcoming: false };
+}
 let countdownInterval;
+
 function startCountdown() {
 	if (countdownInterval) clearInterval(countdownInterval);
+
 	const updateTimers = () => {
 		const now = new Date().getTime();
-		document.querySelectorAll("[data-endtime]").forEach((el) => {
-			const endTime = new Date(el.getAttribute("data-endtime")).getTime();
-			const distance = endTime - now;
+
+		// Lấy tất cả các thẻ có data-status (trừ những cái đã ended thì thôi ko cần update)
+		const timerElements = document.querySelectorAll(".time-left[data-status]");
+
+		timerElements.forEach((el) => {
+			const status = el.getAttribute("data-status");
+
+			if (status === "ended") return; // Bỏ qua
+
+			let targetTime = 0;
+			let prefix = "";
+			let newStatus = status; // Dùng để check chuyển trạng thái
+
+			if (status === "upcoming") {
+				// Đếm ngược tới lúc Bắt đầu
+				const startTime = new Date(el.getAttribute("data-start")).getTime();
+				targetTime = startTime;
+				prefix = "Mở sau: ";
+
+				// Nếu thời gian hiện tại đã vượt qua Start Time -> Chuyển sang Active ngay lập tức
+				if (now >= startTime) {
+					newStatus = "active";
+					// Cập nhật lại Attribute để vòng lặp sau xử lý theo kiểu Active
+					el.setAttribute("data-status", "active");
+					// Đổi màu chữ sang xanh (CSS inline)
+					el.style.color = "#2ecc71";
+					// (Optional) Bạn có thể reload lại danh sách sản phẩm nếu muốn cập nhật banner
+				}
+			}
+
+			if (newStatus === "active") {
+				// Đếm ngược tới lúc Kết thúc
+				// Lưu ý: Nếu vừa chuyển từ upcoming sang active, cần lấy data-end
+				const endTimeStr =
+					el.getAttribute("data-end") || el.getAttribute("data-endtime"); // Support legacy attr
+				targetTime = new Date(endTimeStr).getTime();
+				prefix = "Còn lại: ";
+			}
+
+			const distance = targetTime - now;
+
 			if (distance < 0) {
-				el.innerText = "ĐÃ KẾT THÚC";
-				el.style.color = "red";
-				el.style.fontWeight = "bold";
+				// Hết giờ
+				if (newStatus === "active") {
+					el.innerText = "ĐÃ KẾT THÚC";
+					el.style.color = "#d32f2f";
+					el.setAttribute("data-status", "ended");
+				}
 			} else {
+				// Tính toán hiển thị
 				const days = Math.floor(distance / (1000 * 60 * 60 * 24));
 				const hours = Math.floor(
 					(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -864,10 +953,12 @@ function startCountdown() {
 				timeString += `${hours.toString().padStart(2, "0")}:${minutes
 					.toString()
 					.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-				el.innerText = timeString + " LEFT";
+
+				el.innerText = prefix + timeString;
 			}
 		});
 	};
-	updateTimers();
+
+	updateTimers(); // Chạy ngay lập tức
 	countdownInterval = setInterval(updateTimers, 1000);
 }

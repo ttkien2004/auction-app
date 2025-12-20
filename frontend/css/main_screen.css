@@ -258,22 +258,22 @@ img {
 } */
 
 .strip-cards {
-	display: flex;
-	gap: 20px;
-	padding: 20px 0;
+	display: flex; /* Xếp hàng ngang */
+	flex-wrap: nowrap; /* KHÔNG xuống dòng */
+	overflow-x: auto; /* Cho phép cuộn ngang nếu tràn */
+	gap: 20px; /* Khoảng cách giữa các thẻ */
+	padding-bottom: 15px; /* Chừa chỗ cho thanh scrollbar đẹp hơn */
 
-	/* 1. Cho phép cuộn nhưng ẩn thanh đi */
-	overflow-x: hidden; /* Đổi thành hidden để người dùng không cuộn tay can thiệp vào auto-scroll (hoặc để auto nếu muốn cả 2) */
+	/* Ẩn thanh scrollbar nếu muốn (tùy chọn) */
+	/* -ms-overflow-style: none;  
+    scrollbar-width: none;  */
+}
 
-	/* 2. Ẩn thanh cuộn trên Firefox */
-	scrollbar-width: none;
-
-	/* 3. Ẩn thanh cuộn trên IE/Edge cũ */
-	-ms-overflow-style: none;
-
-	/* Để JS cuộn mượt hơn */
-	scroll-behavior: auto;
-	white-space: nowrap;
+/* Đảm bảo mỗi thẻ card có kích thước cố định, không bị co lại */
+.strip-card {
+	flex: 0 0 auto; /* Quan trọng: Không cho phép card bị co nhỏ lại */
+	width: 250px; /* Độ rộng cố định cho mỗi card */
+	/* Các style cũ của bạn giữ nguyên */
 }
 
 /* Webkit Scrollbar (Chrome/Edge/Safari) */

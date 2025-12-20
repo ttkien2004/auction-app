@@ -36,9 +36,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 			const transactionStatus = product?.Transaction?.status ?? "";
 
 			if (transactionStatus === "completed") {
-				statusLabel =
-					'<p class="product-status status-success mb-1">THÀNH CÔNG</p>';
-				actionButtons = `<button class="btn btn-outline-secondary btn-sm" onclick="goToWriteReview(${transaction.ID})">Đánh giá</button>`;
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+				const expectedDate = new Date(expectedDelivery);
+				if (expectedDate > today) {
+					statusLabel = `<p class="product-status status-success mb-1">${statusText}</p>`;
+					actionButtons = "";
+				} else {
+					statusLabel =
+						'<p class="product-status status-success mb-1">THÀNH CÔNG</p>';
+					actionButtons = `<button class="btn btn-outline-secondary btn-sm" onclick="goToWriteReview(${transaction.ID})">Đánh giá</button>`;
+				}
 			} else if (
 				transactionStatus === "failed" ||
 				transactionStatus === "cancelled"

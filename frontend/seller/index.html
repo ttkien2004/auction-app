@@ -20,7 +20,7 @@
 			<div
 				class="container-fluid d-flex align-items-center justify-content-between"
 			>
-				<a class="navbar-brand" href="#"
+				<a class="navbar-brand" href="../seller-dashboard/index.html"
 					><img
 						src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
 						style="width: 50px; height: 50px; display: inline-block"
@@ -34,7 +34,7 @@
 				</div>
 
 				<div class="nav-menu">
-					<a href="#">Trang Chủ</a>
+					<a href="../seller-dashboard/index.html">Trang Chủ</a>
 					<a href="#">Sản Phẩm</a>
 					<a href="#">Liên Lạc</a>
 					<a href="./notifications/index.html" class="position-relative me-3">
@@ -50,6 +50,7 @@
 					<img
 						src="https://i.pravatar.cc/150?img=5"
 						class="user-avatar"
+						id="user-avatar"
 						alt="User"
 					/>
 				</div>
@@ -156,11 +157,22 @@
 							</div>
 
 							<div class="mb-3">
-								<label class="custom-label">Danh mục:</label>
-								<select id="inp-category" class="custom-input">
+								<label class="custom-label">Danh mục chính:</label>
+								<select id="inp-parent-category" class="custom-input">
+									<option value="" selected disabled>
+										-- Chọn loại hàng --
+									</option>
 									<option value="1">Đồ điện tử</option>
 									<option value="2">Thời trang</option>
-									<!-- <option value="3">Nội thất</option> -->
+								</select>
+							</div>
+
+							<div class="mb-3">
+								<label class="custom-label">Chi tiết danh mục:</label>
+								<select id="inp-child-category" class="custom-input" disabled>
+									<option value="" selected disabled>
+										-- Vui lòng chọn danh mục chính trước --
+									</option>
 								</select>
 							</div>
 
@@ -331,6 +343,46 @@
 				</button>
 			</div>
 		</div>
+		<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header border-0">
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body text-center pb-4">
+						<i
+							class="fas fa-check-circle text-success"
+							style="font-size: 4rem; margin-bottom: 20px"
+						></i>
+						<h4 class="fw-bold mb-2">Đăng bán thành công!</h4>
+						<p class="text-muted">Sản phẩm của bạn đã được đưa lên sàn.</p>
+
+						<div class="mt-4">
+							<button
+								type="button"
+								class="btn btn-outline-secondary me-2"
+								data-bs-dismiss="modal"
+								onclick="location.reload()"
+							>
+								Đăng tiếp sản phẩm khác
+							</button>
+							<button
+								type="button"
+								class="btn btn-success text-white"
+								id="btn-redirect-dashboard"
+							>
+								Về trang quản lý
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script>
@@ -357,5 +409,6 @@
 		</script>
 		<script type="module" src="../scripts/seller.js"></script>
 		<script type="module" src="../scripts/notifCommon.js"></script>
+		<script type="module" src="../scripts/userCommon.js"></script>
 	</body>
 </html>

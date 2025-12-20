@@ -14,15 +14,15 @@ routes.post(
 	upload.single("image"),
 	productController.createProductController
 );
-routes.patch(
-	"/products",
-	authenticateToken,
-	productController.updateProductController
-);
-routes.delete(
-	"/products",
-	authenticateToken,
-	productController.deleteProductController
-);
+// routes.patch(
+// 	"/products",
+// 	authenticateToken,
+// 	productController.updateProductController
+// );
+// routes.delete(
+// 	"/products",
+// 	authenticateToken,
+// 	productController.deleteProductController
+// );
 
 module.exports = routes;
