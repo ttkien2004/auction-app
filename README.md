@@ -93,6 +93,6 @@ Dự án hỗ trợ chạy toàn bộ hệ thống (Full-stack) thông qua **Doc
 
 1. **Clone repository:**
    ```bash
-   git clone [https://github.com/username/auction-app.git](https://github.com/username/auction-app.git)
+   git clone [https://github.com/ttkien2004/auction-app.git](https://github.com/ttkien2004/auction-app.git)
    cd auction-app
    ```
