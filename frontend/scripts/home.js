@@ -531,12 +531,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 	// 1. CHECK LOGIN
 	const token = localStorage.getItem("token");
 	const userStr = localStorage.getItem("user");
+	const user = JSON.parse(localStorage.getItem("user") || "{}");
 
 	if (token && userStr) {
 		// Hiện Filter nếu đã login
 		if (filterSection) filterSection.style.display = "block";
 	} else {
-		if (authSection)
+		if (Object.keys(user).length > 0) {
+			// document.getElementById("user-avatar").src =
+			// 	R2_PUBLIC_URL + (user.avatar || "");
+			authSection.innerHTML = `
+				<img
+				src="${R2_PUBLIC_URL + (user.avatar || "")}"
+				class="rounded-circle user-avatar"
+				width="35"
+				height="35"
+				alt="Avatar"
+				id="user-avatar"
+				onclick="window.location.href='./profile/index.html'"
+			/>`;
+		} else if (authSection)
 			authSection.innerHTML = `<a href="auth/index.html" class="btn-login">Đăng Nhập</a>`;
 	}
 
