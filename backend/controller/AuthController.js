@@ -12,8 +12,13 @@ const logoutController = async (req, res) => {
 	await logout();
 };
 
+const sellerRegisterController = async (req, res) => {
+	await register(req, res);
+};
+
 module.exports = {
 	registerController,
 	loginController,
 	logoutController,
+	sellerRegisterController,
 };

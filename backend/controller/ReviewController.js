@@ -3,7 +3,8 @@ const ReviewService = require("../services/ReviewService");
 
 const getAllReviewsController = async (req, res, next) => {
 	try {
-		const reviews = await ReviewService.getAllReviews();
+		const { transactionId } = req.params;
+		const reviews = await ReviewService.getAllReviews(Number(transactionId));
 		res.status(200).json(reviews);
 	} catch (error) {
 		next(error);
@@ -22,12 +23,10 @@ const getReviewByIdController = async (req, res, next) => {
 
 const createReviewController = async (req, res, next) => {
 	try {
-		const { id } = req.params; // Thường là transactionId
 		const reviewData = req.body;
 		const userId = req.user.id; // Lấy từ auth middleware
 		const newReview = await ReviewService.createReview(
-			Number(id),
-			userId,
+			Number(userId),
 			reviewData
 		);
 		res.status(201).json(newReview);
@@ -36,13 +35,25 @@ const createReviewController = async (req, res, next) => {
 	}
 };
 
+const getReviewsBySellerController = async (req, res, next) => {
+	try {
+		const { sellerId } = req.params;
+		const reviews = await ReviewService.getReviewsBySeller(parseInt(sellerId));
+		res.status(200).json(reviews);
+	} catch (error) {
+		next(error);
+	}
+};
+
 const updateReviewController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { reviewId } = req.query;
 		const updateData = req.body;
+		const userId = req.user.id;
 		const updatedReview = await ReviewService.updateReview(
-			Number(id),
-			updateData
+			Number(reviewId),
+			updateData,
+			Number(userId)
 		);
 		res.status(200).json(updatedReview);
 	} catch (error) {
@@ -52,8 +63,9 @@ const updateReviewController = async (req, res, next) => {
 
 const deleteReviewController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		await ReviewService.deleteReview(Number(id));
+		const { reviewId } = req.query;
+		const userId = req.user.id;
+		await ReviewService.deleteReview(Number(reviewId), Number(userId));
 		res.status(204).send();
 	} catch (error) {
 		next(error);
@@ -66,4 +78,5 @@ module.exports = {
 	createReviewController,
 	updateReviewController,
 	deleteReviewController,
+	getReviewsBySellerController,
 };

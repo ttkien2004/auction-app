@@ -42,15 +42,22 @@ This will
 
 The application will be available at `http://localhost:3000`
 
-After starting docker successfully, Run migration:
+After the application started successfully, add Database Data:
 
 ```bash
-docker-compose exec app npx prisma migrate dev --name init
+docker exec -i auction_db_mysql mysql --default-character-set=utf8mb4 -u root -p[MẬT_KHẨU_CỦA_BẠN] AUCTION_APP < ./init_sql/auction_data.sql
 ```
 
-Run generate (If there is any update relating to schema.prisma):
+Run migration (If there is any update relating to your sql):
 
 ```bash
+docker-compose exec app npx prisma migrate dev --name [name]
+```
+
+Run generate (If there is any update relating to your sql) to generate code:
+
+```bash
+docker-compose exec app npx prisma db pull
 docker-compose exec app npx prisma generate
 ```
 
@@ -58,6 +65,12 @@ Run prisma studio:
 
 ```bash
 docker-compose run --rm -p 5555:5555 app npm run studio
+```
+
+Reset Database:
+
+```bash
+docker-compose exec app npx prisma migrate reset
 ```
 
 ## Running locally if you do not have Docker

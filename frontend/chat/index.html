@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Trò chuyện - Green Shopping</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/css/index.css"
+		/>
+		<link rel="stylesheet" href="../css/chat.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+	</head>
+	<body>
+		<nav class="navbar">
+			<div
+				class="container-fluid d-flex align-items-center justify-content-between"
+			>
+				<a class="navbar-brand" href="#"
+					><img
+						src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
+						style="width: 50px; height: 50px; display: inline-block"
+					/>
+					CŨ MÀ CHẤT</a
+				>
+				<div class="nav-search">
+					<i class="fas fa-search"></i>
+					<input type="text" placeholder="Tìm kiếm" />
+				</div>
+				<div class="nav-menu">
+					<a href="../index.html">Trang Chủ</a>
+					<a href="../index.html#filter-section">Sản Phẩm</a>
+					<a href="#">Liên Lạc</a>
+					<a href="../cart-list/index.html" class="position-relative me-3">
+						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
+						<span
+							id="count-cart-list"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							2
+						</span>
+					</a>
+					<div
+						id="auth-section"
+						onclick="window.location.href='../profile/index.html'"
+					>
+						<img
+							src="https://i.pravatar.cc/150?img=5"
+							id="user-avatar"
+							alt="User"
+						/>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container mt-4 mb-5 chat-wrapper">
+			<div id="breadcrumb-container" class="mb-3"></div>
+			<div
+				id="login-section"
+				class="card mx-auto p-4 shadow login-card"
+				style="max-width: 400px; display: none"
+			>
+				<h4 class="text-center text-teal fw-bold mb-4">Đăng Nhập để Chat</h4>
+				<div class="mb-3">
+					<label class="fw-bold text-teal">Email</label>
+					<input
+						type="email"
+						id="email"
+						class="form-control rounded-pill custom-input"
+						value="an@example.com"
+					/>
+				</div>
+				<div class="mb-3">
+					<label class="fw-bold text-teal">Mật khẩu</label>
+					<input
+						type="password"
+						id="password"
+						class="form-control rounded-pill custom-input"
+						value="password123"
+					/>
+				</div>
+				<button class="btn btn-teal w-100 rounded-pill fw-bold" id="btn-login">
+					ĐĂNG NHẬP
+				</button>
+				<div id="login-error" class="text-danger mt-2 text-center small"></div>
+			</div>
+
+			<div id="chat-section" class="row g-0 chat-box-container d-none">
+				<div class="col-md-4 chat-sidebar">
+					<div class="sidebar-header">
+						<h5 class="mb-0">Tin nhắn</h5>
+						<button class="btn btn-sm btn-light text-teal rounded-circle">
+							<i class="fas fa-edit"></i>
+						</button>
+					</div>
+
+					<div class="conversation-list">
+						<div class="conv-item active">
+							<img src="https://placehold.co/50" class="avatar" />
+							<div class="conv-info">
+								<div class="conv-name">Người bán A</div>
+								<div class="conv-preview">Sản phẩm này còn không ạ?</div>
+							</div>
+							<div class="conv-time">10:30</div>
+						</div>
+						<div class="conv-item">
+							<img src="https://placehold.co/50" class="avatar" />
+							<div class="conv-info">
+								<div class="conv-name">Shop B</div>
+								<div class="conv-preview">Đã chốt đơn nhé!</div>
+							</div>
+							<div class="conv-time">Hôm qua</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-8 chat-content">
+					<div class="chat-header">
+						<div class="d-flex align-items-center">
+							<img src="https://placehold.co/40" class="avatar-small me-2" />
+							<div>
+								<h6 class="mb-0 fw-bold" id="chat-partner-name">
+									Đang kết nối...
+								</h6>
+								<small class="text-white-50" id="room-status">Offline</small>
+							</div>
+						</div>
+						<div class="chat-actions">
+							<button class="btn btn-sm text-white">
+								<i class="fas fa-phone"></i>
+							</button>
+							<button class="btn btn-sm text-white">
+								<i class="fas fa-video"></i>
+							</button>
+							<button class="btn btn-sm text-white">
+								<i class="fas fa-info-circle"></i>
+							</button>
+						</div>
+					</div>
+
+					<div id="messages-area" class="messages-area">
+						<div class="text-center text-muted small my-3">
+							-- Bắt đầu cuộc trò chuyện --
+						</div>
+					</div>
+
+					<div class="chat-input-area">
+						<button class="btn btn-link text-teal">
+							<i class="fas fa-plus-circle fa-lg"></i>
+						</button>
+						<button class="btn btn-link text-teal">
+							<i class="fas fa-image fa-lg"></i>
+						</button>
+						<div class="input-wrapper">
+							<input
+								type="text"
+								id="message-input"
+								placeholder="Nhập tin nhắn..."
+								disabled
+							/>
+							<button class="btn-send" id="btn-send" disabled>
+								<i class="fas fa-paper-plane"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="site-footer">
+			Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá
+		</footer>
+
+		<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+		<script type="module" src="../scripts/headerCommon.js"></script>
+		<script type="module" src="../scripts/cartCommon.js"></script>
+		<script type="module" src="../scripts/chat.js"></script>
+		<script type="module" src="../scripts/userCommon.js"></script>
+		<script type="module" src="../scripts/breadcrumb.js"></script>
+		<script type="module" src="../scripts/notifCommon.js"></script>
+	</body>
+</html>

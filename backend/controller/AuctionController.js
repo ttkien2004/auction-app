@@ -1,6 +1,15 @@
 // controllers/AuctionController.js
 const AuctionService = require("../services/AuctionService");
 
+const getAuctionsController = async (req, res, next) => {
+	try {
+		const auctions = await AuctionService.getAuctions(req.query);
+		res.status(200).json(auctions);
+	} catch (error) {
+		next(error);
+	}
+};
+
 const getAllAuctionsController = async (req, res, next) => {
 	try {
 		const auctions = await AuctionService.getAllAuctions();
@@ -12,7 +21,7 @@ const getAllAuctionsController = async (req, res, next) => {
 
 const getAuctionByIdController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { id } = req.query;
 		const auction = await AuctionService.getAuctionById(Number(id));
 		res.status(200).json(auction);
 	} catch (error) {
@@ -22,10 +31,10 @@ const getAuctionByIdController = async (req, res, next) => {
 
 const createAuctionController = async (req, res, next) => {
 	try {
-		const { id } = req.params; // product ID
+		const { productId } = req.query; // product ID
 		const auctionData = req.body;
 		const newAuction = await AuctionService.createAuction(
-			Number(id),
+			Number(productId),
 			auctionData
 		);
 		res.status(201).json(newAuction);
@@ -36,10 +45,10 @@ const createAuctionController = async (req, res, next) => {
 
 const updateAuctionController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { auctionId } = req.query;
 		const updateData = req.body;
 		const updatedAuction = await AuctionService.updateAuction(
-			Number(id),
+			Number(auctionId),
 			updateData
 		);
 		res.status(200).json(updatedAuction);
@@ -50,8 +59,8 @@ const updateAuctionController = async (req, res, next) => {
 
 const deleteAuctionController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		await AuctionService.deleteAuction(Number(id));
+		const { auctionId } = req.query;
+		await AuctionService.deleteAuction(Number(auctionId));
 		res.status(204).send();
 	} catch (error) {
 		next(error);
@@ -60,9 +69,9 @@ const deleteAuctionController = async (req, res, next) => {
 
 const joinAuctionController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
+		const { auctionId } = req.query;
 		const userId = req.user.id; // Lấy từ auth middleware
-		const result = await AuctionService.joinAuction(Number(id), userId);
+		const result = await AuctionService.joinAuction(Number(auctionId), userId);
 		res.status(200).json(result);
 	} catch (error) {
 		next(error);
@@ -71,8 +80,8 @@ const joinAuctionController = async (req, res, next) => {
 
 const getBidsForAuctionController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const bids = await AuctionService.getBidsForAuction(Number(id));
+		const { auctionId } = req.query;
+		const bids = await AuctionService.getBidsForAuction(Number(auctionId));
 		res.status(200).json(bids);
 	} catch (error) {
 		next(error);
@@ -81,17 +90,22 @@ const getBidsForAuctionController = async (req, res, next) => {
 
 const placeBidController = async (req, res, next) => {
 	try {
-		const { id } = req.params; // auction ID
+		const { auctionId } = req.query; // auction ID
 		const userId = req.user.id; // Lấy từ auth middleware
 		const bidData = req.body; // { bid_amount }
-		const newBid = await AuctionService.placeBid(Number(id), userId, bidData);
+		const newBid = await AuctionService.placeBid(
+			Number(auctionId),
+			userId,
+			bidData
+		);
 		res.status(201).json(newBid);
 	} catch (error) {
-		next(error);
+		next(error.message);
 	}
 };
 
 module.exports = {
+	getAuctionsController,
 	getAllAuctionsController,
 	getAuctionByIdController,
 	createAuctionController,

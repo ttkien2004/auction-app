@@ -1,0 +1,254 @@
+:root {
+	--primary-teal: #00897b;
+	--light-teal: #e0f2f1;
+	--bg-color: #faf9f6;
+	--text-dark: #333;
+}
+
+body {
+	background-color: var(--bg-color);
+	font-family: "Courier New", Courier, monospace;
+	color: var(--text-dark);
+}
+
+/* Navbar & Footer (Copy) */
+.navbar {
+	padding: 15px 40px;
+	background: var(--bg-color);
+}
+.navbar-brand {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+	text-decoration: none;
+}
+.nav-search {
+	background-color: var(--primary-teal);
+	border-radius: 20px;
+	padding: 5px 15px;
+	width: 400px;
+	display: flex;
+	align-items: center;
+}
+.nav-search i {
+	color: white;
+	margin-right: 10px;
+}
+.nav-search input {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: white;
+	width: 100%;
+}
+.nav-search input::placeholder {
+	color: #e0e0e0;
+}
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+	font-size: 0.9rem;
+}
+.user-avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 2px solid var(--primary-teal);
+}
+.site-footer {
+	padding: 20px 40px;
+	color: var(--primary-teal);
+	font-weight: bold;
+	font-size: 1rem;
+	margin-top: auto;
+}
+
+/* --- SHOP HEADER --- */
+.shop-header-card {
+	background: white;
+	border-radius: 20px;
+	overflow: hidden;
+	position: relative;
+	border: 2px solid var(--primary-teal);
+}
+
+.shop-cover {
+	height: 200px;
+	background-size: cover;
+	background-position: center;
+	border-bottom: 5px solid var(--primary-teal);
+}
+
+.shop-info-bar {
+	padding: 0 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin-top: -50px; /* Để avatar đè lên cover */
+	position: relative;
+	flex-wrap: wrap;
+}
+
+.shop-avatar {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	border: 5px solid white;
+	object-fit: cover;
+	background: white;
+}
+
+.shop-name {
+	color: var(--primary-teal);
+	font-weight: 900;
+	text-shadow: 2px 2px 0px #fff; /* Viền trắng nhẹ cho chữ nếu cover tối */
+}
+
+.bg-teal {
+	background-color: var(--primary-teal) !important;
+}
+.text-teal {
+	color: var(--primary-teal) !important;
+}
+.border-teal {
+	border-color: var(--primary-teal) !important;
+}
+
+.btn-teal-solid {
+	background-color: var(--primary-teal);
+	color: white;
+	border: none;
+	transition: 0.2s;
+}
+.btn-teal-solid:hover {
+	background-color: #00695c;
+	color: white;
+}
+
+.btn-outline-teal {
+	border: 2px solid var(--primary-teal);
+	color: var(--primary-teal);
+	background: white;
+}
+.btn-outline-teal:hover {
+	background-color: var(--light-teal);
+}
+
+/* --- STATS ROW --- */
+.shop-stats-row {
+	display: flex;
+	justify-content: space-around;
+	padding: 20px 0;
+	border-top: 1px solid #eee;
+	margin-top: 10px;
+	background-color: #fff;
+}
+
+.stat-box {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+.stat-box i {
+	font-size: 1.5rem;
+}
+.stat-box strong {
+	font-size: 1.2rem;
+	display: block;
+	line-height: 1;
+}
+.stat-divider {
+	width: 1px;
+	background: #ddd;
+	height: 40px;
+}
+
+/* --- TABS --- */
+.shop-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.product-tabs {
+	display: flex;
+	gap: 10px;
+}
+
+.tab-btn {
+	padding: 10px 25px;
+	border: 2px solid var(--primary-teal);
+	border-radius: 50px;
+	background: white;
+	color: var(--primary-teal);
+	font-weight: bold;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+	background: var(--primary-teal);
+	color: white;
+}
+
+/* --- PRODUCT CARD (Mini Version) --- */
+.product-card {
+	border: 2px solid var(--primary-teal);
+	border-radius: 15px;
+	overflow: hidden;
+	background: white;
+	cursor: pointer;
+	transition: transform 0.2s;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.product-card:hover {
+	transform: translateY(-5px);
+}
+
+.p-img {
+	height: 160px;
+	background-size: cover;
+	background-position: center;
+}
+.p-info {
+	padding: 10px;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+.p-name {
+	font-size: 0.9rem;
+	font-weight: bold;
+	margin-bottom: 5px;
+	color: #333;
+}
+.p-price {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: var(--primary-teal);
+	margin-top: auto;
+}
+.p-tag {
+	font-size: 0.65rem;
+	background: var(--light-teal);
+	color: var(--primary-teal);
+	padding: 2px 6px;
+	border-radius: 4px;
+	display: inline-block;
+	margin-bottom: 5px;
+	width: fit-content;
+}
+
+/* --- REVIEW CARD --- */
+.review-card {
+	background: white;
+	border: 1px solid #eee;
+	padding: 15px;
+	border-radius: 15px;
+	margin-bottom: 10px;
+}

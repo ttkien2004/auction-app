@@ -1,0 +1,155 @@
+:root {
+	--primary-teal: #00897b;
+	--light-teal: #e0f2f1;
+	--bg-color: #faf9f6;
+	--text-dark: #333;
+}
+
+body {
+	background-color: var(--bg-color);
+	font-family: "Courier New", Courier, monospace;
+	color: var(--text-dark);
+}
+
+/* Navbar (Giữ nguyên) */
+.navbar {
+	padding: 15px 40px;
+	background: var(--bg-color);
+}
+.navbar-brand {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+	text-decoration: none;
+}
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+	font-size: 0.9rem;
+}
+.btn-login {
+	border: 2px solid var(--primary-teal);
+	padding: 5px 20px;
+	border-radius: 20px;
+	text-decoration: none;
+	color: var(--primary-teal);
+	font-weight: bold;
+}
+.btn-login:hover {
+	background: var(--primary-teal);
+	color: white;
+}
+
+/* --- HERO SECTION --- */
+.about-hero {
+	background: linear-gradient(rgba(0, 137, 123, 0.9), rgba(0, 105, 92, 0.8)),
+		url("../assets/images/nature_bg.png");
+	background-size: cover;
+	background-position: center;
+	color: white;
+	padding: 100px 20px;
+	margin-bottom: 0;
+}
+
+.hero-title {
+	font-size: 3rem;
+	font-weight: 900;
+	letter-spacing: 2px;
+	margin-bottom: 20px;
+}
+
+.hero-subtitle {
+	font-size: 1.1rem;
+	max-width: 700px;
+	margin: 0 auto;
+	line-height: 1.6;
+}
+
+.btn-white-outline {
+	border: 2px solid white;
+	color: white;
+	padding: 10px 30px;
+	border-radius: 50px;
+	font-weight: bold;
+	text-transform: uppercase;
+	transition: 0.3s;
+	text-decoration: none;
+	display: inline-block;
+}
+.btn-white-outline:hover {
+	background: white;
+	color: var(--primary-teal);
+}
+
+/* --- SECTIONS --- */
+.section-padding {
+	padding: 80px 0;
+}
+
+.border-teal {
+	border: 3px solid var(--primary-teal);
+}
+
+.bg-teal {
+	background-color: var(--primary-teal) !important;
+}
+.bg-light-teal {
+	background-color: #e0f2f1;
+}
+.text-teal {
+	color: var(--primary-teal) !important;
+}
+
+/* Value Card */
+.value-card {
+	background: white;
+	padding: 40px 30px;
+	border-radius: 20px;
+	text-align: center;
+	height: 100%;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+	transition: transform 0.3s;
+}
+
+.value-card:hover {
+	transform: translateY(-10px);
+}
+
+.icon-box {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto 20px auto;
+	font-size: 1.8rem;
+}
+
+.value-card h4 {
+	font-weight: bold;
+	margin-bottom: 15px;
+	color: var(--primary-teal);
+}
+.value-card p {
+	font-size: 0.9rem;
+	color: #666;
+	line-height: 1.5;
+}
+
+/* Team */
+.team-card {
+	background: white;
+	padding: 20px;
+	border-radius: 15px;
+	border: 1px solid #eee;
+}
+.team-avatar {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border: 3px solid var(--primary-teal);
+	object-fit: cover;
+}

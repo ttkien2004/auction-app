@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Auction App API (Đã sửa lỗi cú pháp)
+  title: Auction App API (Đã thêm Security)
   version: 1.0.0
   description:
     RESTful API cho nền tảng đấu giá trực tuyến, được tạo lại từ các tệp routes.
@@ -30,6 +30,12 @@ tags:
     description: Quản lý giao dịch và đơn hàng
   - name: Reviews
     description: Quản lý đánh giá sản phẩm/người dùng
+  - name: Cart
+    description: Giỏ hàng
+  - name: Chat
+    description: Nhắn tin giữa người mua và người bán
+  - name: Notifications
+    description: Thông báo hệ thống
 
 paths:
   ##################################
@@ -38,7 +44,7 @@ paths:
   /auth/sign-up:
     post:
       tags: [Auth]
-      summary: Đăng ký người dùng mới
+      summary: Đăng ký người dùng mới (Public)
       requestBody:
         $ref: "#/components/requestBodies/UserRegister"
       responses:
@@ -48,7 +54,7 @@ paths:
   /auth/sign-in:
     post:
       tags: [Auth]
-      summary: Đăng nhập và nhận token JWT
+      summary: Đăng nhập và nhận token JWT (Public)
       requestBody:
         $ref: "#/components/requestBodies/UserLogin"
       responses:
@@ -58,7 +64,9 @@ paths:
   /auth/log-out:
     post:
       tags: [Auth]
-      summary: Đăng xuất người dùng
+      summary: Đăng xuất người dùng (Cần token)
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Đăng xuất thành công
@@ -69,78 +77,159 @@ paths:
   /users:
     get:
       tags: [Users]
-      summary: Lấy danh sách tất cả người dùng
+      summary: Lấy danh sách tất cả người dùng (Cần token, Admin)
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Danh sách người dùng
 
-  /users/{userId}:
+  # LƯU Ý: Đặt route /profile TRƯỚC /:userId
+  /users/profile:
     get:
       tags: [Users]
-      summary: Lấy thông tin chi tiết người dùng bằng ID
-      parameters:
-        - $ref: "#/components/parameters/UserId"
+      summary: Lấy thông tin profile của chính mình (Cần token)
+      security:
+        - bearerAuth: []
       responses:
         "200":
-          description: Chi tiết người dùng
+          description: Thông tin profile
+  /users/profile/update:
     put:
       tags: [Users]
-      summary: Cập nhật thông tin người dùng
-      parameters:
-        - $ref: "#/components/parameters/UserId"
+      summary: Cập nhật thông tin profile của chính mình (Cần token)
+      security:
+        - bearerAuth: []
       requestBody:
         $ref: "#/components/requestBodies/UserUpdate"
       responses:
         "200":
           description: Cập nhật thành công
-    delete:
-      tags: [Users]
-      summary: Xóa người dùng
-      parameters:
-        - $ref: "#/components/parameters/UserId"
-      responses:
-        "204":
-          description: Xóa thành công
 
-  /users/{id}/bids:
-    get:
-      tags: [Users]
-      summary: Lấy tất cả các lượt đặt giá của một người dùng
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "200":
-          description: Danh sách các lượt đặt giá
+  # /users/{userId}:
+  #   get:
+  #     tags: [Users]
+  #     summary: Lấy thông tin chi tiết người dùng bằng ID (Cần token)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/UserId"
+  #     responses:
+  #       "200":
+  #         description: Chi tiết người dùng
+  #   put:
+  #     tags: [Users]
+  #     summary: Cập nhật thông tin người dùng (Cần token)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/UserId"
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/UserUpdate"
+  #     responses:
+  #       "200":
+  #         description: Cập nhật thành công
+  #   delete:
+  #     tags: [Users]
+  #     summary: Xóa người dùng (Cần token, Admin)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/UserId"
+  #     responses:
+  #       "204":
+  #         description: Xóa thành công
+
+  # /users/{id}/bids:
+  #   get:
+  #     tags: [Users]
+  #     summary: Lấy tất cả các lượt đặt giá của một người dùng (Cần token)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     responses:
+  #       "200":
+  #         description: Danh sách các lượt đặt giá
 
   ##################################
   # Seller (từ SellerRoutes.js)
   ##################################
-  /seller/{id}/products:
+  /seller/products:
     get:
       tags: [Seller]
-      summary: Lấy tất cả sản phẩm của một người bán
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
+      summary: Lấy danh sách sản phẩm của người bán hiện tại
+      security:
+        - bearerAuth: []
       responses:
         "200":
-          description: Danh sách sản phẩm của người bán
+          description: Danh sách sản phẩm
     post:
       tags: [Seller]
-      summary: Người bán tạo một sản phẩm mới
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
+      summary: Đăng bán sản phẩm mới (Dành cho kênh người bán)
+      security:
+        - bearerAuth: []
       requestBody:
         $ref: "#/components/requestBodies/ProductCreate"
       responses:
         "201":
           description: Tạo sản phẩm thành công
 
+  /seller/products/{id}:
+    patch:
+      tags: [Seller]
+      summary: Cập nhật thông tin sản phẩm
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/ProductUpdate"
+      responses:
+        "200":
+          description: Cập nhật thành công
+    delete:
+      tags: [Seller]
+      summary: Xóa sản phẩm
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200": # Hoặc 204
+          description: Xóa thành công
+
+  /seller/transactions:
+    get:
+      tags: [Seller]
+      summary: Lấy lịch sử đơn hàng/giao dịch của người bán
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Danh sách giao dịch
+
   /seller/{id}/reviews:
     get:
       tags: [Seller]
-      summary: Lấy tất cả đánh giá về một người bán
+      summary: Lấy đánh giá về người bán
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: id
+          in: path
+          required: true
+          description: ID của người bán (Lưu ý code backend nên dùng :id)
+          schema:
+            type: string
       responses:
         "200":
           description: Danh sách đánh giá
@@ -148,33 +237,49 @@ paths:
   ##################################
   # Buyer (từ BuyerRoutes.js)
   ##################################
-  /buyer/{id}/transactions:
+  /buyer/transactions:
     get:
       tags: [Buyer]
-      summary: Lấy tất cả giao dịch (đơn hàng) của một người mua
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
+      summary: Lấy lịch sử mua hàng của người mua
+      security:
+        - bearerAuth: []
       responses:
         "200":
-          description: Danh sách giao dịch
+          description: Danh sách đơn hàng đã mua
+
   /buyer/{id}/bids:
     get:
       tags: [Buyer]
-      summary: Lấy tất cả các lượt đặt giá của một người mua
+      summary: Lấy lịch sử đặt giá thầu (Bids) của người mua
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: id
+          in: path
+          required: true
+          description: ID của người mua
+          schema:
+            type: string
       responses:
         "200":
-          description: Danh sách lượt đặt giá
+          description: Danh sách các lượt bid
+
   /buyer/{id}/reviews:
     get:
       tags: [Buyer]
-      summary: Lấy tất cả các đánh giá do một người mua viết
+      summary: Lấy lịch sử đánh giá người mua đã viết
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: id
+          in: path
+          required: true
+          description: ID của người mua
+          schema:
+            type: string
       responses:
         "200":
-          description: Danh sách đánh giá
+          description: Danh sách đánh giá đã viết
 
   ##################################
   # Products (từ ProductRoutes.js)
@@ -182,46 +287,74 @@ paths:
   /products:
     get:
       tags: [Products]
-      summary: Lấy danh sách tất cả sản phẩm (có thể lọc)
+      summary: Lấy danh sách sản phẩm (Public, có bộ lọc)
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+        - name: name
+          in: query
+          schema: { type: string }
+        - name: categoryId
+          in: query
+          schema: { type: integer }
+        - name: minPrice
+          in: query
+          schema: { type: number }
+        - name: maxPrice
+          in: query
+          schema: { type: number }
+        - name: type
+          in: query
+          schema: { type: string, enum: [DirectSale, Auction] }
       responses:
         "200":
           description: Danh sách sản phẩm
     post:
       tags: [Products]
-      summary: Tạo một sản phẩm mới (thường dùng bởi Seller)
+      summary: Tạo sản phẩm (Upload ảnh trực tiếp)
+      description:
+        Route này có middleware upload ảnh, khác với route bên Seller dùng JSON
+        thuần.
+      security:
+        - bearerAuth: []
       requestBody:
-        $ref: "#/components/requestBodies/ProductCreate"
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                description: { type: string }
+                category_ID: { type: integer }
+                image:
+                  type: string
+                  format: binary
+                  description: File ảnh sản phẩm
+                type: { type: string, enum: [DirectSale, Auction] }
+                buy_now_price: { type: number }
+                start_price: { type: number }
+                auc_end_time: { type: string, format: date-time }
       responses:
         "201":
           description: Tạo sản phẩm thành công
 
-  /products/{id}:
+  /products/{productId}:
     get:
       tags: [Products]
-      summary: Lấy chi tiết một sản phẩm
+      summary: Lấy chi tiết sản phẩm theo ID
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Chi tiết sản phẩm
-    patch:
-      tags: [Products]
-      summary: Cập nhật một phần thông tin sản phẩm
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      requestBody:
-        $ref: "#/components/requestBodies/ProductUpdate"
-      responses:
-        "200":
-          description: Cập nhật thành công
-    delete:
-      tags: [Products]
-      summary: Xóa một sản phẩm
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "204":
-          description: Xóa thành công
 
   ##################################
   # Categories (từ CategoryRoutes.js)
@@ -229,46 +362,58 @@ paths:
   /categories:
     get:
       tags: [Categories]
-      summary: Lấy tất cả danh mục
+      summary: Lấy tất cả danh mục (Public)
+      parameters:
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Danh sách danh mục
-    post:
-      tags: [Categories]
-      summary: Tạo một danh mục mới (Admin)
-      requestBody:
-        $ref: "#/components/requestBodies/CategoryCreate"
-      responses:
-        "201":
-          description: Tạo danh mục thành công
+    # post:
+    #   tags: [Categories]
+    #   summary: Tạo một danh mục mới (Cần token, Admin)
+    #   security:
+    #     - bearerAuth: []
+    #   requestBody:
+    #     $ref: "#/components/requestBodies/CategoryCreate"
+    #   responses:
+    #     "201":
+    #       description: Tạo danh mục thành công
 
-  /categories/{id}:
-    get:
-      tags: [Categories]
-      summary: Lấy chi tiết một danh mục
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "200":
-          description: Chi tiết danh mục
-    put:
-      tags: [Categories]
-      summary: Cập nhật một danh mục (Admin)
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      requestBody:
-        $ref: "#/components/requestBodies/CategoryCreate"
-      responses:
-        "200":
-          description: Cập nhật thành công
-    delete:
-      tags: [Categories]
-      summary: Xóa một danh mục (Admin)
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "204":
-          description: Xóa thành công
+  # /categories/{id}:
+  #   get:
+  #     tags: [Categories]
+  #     summary: Lấy chi tiết một danh mục (Public)
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     responses:
+  #       "200":
+  #         description: Chi tiết danh mục
+  #   put:
+  #     tags: [Categories]
+  #     summary: Cập nhật một danh mục (Cần token, Admin)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/CategoryCreate"
+  #     responses:
+  #       "200":
+  #         description: Cập nhật thành công
+  #   delete:
+  #     tags: [Categories]
+  #     summary: Xóa một danh mục (Cần token, Admin)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     responses:
+  #       "204":
+  #         description: Xóa thành công
 
   ##################################
   # Auctions (từ AuctionRoutes.js)
@@ -276,25 +421,27 @@ paths:
   /auctions:
     get:
       tags: [Auctions]
-      summary: Lấy tất cả các phiên đấu giá đang hoạt động
+      summary: Lấy tất cả hoặc một phiên đấu giá đang hoạt động (Public)
+      parameters:
+        - name: auctionId
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: Danh sách các phiên đấu giá
-
-  /auctions/{id}:
-    get:
-      tags: [Auctions]
-      summary: Lấy chi tiết một phiên đấu giá
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "200":
-          description: Chi tiết phiên đấu giá
     post:
       tags: [Auctions]
-      summary: Tạo một phiên đấu giá mới (lấy từ Product)
+      summary: Tạo một phiên đấu giá mới (Cần token, Seller)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody:
         $ref: "#/components/requestBodies/AuctionCreate"
       responses:
@@ -302,9 +449,15 @@ paths:
           description: Tạo đấu giá thành công
     put:
       tags: [Auctions]
-      summary: Cập nhật thông tin phiên đấu giá (Admin/Seller)
+      summary: Cập nhật thông tin phiên đấu giá (Cần token, Seller)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: auctionId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody:
         $ref: "#/components/requestBodies/AuctionCreate"
       responses:
@@ -312,37 +465,59 @@ paths:
           description: Cập nhật thành công
     delete:
       tags: [Auctions]
-      summary: Hủy một phiên đấu giá (Admin/Seller)
+      summary: Hủy một phiên đấu giá (Cần token, Seller)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: auctionId
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "204":
           description: Xóa thành công
 
-  /auctions/{id}/join:
+  /auctions/join:
     post:
       tags: [Auctions]
-      summary: Người dùng tham gia (theo dõi) phiên đấu giá
+      summary: Người dùng tham gia (theo dõi) phiên đấu giá (Cần token, Buyer)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: auctionId
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Tham gia thành công
 
-  /auctions/{id}/bids:
+  /auctions/bids:
     get:
       tags: [Auctions]
-      summary: Lấy tất cả các lượt đặt giá của một phiên đấu giá
+      summary: Lấy tất cả các lượt đặt giá của một phiên đấu giá (Public)
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: auctionId
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Danh sách các lượt đặt giá
     post:
       tags: [Auctions]
-      summary: Người dùng đặt giá cho một phiên đấu giá
+      summary: Người dùng đặt giá cho một phiên đấu giá (Cần token, Buyer)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: auctionId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody:
         $ref: "#/components/requestBodies/BidCreate"
       responses:
@@ -352,56 +527,88 @@ paths:
   ##################################
   # DirectSales (từ DirectSalesRoutes.js)
   ##################################
-  /direct-sales:
-    get:
-      tags: [DirectSales]
-      summary: Lấy tất cả sản phẩm bán trực tiếp
-      responses:
-        "200":
-          description: Danh sách sản phẩm
+  # /direct-sales:
+  #   get:
+  #     tags: [DirectSales]
+  #     summary: Lấy tất cả sản phẩm bán trực tiếp (Public)
+  #     responses:
+  #       "200":
+  #         description: Danh sách sản phẩm
+  #   post:
+  #     tags: [DirectSales]
+  #     summary: Tạo một sản phẩm bán trực tiếp mới (Cần token)
+  #     security:
+  #       - bearerAuth: []
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/DirectSaleCreate"
+  #     responses:
+  #       "201":
+  #         description: Tạo thành công
+
+  # /direct-sales/{id}:
+  #   get:
+  #     tags: [DirectSales]
+  #     summary: Lấy chi tiết sản phẩm bán trực tiếp (Public)
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     responses:
+  #       "200":
+  #         description: Chi tiết sản phẩm
+  #   put:
+  #     tags: [DirectSales]
+  #     summary: Cập nhật sản phẩm bán trực tiếp (Cần token)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/DirectSaleCreate"
+  #     responses:
+  #       "200":
+  #         description: Cập nhật thành công
+  #   delete:
+  #     tags: [DirectSales]
+  #     summary: Xóa sản phẩm bán trực tiếp (Cần token)
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - $ref: "#/components/parameters/GenericId"
+  #     responses:
+  #       "204":
+  #         description: Xóa thành công
+
+  /direct-sales/buy:
     post:
       tags: [DirectSales]
-      summary: Tạo một sản phẩm bán trực tiếp mới
+      summary: Người dùng mua ngay một sản phẩm (Cần token, Buyer)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: directSaleId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody:
-        $ref: "#/components/requestBodies/DirectSaleCreate"
-      responses:
-        "201":
-          description: Tạo thành công
-
-  /direct-sales/{id}:
-    get:
-      tags: [DirectSales]
-      summary: Lấy chi tiết sản phẩm bán trực tiếp
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "200":
-          description: Chi tiết sản phẩm
-    put:
-      tags: [DirectSales]
-      summary: Cập nhật sản phẩm bán trực tiếp
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      requestBody:
-        $ref: "#/components/requestBodies/DirectSaleCreate"
-      responses:
-        "200":
-          description: Cập nhật thành công
-    delete:
-      tags: [DirectSales]
-      summary: Xóa sản phẩm bán trực tiếp
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "204":
-          description: Xóa thành công
-
-  /direct-sales/{id}/buy:
-    post:
-      tags: [DirectSales]
-      summary: Người dùng mua ngay một sản phẩm
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
+        description: Thông tin tạo đánh giá
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                note:
+                  type: string
+                phone:
+                  type: string
+                to_province_id:
+                  type: integer
+                to_district_id:
+                  type: integer
+                to_ward_code:
+                  type: string
       responses:
         "200":
           description: Mua thành công, tạo giao dịch
@@ -410,45 +617,63 @@ paths:
   # Transactions (từ TransactionRoutes.js)
   ##################################
   /transactions:
-    get:
-      tags: [Transactions]
-      summary: Lấy tất cả giao dịch (Admin)
-      responses:
-        "200":
-          description: Danh sách giao dịch
+    # get:
+    #   tags: [Transactions]
+    #   summary: Lấy tất cả giao dịch (Cần token, Admin)
+    #   security:
+    #     - bearerAuth: []
+    #   responses:
+    #     "200":
+    #       description: Danh sách giao dịch
 
-  /transactions/{id}:
-    get:
-      tags: [Transactions]
-      summary: Lấy chi tiết một giao dịch (đơn hàng)
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "200":
-          description: Chi tiết giao dịch
-    post:
-      tags: [Transactions]
-      summary: Tạo một giao dịch mới (thường được gọi tự động)
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "201":
-          description: Tạo giao dịch thành công
+    # /transactions/{id}:
+    # get:
+    #   tags: [Transactions]
+    #   summary: Lấy chi tiết một giao dịch (đơn hàng) (Cần token)
+    #   security:
+    #     - bearerAuth: []
+    #   parameters:
+    #     - $ref: "#/components/parameters/GenericId"
+    #   responses:
+    #     "200":
+    #       description: Chi tiết giao dịch
+    # post:
+    #   tags: [Transactions]
+    #   summary: Tạo một giao dịch mới (Cần token)
+    #   security:
+    #     - bearerAuth: []
+    #   parameters:
+    #     - $ref: "#/components/parameters/GenericId"
+    #   responses:
+    #     "201":
+    #       description: Tạo giao dịch thành công
     put:
       tags: [Transactions]
-      summary: Cập nhật trạng thái giao dịch (thanh toán, vận chuyển)
+      summary: Cập nhật trạng thái giao dịch (Cần token, Seller)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: transactionId
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Cập nhật thành công
     delete:
       tags: [Transactions]
-      summary: Hủy một giao dịch (Admin/User)
+      summary: Hủy một giao dịch (Cần token, Seller)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: transactionId
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
-        "2Scrollback":
+        "204": # Sửa lỗi "2Scrollback" từ file gốc
           description: Hủy thành công
 
   ##################################
@@ -457,25 +682,35 @@ paths:
   /reviews:
     get:
       tags: [Reviews]
-      summary: Lấy tất cả các đánh giá
+      summary: Lấy tất cả các đánh giá (Public) của một Transaction
+      parameters:
+        - name: transactionId
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Danh sách đánh giá
 
-  /reviews/{id}:
-    get:
-      tags: [Reviews]
-      summary: Lấy chi tiết một đánh giá
-      parameters:
-        - $ref: "#/components/parameters/GenericId"
-      responses:
-        "200":
-          description: Chi tiết đánh giá
+    # /reviews/{id}:
+    #   get:
+    #     tags: [Reviews]
+    #     summary: Lấy chi tiết một đánh giá (Public)
+    #     responses:
+    #       "200":
+    #         description: Chi tiết đánh giá
     post:
       tags: [Reviews]
-      summary: Tạo một đánh giá mới (cho một giao dịch)
+      summary: Tạo một đánh giá mới (cho một giao dịch) (Cần token, Buyer)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: transactionId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody:
         $ref: "#/components/requestBodies/ReviewCreate"
       responses:
@@ -483,9 +718,15 @@ paths:
           description: Tạo đánh giá thành công
     put:
       tags: [Reviews]
-      summary: Chỉnh sửa một đánh giá
+      summary: Chỉnh sửa một đánh giá (Cần token, Buyer)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: reviewId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody:
         $ref: "#/components/requestBodies/ReviewCreate"
       responses:
@@ -493,12 +734,69 @@ paths:
           description: Cập nhật thành công
     delete:
       tags: [Reviews]
-      summary: Xóa một đánh giá
+      summary: Xóa một đánh giá (Cần token, Buyer)
+      security:
+        - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/GenericId"
+        - name: reviewId
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "204":
           description: Xóa thành công
+  # ==========================================
+  # CART (GIỎ HÀNG)
+  # ==========================================
+  /cart:
+    get:
+      tags: [Cart]
+      summary: Xem giỏ hàng hiện tại
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Danh sách items trong giỏ
+    post:
+      tags: [Cart]
+      summary: Thêm sản phẩm vào giỏ
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId: { type: integer }
+                quantity: { type: integer, default: 1 }
+      responses:
+        "200":
+          description: Đã thêm vào giỏ
+  # ==========================================
+  # CHAT & NOTIFICATIONS
+  # ==========================================
+  /chat/conversation:
+    get:
+      tags: [Chat]
+      summary: Lấy hoặc tạo cuộc trò chuyện theo Product ID
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema: { type: integer }
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Thông tin phòng chat (Room ID)
+
+  /notifications:
+    get:
+      tags: [Notifications]
+      summary: Lấy danh sách thông báo của người dùng
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Danh sách thông báo (Đấu giá, Đơn hàng...)
 
 ##################################
 # Components (Định nghĩa chung)
@@ -547,6 +845,12 @@ components:
               name:
                 type: string
                 example: "John Doe"
+              roles: # Thêm roles cho Lựa chọn 2
+                type: array
+                items:
+                  type: string
+                  enum: [BUYER, SELLER]
+                example: ["BUYER", "SELLER"]
     UserLogin:
       description: Thông tin đăng nhập
       required: true
@@ -569,7 +873,11 @@ components:
           schema:
             type: object
             properties:
-              full_name:
+              name: # Sửa từ full_name (file gốc) sang name
+                type: string
+              email:
+                type: string
+              password:
                 type: string
               address:
                 type: string

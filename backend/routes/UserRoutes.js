@@ -5,23 +5,29 @@ const { authenticateToken } = require("../middleware/authMiddleware");
 const routes = express.Router();
 
 routes.get("/users", authenticateToken, userController.getAllUsersController);
+
 routes.get(
-	"/users/{userId}",
+	"/users/profile",
 	authenticateToken,
-	userController.getUserByIdController
+	userController.getUserProfileController
 );
+
 routes.put(
-	"/users/{userId}",
+	"/users/profile/update",
 	authenticateToken,
 	userController.updateUserController
 );
-routes.delete(
-	"/users/{userId}",
-	authenticateToken,
-	userController.deleteUserController
-);
+
+routes.delete("/users", authenticateToken, userController.deleteUserController);
+
 routes.get(
-	"/users/{id}/bids",
+	"/users/:userId",
+	authenticateToken,
+	userController.getUserByIdController
+);
+
+routes.get(
+	"/users/:id/bids",
 	authenticateToken,
 	userController.getUserBidsController
 );

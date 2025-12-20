@@ -1,0 +1,241 @@
+/* style.css */
+:root {
+	--primary-teal: #00897b; /* Màu xanh chủ đạo */
+	--light-bg: #faf9f6; /* Màu nền kem nhạt */
+	--text-teal: #00695c; /* Màu chữ xanh đậm */
+	--btn-yellow: #ffb74d; /* Màu nút cam/vàng */
+	--btn-green: #8bc34a; /* Màu nút xanh lá */
+	--card-border: #6c757d;
+	--text-time: #ff7931;
+}
+
+body {
+	background-color: var(--light-bg);
+	/* font-family: "Roboto", Courier, monospace; */
+	color: #333;
+}
+
+/* --- HEADER --- */
+.navbar {
+	background-color: var(--light-bg);
+	padding: 1rem 2rem;
+}
+
+.logo-text {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+}
+
+.search-bar {
+	background-color: var(--primary-teal);
+	border-radius: 20px;
+	padding: 5px 15px;
+	width: 50%;
+	display: flex;
+	align-items: center;
+}
+
+.search-input {
+	background: transparent;
+	border: none;
+	color: white;
+	width: 100%;
+	outline: none;
+}
+.search-input::placeholder {
+	color: #e0e0e0;
+}
+
+.nav-link {
+	color: var(--primary-teal) !important;
+	font-weight: bold;
+	font-size: 0.9rem;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+	border-right: 1px solid #ddd;
+	min-height: 80vh;
+	padding-top: 2rem;
+	font-family: "Roboto", sans-serif;
+}
+
+.sidebar-link {
+	display: block;
+	padding: 10px 0;
+	color: #888; /* Màu xám cho mục thường */
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.sidebar-link.active {
+	color: var(--primary-teal);
+}
+.sidebar-link.logout {
+	color: #ff7043;
+	margin-top: 2rem;
+}
+
+/* --- PROFILE FORM --- */
+.page-title {
+	color: var(--text-teal);
+	font-weight: bold;
+	margin-bottom: 1.5rem;
+	font-size: 1.8rem;
+	font-family: "Ubuntu Sans", sans-serif;
+}
+
+.custom-label {
+	color: var(--text-teal);
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.custom-input {
+	border-radius: 15px;
+	border: none;
+	background-color: white;
+	padding: 10px 15px;
+	color: var(--primary-teal);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-update {
+	background-color: var(--btn-yellow);
+	color: white;
+	font-weight: bold;
+	border-radius: 20px;
+	padding: 10px 30px;
+	border: none;
+}
+
+/* --- PRODUCT LIST (CARD) --- */
+.product-card {
+	background: var(--light-bg);
+	border: 1px solid #999;
+	border-radius: 15px;
+	padding: 15px;
+	margin-bottom: 20px;
+}
+
+.product-title {
+	color: var(--text-teal);
+	font-weight: bold;
+	font-size: 1.1rem;
+}
+
+.product-id {
+	font-weight: bold;
+	font-size: 0.9rem;
+	margin-bottom: 5px;
+}
+.product-time {
+	color: var(--primary-teal);
+	font-size: 0.85rem;
+}
+.product-status {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 0.9rem;
+}
+
+/* Status Colors */
+.status-shipping,
+.status-pending {
+	color: #f57c00;
+} /* Cam */
+.status-success {
+	color: #689f38;
+} /* Xanh lá */
+.status-cancel {
+	color: #d32f2f;
+} /* Đỏ */
+
+.product-price {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: var(--text-teal);
+}
+
+.btn-view {
+	background-color: var(--btn-green);
+	color: white;
+	border-radius: 15px;
+	padding: 5px 20px;
+	font-size: 0.9rem;
+	border: none;
+	margin-right: 10px;
+}
+
+.btn-action {
+	background-color: var(--btn-yellow); /* Cho Sell List */
+	color: white;
+	border-radius: 15px;
+	padding: 5px 20px;
+	font-size: 0.9rem;
+	border: none;
+}
+
+.btn-outline-custom {
+	/* Cho Buy List */
+	background-color: transparent;
+	border: 1px solid #666;
+	color: #666;
+	border-radius: 15px;
+	padding: 5px 20px;
+	font-size: 0.9rem;
+}
+
+/* Foot note */
+.foot-note {
+	/* text-align: center; */
+	color: #999;
+	font-size: 0.85rem;
+	/* margin: 2rem 0; */
+	margin-top: 2rem;
+	margin-left: 2rem;
+	color: var(--text-teal);
+	font-family: "Ubuntu Sans", sans-serif;
+}
+.custom-radio .form-check-input:checked {
+	background-color: #00897b;
+	border-color: #00897b;
+}
+.text-teal {
+	color: #00897b;
+}
+
+/* Style cho mục con */
+.sidebar-link.sub-item {
+	padding-left: 2.5rem !important; /* Thụt vào sâu hơn */
+	font-size: 0.9rem; /* Chữ nhỏ hơn một chút */
+	color: #666; /* Màu nhạt hơn để phân biệt */
+	position: relative;
+}
+
+/* Tạo đường kẻ nối (Tùy chọn - làm cho giống cây thư mục) */
+.sidebar-link.sub-item::before {
+	content: "";
+	position: absolute;
+	left: 1.5rem;
+	top: 50%;
+	width: 10px;
+	height: 1px;
+	background-color: #ccc;
+}
+
+/* Hiệu ứng khi hover vào mục con */
+.sidebar-link.sub-item:hover,
+.sidebar-link.sub-item.active {
+	color: var(--primary-teal); /* Đổi màu xanh khi chọn */
+	background-color: #f0fdfc; /* Nền nhạt */
+}
+.site-footer {
+	padding: 20px 40px;
+	color: var(--primary-teal);
+	font-weight: bold;
+	font-size: 1rem;
+	text-align: left;
+	margin-top: auto;
+}

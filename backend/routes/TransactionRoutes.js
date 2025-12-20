@@ -4,28 +4,28 @@ const transactionController = require("../controller/TransactionController");
 
 const routes = express.Router();
 
+// routes.get(
+// 	"/transactions",
+// 	authenticateToken,
+// 	transactionController.getAllTransactionsController
+// );
 routes.get(
 	"/transactions",
-	authenticateToken,
-	transactionController.getAllTransactionsController
-);
-routes.get(
-	"/transactions/{id}",
 	authenticateToken,
 	transactionController.getTransactionByIdController
 );
 routes.post(
-	"/transactions/{id}",
+	"/transactions",
 	authenticateToken,
 	transactionController.createTransactionController
 );
 routes.put(
-	"/transactions/{id}",
+	"/transactions",
 	authenticateToken,
 	transactionController.updateTransactionController
 );
 routes.delete(
-	"/transactions/{id}",
+	"/transactions",
 	authenticateToken,
 	transactionController.deleteTransactionController
 );

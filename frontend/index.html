@@ -1,14 +1,350 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Nền tảng mua/bán đồ cũ</title>
-		<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Green Shopping, Pretty Pricing!</title>
+
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
 		<link rel="stylesheet" href="./css/index.css" />
+		<link rel="stylesheet" href="./css/reset.css" />
+		<link rel="stylesheet" href="./css/main_screen.css" />
 	</head>
 	<body>
-		<h1>Đây là hompage</h1>
+		<div class="page">
+			<!-- NAVBAR -->
+			<nav class="navbar">
+				<div
+					class="container-fluid d-flex align-items-center justify-content-between"
+				>
+					<a class="navbar-brand" href="#"
+						><img
+							src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
+							style="width: 50px; height: 50px; display: inline-block"
+						/>
+						CŨ MÀ CHẤT</a
+					>
+					<div class="nav-search">
+						<i class="fas fa-search"></i>
+						<input type="text" placeholder="Tìm kiếm" />
+					</div>
+					<div class="nav-menu d-flex align-items-center">
+						<a href="#" class="nav-link me-3">Trang Chủ</a>
+						<a href="index.html#filter-section" class="nav-link me-3"
+							>Sản Phẩm</a
+						>
+						<a href="./chat/index.html" class="nav-link me-3">Liên Lạc</a>
+						<a href="./notifications/index.html" class="position-relative me-3">
+							<i class="fas fa-bell fa-lg text-teal"></i>
+							<span
+								id="count-notification"
+								class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+							>
+								0
+								<span class="visually-hidden">unread messages</span>
+							</span>
+						</a>
+						<a href="./cart-list/index.html" class="position-relative me-3">
+							<i class="fas fa-shopping-cart fa-lg text-teal"></i>
+							<span
+								id="count-cart-list"
+								class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+							>
+								0
+							</span>
+						</a>
+						<div id="auth-section">
+							<img
+								src="https://i.pravatar.cc/150?img=5"
+								class="rounded-circle user-avatar"
+								width="35"
+								height="35"
+								alt="Avatar"
+								id="user-avatar"
+								onclick="window.location.href='./profile/index.html'"
+							/>
+						</div>
+					</div>
+				</div>
+			</nav>
 
-		<script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+			<!-- HERO (giống Figma: text giữa + ảnh dưới) -->
+			<section class="hero">
+				<div class="hero-content">
+					<h1>Mua sắm xanh – Giá yêu xịn!</h1>
+					<p>
+						"Khám phá những món đồ độc đáo, thân thiện với môi trường với mức
+						giá phải chăng – từ nội thất tái chế đến thời trang đã qua sử dụng"
+					</p>
+					<div class="hero-actions">
+						<a
+							href="./policy/index.html"
+							class="btn primary"
+							style="align-self: center"
+							>Chính sách</a
+						>
+						<a
+							href="./about/index.html"
+							class="btn secondary"
+							style="display: flex"
+						>
+							<img src="assets/images/main_hand.jpg" alt="" />
+							<span>Tìm hiểu thêm</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="hero-image">
+					<img src="assets/images/main_screen.png" alt="Hero image" />
+				</div>
+			</section>
+
+			<!-- STRIP: YOUR DAILY DISCOVERY -->
+			<section class="strip">
+				<hr class="divider" />
+
+				<div class="strip-header">
+					<div class="strip-text-wrap">
+						<div class="strip-title">Khám phá mỗi ngày dành cho bạn</div>
+						<p class="strip-text">
+							Gợi ý được cá nhân hóa giúp bạn tìm ra món đồ quý tiếp theo. Cập
+							nhật mỗi ngày.
+						</p>
+					</div>
+					<a
+						href="#"
+						class="btn secondary"
+						style="font-size: 1rem; font-weight: bold"
+						>✨Khám phá món đồ thú vị tiếp theo</a
+					>
+				</div>
+
+				<div class="strip-cards" id="strip-container">
+					<!-- 6 card giống hàng trên hình – tạm copy 1 rồi nhân ra 5 -->
+					<!-- <article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
+
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
+
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
+
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
+
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article>
+
+					<article class="strip-card">
+						<div class="strip-card-img">
+							<img
+								src="assets/products/cat_v1.png"
+								style="
+									height: 100%;
+									width: 100%;
+									object-fit: cover;
+									border-radius: 15px;
+								"
+								alt="cat-v1-image"
+							/>
+						</div>
+						<div class="strip-card-info">
+							<span class="price">1.000.000vnđ</span>
+							<span class="time-left">1D,5H LEFT</span>
+						</div>
+					</article> -->
+				</div>
+
+				<hr class="divider" />
+			</section>
+
+			<!-- DAILY DISCOVER GRID -->
+			<section class="discover">
+				<div id="filter-section" class="filter-wrapper" style="display: none">
+					<div class="filter-row">
+						<h3 class="filter-heading">Bộ lọc tìm kiếm:</h3>
+						<div class="search-filter-container">
+							<div class="search-filter-box">
+								<!-- <i class="fas fa-search search-icon-left"></i> -->
+								<img
+									src="./assets/icons/Vector.png"
+									alt="search-icon"
+									class="search-icon-left"
+								/>
+								<input type="text" id="filter-name" placeholder="Tìm kiếm..." />
+							</div>
+							<div>
+								<button id="btn-search-icon">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="filter-row">
+						<h3 class="filter-heading">Mức giá:</h3>
+						<div class="price-range-box">
+							<div class="price-input-pill">
+								<input type="number" id="min-price" placeholder="10.000đ" />
+							</div>
+							<span class="dash">—</span>
+							<div class="price-input-pill">
+								<input type="number" id="max-price" placeholder="100.000đ" />
+							</div>
+							<button id="btn-apply-price" class="btn-filter-go">
+								Áp dụng
+							</button>
+						</div>
+					</div>
+
+					<div class="filter-row">
+						<h3 class="filter-heading">Sắp xếp theo:</h3>
+						<div class="tags-container" id="sort-tags">
+							<button class="filter-tag active" data-sort="relevance">
+								Liên quan
+							</button>
+							<button class="filter-tag" data-sort="newest">Mới nhất</button>
+						</div>
+					</div>
+
+					<div class="filter-row">
+						<h3 class="filter-heading">Danh mục đồ điện tử:</h3>
+						<div class="tags-container category-group">
+							<button class="filter-tag" data-cat="1">Công nghệ</button>
+							<button class="filter-tag" data-cat="4">Bàn phím</button>
+							<button class="filter-tag" data-cat="5">Chuột</button>
+						</div>
+					</div>
+
+					<div class="filter-row">
+						<h3 class="filter-heading">Danh mục thời trang:</h3>
+						<div class="tags-container category-group">
+							<button class="filter-tag" data-cat="2">Thời trang</button>
+							<button class="filter-tag" data-cat="6">Áo khoác</button>
+							<button class="filter-tag" data-cat="8">Túi xách</button>
+							<button class="filter-tag" data-cat="7">Giày thể thao</button>
+							<button class="filter-tag" data-cat="9">
+								Phụ kiện thời trang
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="discover-top">
+					<h2>⭐ Gợi ý hôm nay</h2>
+				</div>
+				<div style="display: grid">
+					<!-- <div class="discover-top">
+						<h2>Daily Discover</h2>
+					</div> -->
+
+					<div class="discover-grid" id="product-list">
+						<p style="text-align: center; width: 100%; margin-top: 20px">
+							Đang tải dữ liệu...
+						</p>
+					</div>
+				</div>
+
+				<div class="see-more-container">
+					<a href="#" class="see-more">Xem thêm</a>
+				</div>
+			</section>
+
+			<!-- FOOTER -->
+			<footer class="footer">
+				<p>Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá</p>
+			</footer>
+		</div>
+		<script type="module" src="scripts/home.js"></script>
+		<!-- <script type="module" src="scripts/userCommon.js"></script> -->
+		<script type="module" src="scripts/cartCommon.js"></script>
+		<script type="module" src="scripts/notifCommon.js"></script>
 	</body>
 </html>
