@@ -1,0 +1,165 @@
+:root {
+	--primary-teal: #00897b;
+	--light-teal: #e0f2f1;
+	--bg-color: #faf9f6;
+	--text-dark: #333;
+	--star-gold: #ffc107;
+	--star-gray: #ddd;
+}
+
+body {
+	background-color: var(--bg-color);
+	font-family: "Courier New", Courier, monospace;
+	color: var(--text-dark);
+}
+
+/* Navbar & Footer */
+.navbar {
+	padding: 15px 40px;
+	background: var(--bg-color);
+}
+.navbar-brand {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+	text-decoration: none;
+}
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+}
+.user-avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 2px solid var(--primary-teal);
+}
+.site-footer {
+	padding: 20px 40px;
+	color: var(--primary-teal);
+	font-weight: bold;
+	font-size: 1rem;
+	margin-top: auto;
+}
+
+.review-wrapper {
+	max-width: 700px; /* Giới hạn chiều rộng để tập trung */
+}
+
+.page-title {
+	color: var(--primary-teal);
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.text-teal {
+	color: var(--primary-teal) !important;
+}
+
+/* --- STAR RATING (Lớn) --- */
+.star-rating {
+	font-size: 2.5rem;
+	color: var(--star-gray);
+	cursor: pointer;
+}
+.star-rating .star.active,
+.star-rating .star:hover {
+	color: var(--star-gold);
+}
+
+/* --- QUICK TAGS --- */
+.quick-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.tag {
+	padding: 5px 15px;
+	border: 1px solid var(--primary-teal);
+	color: var(--primary-teal);
+	border-radius: 50px;
+	font-size: 0.85rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: 0.2s;
+	background: white;
+}
+.tag:hover {
+	background: var(--light-teal);
+}
+.tag.active {
+	background: var(--primary-teal);
+	color: white;
+}
+
+/* --- INPUTS --- */
+.custom-textarea {
+	border: 2px solid var(--primary-teal);
+	border-radius: 20px;
+	padding: 15px;
+	resize: none;
+	font-size: 0.95rem;
+}
+.custom-textarea:focus {
+	box-shadow: 0 0 0 0.25rem rgba(0, 137, 123, 0.25);
+	border-color: var(--primary-teal);
+}
+
+/* --- UPLOAD --- */
+.upload-container {
+	display: flex;
+	gap: 10px;
+	overflow-x: auto;
+	padding-bottom: 5px;
+}
+.upload-btn {
+	width: 80px;
+	height: 80px;
+	border: 2px dashed var(--primary-teal);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: var(--primary-teal);
+	cursor: pointer;
+	flex-shrink: 0;
+	background: var(--light-teal);
+}
+.preview-item {
+	width: 80px;
+	height: 80px;
+	border-radius: 10px;
+	object-fit: cover;
+	border: 1px solid #ddd;
+	flex-shrink: 0;
+}
+
+/* --- SMALL STARS (Service) --- */
+.small-stars {
+	font-size: 1.2rem;
+	color: #ccc;
+	cursor: pointer;
+}
+.small-stars .active {
+	color: var(--star-gold);
+	font-weight: 900;
+} /* Đổi icon far thành fas */
+
+/* --- BUTTON --- */
+.btn-teal-solid {
+	background-color: var(--primary-teal);
+	color: white;
+	border: none;
+}
+.btn-teal-solid:hover {
+	background-color: #00695c;
+	color: white;
+}
+
+/* Switch Color */
+.form-check-input:checked {
+	background-color: var(--primary-teal);
+	border-color: var(--primary-teal);
+}

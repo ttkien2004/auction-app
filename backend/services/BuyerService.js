@@ -1,6 +1,8 @@
 // services/BuyerService.js
+require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const IMAGE_BASE_URL = process.env.R2_PUBLIC_URL;
 
 const getTransactionsByBuyer = async (buyerId) => {
 	// TODO: Viết logic (ví dụ: prisma.transaction.findMany({ where: { buyer_id: buyerId } }))
@@ -14,6 +16,7 @@ const getTransactionsByBuyer = async (buyerId) => {
 					ID: true,
 					name: true,
 					type: true,
+					image: true,
 					Seller: {
 						select: {
 							User: {
@@ -24,8 +27,17 @@ const getTransactionsByBuyer = async (buyerId) => {
 							},
 						},
 					},
+					status: true,
+					Transaction: {
+						select: {
+							expected_delivery_date: true,
+							final_amount: true,
+							status: true,
+						},
+					},
 				},
 			},
+			ID: true,
 		},
 		orderBy: {
 			created_at: "desc",

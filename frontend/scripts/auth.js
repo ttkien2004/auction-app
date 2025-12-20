@@ -2,6 +2,9 @@
 // (Đảm bảo đường dẫn này đúng, tính từ app.js đến file service)
 import authApi from "../services/authApi.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const role = urlParams.get("role");
+
 // 2. Chờ DOM load xong
 document.addEventListener("DOMContentLoaded", () => {
 	// Lấy các phần tử (element)
@@ -24,14 +27,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				// Lưu token (quan trọng)
 				localStorage.setItem("token", data.token);
+				localStorage.setItem("user", JSON.stringify(data.user));
 
 				// Thông báo thành công và redirect (ví dụ)
 				showMessage("Đăng nhập thành công!", "success");
 
 				// Chuyển hướng đến trang chủ (hoặc trang profile) sau 1 giây
-				setTimeout(() => {
-					window.location.href = "/frontend"; // Hoặc trang bạn muốn
-				}, 1000);
+				if (data.user.Buyer) {
+					setTimeout(() => {
+						window.location.href = "/frontend/index.html"; // Hoặc trang bạn muốn
+					}, 1000);
+				} else if (data.user.Seller) {
+					setTimeout(() => {
+						window.location.href = "/frontend/seller-dashboard/index.html"; // Hoặc trang bạn muốn
+					}, 1000);
+				}
 			} catch (error) {
 				// Hiển thị lỗi
 				showMessage(
@@ -53,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				full_name: document.getElementById("reg-fullname").value,
 				email: document.getElementById("reg-email").value,
 				password: document.getElementById("reg-password").value,
+				roles: [role],
 			};
 
 			try {

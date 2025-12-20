@@ -6,10 +6,10 @@ import {
 } from "./apiHelpers.js";
 
 const sellerApi = {
-	getSellerProducts: async (id) => {
+	getSellerProducts: async () => {
 		try {
-			const response = await fetch(`${BASE_URL}/seller/${id}/products`, {
-				headers: getFetchHeaders(),
+			const response = await fetch(`${BASE_URL}/seller/products`, {
+				headers: getFetchHeaders({ "Content-Type": "application/json" }),
 			});
 			return handleResponse(response);
 		} catch (err) {
@@ -34,6 +34,39 @@ const sellerApi = {
 				method: "POST",
 				headers: getFetchHeaders({ "Content-Type": "application/json" }),
 				body: JSON.stringify(productData),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
+	getSellerTransactions: async () => {
+		try {
+			const response = await fetch(`${BASE_URL}/seller/transactions`, {
+				headers: getFetchHeaders(),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
+	updateProduct: async (id, updatedData) => {
+		try {
+			const response = await fetch(`${BASE_URL}/seller/products/${id}`, {
+				method: "PATCH",
+				headers: getFetchHeaders({ "Content-Type": "application/json" }),
+				body: JSON.stringify(updatedData),
+			});
+			return handleResponse(response);
+		} catch (err) {
+			handleError(err);
+		}
+	},
+	deleteProduct: async (id) => {
+		try {
+			const response = await fetch(`${BASE_URL}/seller/products/${id}`, {
+				method: "DELETE",
+				headers: getFetchHeaders({ "Content-Type": "application/json" }),
 			});
 			return handleResponse(response);
 		} catch (err) {

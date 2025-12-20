@@ -45,7 +45,7 @@ The application will be available at `http://localhost:3000`
 After the application started successfully, add Database Data:
 
 ```bash
-docker exec -i auction_db_mysql mysql -u root -p[MẬT_KHẨU_CỦA_BẠN] AUCTION_APP < ./init_sql/auction_data.sql
+docker exec -i auction_db_mysql mysql --default-character-set=utf8mb4 -u root -p[MẬT_KHẨU_CỦA_BẠN] AUCTION_APP < ./init_sql/auction_data.sql
 ```
 
 Run migration (If there is any update relating to your sql):

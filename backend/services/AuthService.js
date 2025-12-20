@@ -10,7 +10,9 @@ const register = async (req, res) => {
 		let defaultRole = "BUYER";
 		// console.log(roles);
 		if (roles.length !== 0) {
-			defaultRole = "SELLER";
+			if (roles.includes("SELLER")) {
+				defaultRole = "SELLER";
+			}
 		}
 
 		const existingUser = await prisma.user.findFirst({
@@ -66,6 +68,8 @@ const register = async (req, res) => {
 				username: newUser.username,
 				email: newUser.email,
 				name: newUser.name,
+				id: newUser.ID,
+				avatar: newUser.avatar,
 			},
 		});
 	} catch (error) {
@@ -116,6 +120,9 @@ const login = async (req, res) => {
 				id: user.ID,
 				username: user.username,
 				email: user.email,
+				avatar: user.avatar,
+				Buyer: user.Buyer,
+				Seller: user.Seller,
 			},
 		});
 	} catch (error) {

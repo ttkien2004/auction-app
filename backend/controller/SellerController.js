@@ -17,8 +17,8 @@ const createProductForSellerController = async (req, res, next) => {
 
 const getProductsBySellerController = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const products = await SellerService.getProductsBySeller(Number(id));
+		const userId = req.user.id;
+		const products = await SellerService.getProductsBySeller(Number(userId));
 		res.status(200).json(products);
 	} catch (error) {
 		next(error);
@@ -44,10 +44,40 @@ const getTransactionsForSellerController = async (req, res, next) => {
 		next(err);
 	}
 };
-
+const updateProductForSellerController = async (req, res, next) => {
+	try {
+		const sellerId = req.user.id;
+		const { id } = req.params;
+		const productData = req.body;
+		console.log("PID", id, productData);
+		const transactions = await SellerService.updateProduct(
+			Number(id),
+			productData,
+			sellerId
+		);
+		res.status(200).json(transactions);
+	} catch (err) {
+		next(err);
+	}
+};
+const deleteProductForSellerController = async (req, res, next) => {
+	try {
+		const sellerId = req.user.id;
+		const { id } = req.params;
+		const transactions = await SellerService.deleteProduct(
+			Number(id),
+			sellerId
+		);
+		res.status(200).json(transactions);
+	} catch (err) {
+		next(err);
+	}
+};
 module.exports = {
 	createProductForSellerController,
 	getProductsBySellerController,
 	getReviewsForSellerController,
 	getTransactionsForSellerController,
+	updateProductForSellerController,
+	deleteProductForSellerController,
 };

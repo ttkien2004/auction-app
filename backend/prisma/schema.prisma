@@ -8,16 +8,26 @@ datasource db {
 }
 
 model User {
-  ID           Int         @id @default(autoincrement())
-  username     String      @unique(map: "username") @db.VarChar(50)
-  password     String      @db.VarChar(255)
-  email        String      @unique(map: "email") @db.VarChar(100)
-  name         String?     @db.VarChar(100)
-  address      String?     @db.VarChar(255)
-  phone_number String?     @db.VarChar(20)
-  Buyer        Buyer?
-  Seller       Seller?
-  Watchlist    Watchlist[]
+  ID              Int     @id @default(autoincrement())
+  username        String  @unique(map: "username") @db.VarChar(50)
+  password        String  @db.VarChar(255)
+  email           String  @unique(map: "email") @db.VarChar(100)
+  name            String? @db.VarChar(100)
+  address         String? @db.VarChar(255)
+  phone_number    String? @db.VarChar(20)
+  avatar          String? @db.VarChar(255)
+  ghn_province_id Int? // ID Tỉnh (GHN)
+  ghn_district_id Int? // ID Quận/Huyện (GHN) -> Đây chính là from_district_id
+  ghn_ward_code   String? // Mã Phường/Xã (GHN)
+
+  Buyer     Buyer?
+  Seller    Seller?
+  Watchlist Watchlist[]
+
+  chats_as_buyer  Conversation[] @relation("BuyerChats")
+  chats_as_seller Conversation[] @relation("SellerChats")
+  messages_sent   Message[]
+  Notification    Notification[]
 }
 
 model Category {
@@ -33,22 +43,25 @@ model Category {
 }
 
 model Product {
-  ID          Int           @id @default(autoincrement())
-  name        String        @db.VarChar(255)
-  description String?       @db.Text
-  status      String?       @db.VarChar(50)
-  type        String?       @db.VarChar(50)
-  pcondition  String?       @db.VarChar(50)
-  created_at  DateTime?     @default(now()) @db.Timestamp(0)
-  seller_ID   Int
-  category_ID Int
-  Auction     Auction?
-  DirectSale  DirectSale?
-  Seller      Seller        @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
-  Category    Category      @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
-  Transaction Transaction[]
-  Watchlist   Watchlist[]
-  CartItem    CartItem[]
+  ID            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(255)
+  description   String?        @db.Text
+  status        String?        @db.VarChar(50)
+  type          String?        @db.VarChar(50)
+  pcondition    String?        @db.VarChar(50)
+  created_at    DateTime?      @default(now()) @db.Timestamp(0)
+  image         String?        @db.VarChar(255)
+  seller_ID     Int
+  category_ID   Int
+  Auction       Auction?
+  DirectSale    DirectSale?
+  Seller        Seller         @relation(fields: [seller_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_1")
+  Category      Category       @relation(fields: [category_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Product_ibfk_2")
+  Transaction   Transaction?
+  Watchlist     Watchlist[]
+  CartItem      CartItem[]
+  // transactionID Int
+  conversations Conversation[]
 
   @@index([category_ID], map: "category_ID")
   @@index([seller_ID], map: "seller_ID")
@@ -84,16 +97,27 @@ model Bid {
 }
 
 model Transaction {
-  ID           Int       @id @default(autoincrement())
-  item_type    String?   @db.VarChar(50)
-  status       String?   @default("pending") @db.VarChar(50)
-  final_amount Decimal   @db.Decimal(10, 2)
-  created_at   DateTime? @default(now()) @db.Timestamp(0)
-  buyer_ID     Int
-  product_ID   Int?
-  Review       Review[]
-  Buyer        Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_1")
-  Product      Product?  @relation(fields: [product_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_2")
+  ID            Int       @id @default(autoincrement())
+  item_type     String?   @db.VarChar(50)
+  status        String?   @default("pending") @db.VarChar(50)
+  final_amount  Decimal   @db.Decimal(10, 2)
+  created_at    DateTime? @default(now()) @db.Timestamp(0)
+  buyer_ID      Int
+  product_ID    Int?      @unique
+  Review        Review[]
+  Buyer         Buyer     @relation(fields: [buyer_ID], references: [user_ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_1")
+  Product       Product?  @relation(fields: [product_ID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "Transaction_ibfk_2")
+  cancel_reason String?   @db.Text
+
+  shipping_address       String? // Địa chỉ giao hàng cụ thể
+  shipping_phone         String? // SĐT người nhận hàng
+  shipping_note          String? // Ghi chú (ví dụ: "Giao giờ hành chính")
+  expected_delivery_date DateTime? // Ngày dự kiến giao hàng
+
+  shipping_province_id   Int?
+  shipping_district_id   Int?
+  shipping_ward_code     String?
+  expected_delivery_time DateTime? // Thời gian giao dự kiến
 
   @@index([buyer_ID], map: "buyer_ID")
   @@index([product_ID], map: "product_ID")
@@ -156,4 +180,50 @@ model CartItem {
 
   // Khóa chính: 1 Buyer chỉ có thể thêm 1 Product vào giỏ 1 lần
   @@id([buyer_ID, product_ID])
+}
+
+// Them model cho HỘI THOẠI (Conversation) giữa người mua và người bán
+model Conversation {
+  ID         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  buyer_ID   Int
+  seller_ID  Int
+  product_ID Int?
+
+  Buyer   User     @relation("BuyerChats", fields: [buyer_ID], references: [ID])
+  Seller  User     @relation("SellerChats", fields: [seller_ID], references: [ID])
+  Product Product? @relation(fields: [product_ID], references: [ID])
+
+  Message Message[]
+
+  @@unique([buyer_ID, seller_ID, product_ID]) // Mỗi cặp mua-bán-sản phẩm chỉ có 1 hội thoại
+}
+
+model Message {
+  ID         Int      @id @default(autoincrement())
+  content    String   @db.Text
+  created_at DateTime @default(now())
+
+  sender_ID       Int // Người gửi
+  conversation_ID Int
+
+  Conversation Conversation @relation(fields: [conversation_ID], references: [ID])
+  Sender       User         @relation(fields: [sender_ID], references: [ID])
+}
+
+model Notification {
+  ID         Int      @id @default(autoincrement())
+  type       String // 'auction', 'order', 'system', 'chat'
+  title      String   @db.VarChar(255)
+  message    String   @db.Text
+  is_read    Boolean  @default(false)
+  created_at DateTime @default(now())
+  link       String? // Đường dẫn khi click vào (VD: /html/auction/detail.html?id=1)
+
+  user_ID Int // Người nhận thông báo
+  User    User @relation(fields: [user_ID], references: [ID], onDelete: Cascade)
+
+  @@index([user_ID])
 }

@@ -1,3 +1,4 @@
+// import QueryString from "qs";
 import {
 	BASE_URL,
 	getFetchHeaders,
@@ -17,7 +18,7 @@ const auctionApi = {
 
 	getAuctionById: async (id) => {
 		try {
-			const response = await fetch(`${BASE_URL}/auctions/${id}`);
+			const response = await fetch(`${BASE_URL}/auctions?auctionId=${id}`);
 			return handleResponse(response);
 		} catch (err) {
 			handleError(err);
@@ -85,11 +86,14 @@ const auctionApi = {
 
 	placeBid: async (id, bidData) => {
 		try {
-			const response = await fetch(`${BASE_URL}/auctions/${id}/bids`, {
-				method: "POST",
-				headers: getFetchHeaders({ "Content-Type": "application/json" }),
-				body: JSON.stringify(bidData),
-			});
+			const response = await fetch(
+				`${BASE_URL}/auctions/bids?auctionId=${id}`,
+				{
+					method: "POST",
+					headers: getFetchHeaders({ "Content-Type": "application/json" }),
+					body: JSON.stringify(bidData),
+				}
+			);
 			return handleResponse(response);
 		} catch (err) {
 			handleError(err);

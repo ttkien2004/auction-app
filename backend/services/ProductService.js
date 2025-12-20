@@ -1,6 +1,8 @@
 // services/ProductService.js
+require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const IMAGE_BASE_URL = process.env.R2_PUBLIC_URL;
 
 const getProducts = async (queryParams) => {
 	// TODO: Viết logic (ví dụ: prisma.product.findMany({ where: queryParams }))
@@ -17,7 +19,7 @@ const getProducts = async (queryParams) => {
 			const value = filters[key];
 
 			// Bỏ qua nếu value rỗng (ví dụ: ?name=)
-			if (!value) {
+			if (value === "undefined") {
 				continue;
 			}
 
@@ -33,7 +35,24 @@ const getProducts = async (queryParams) => {
 
 				case "categoryId":
 					// Luật: 'categoryId' phải map sang 'category_ID' và là số
-					where.category_ID = parseInt(value);
+					const catId = parseInt(value);
+
+					// Danh sách các ID được coi là Parent (Cha)
+					const parentIds = [1, 2];
+
+					if (parentIds.includes(catId)) {
+						// LOGIC MỚI: Nếu chọn 1 hoặc 2 -> Tìm tất cả sản phẩm thuộc danh mục con của nó
+						// Sử dụng relation filter của Prisma (Lọc qua bảng Category)
+						where.Category = {
+							OR: [
+								{ parent_category_ID: catId }, // Lấy sản phẩm mà Category của nó có parent_ID = 1 hoặc 2
+								{ ID: catId }, // (Optional) Lấy cả sản phẩm nằm trực tiếp trong danh mục cha
+							],
+						};
+					} else {
+						// LOGIC CŨ: Giữ nguyên cho các ID khác
+						where.category_ID = catId;
+					}
 					break;
 
 				case "status":
@@ -55,12 +74,12 @@ const getProducts = async (queryParams) => {
 						priceConditions.push({
 							OR: [
 								{
-									directSale: {
+									DirectSale: {
 										buy_now_price: { gte: minPrice },
 									},
 								},
 								{
-									auction: {
+									Auction: {
 										start_price: { gte: minPrice },
 									},
 								},
@@ -74,12 +93,12 @@ const getProducts = async (queryParams) => {
 						priceConditions.push({
 							OR: [
 								{
-									directSale: {
+									DirectSale: {
 										buy_now_price: { lte: maxPrice },
 									},
 								},
 								{
-									auction: {
+									Auction: {
 										start_price: { lte: maxPrice },
 									},
 								},
@@ -108,13 +127,21 @@ const getProducts = async (queryParams) => {
 								select: {
 									name: true,
 									phone_number: true,
+									ghn_district_id: true,
+									ghn_ward_code: true,
 								},
 							},
 						},
 					},
 					// (Bao gồm cả giá nếu bạn muốn)
 					DirectSale: { select: { buy_now_price: true } },
-					Auction: { select: { start_price: true } },
+					Auction: {
+						select: {
+							start_price: true,
+							auc_end_time: true,
+							auc_start_time: true,
+						},
+					},
 				},
 				orderBy: {
 					created_at: "desc",
@@ -126,9 +153,27 @@ const getProducts = async (queryParams) => {
 			}),
 		]);
 
+		// Map để thêm URL cho ảnh
+		const productsWithImages = products.map((p) => ({
+			...p,
+			// Nếu có ảnh thì ghép URL, nếu không thì trả về null hoặc ảnh mặc định
+			imageUrl: p.image ? `${IMAGE_BASE_URL}/${p.image}` : null,
+
+			// Đối với User (Seller avatar)
+			Seller: {
+				...p.Seller,
+				User: {
+					...p.Seller.User,
+					avatarUrl: p.Seller.User.avatar
+						? `${IMAGE_BASE_URL}/${p.Seller.User.avatar}`
+						: null,
+				},
+			},
+		}));
 		// --- 4. Trả về kết quả ---
+
 		return {
-			data: products,
+			data: productsWithImages,
 			pagination: {
 				total: totalCount,
 				limit: limit,
@@ -165,6 +210,7 @@ const getProductById = async (productId) => {
 
 const createProduct = async (productData, sellerId) => {
 	// TODO: Viết logic (ví dụ: prisma.product.create({ data: productData }))
+	console.log("Product type", productData);
 	const {
 		name,
 		description,
@@ -172,6 +218,7 @@ const createProduct = async (productData, sellerId) => {
 		pcondition,
 		type,
 		// DirectSale
+		image,
 		buy_now_price,
 		// Auction
 		start_price,
@@ -185,6 +232,7 @@ const createProduct = async (productData, sellerId) => {
 		description,
 		pcondition,
 		type,
+		image,
 		status: "active", // Mặc định là 'active' khi mới tạo
 		seller_ID: sellerId,
 		category_ID: parseInt(category_ID),

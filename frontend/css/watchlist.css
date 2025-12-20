@@ -1,0 +1,195 @@
+:root {
+	--primary-teal: #00897b;
+	--bg-color: #faf9f6;
+	--text-dark: #333;
+	--card-border: #00897b;
+}
+
+body {
+	background-color: var(--bg-color);
+	font-family: "Courier New", Courier, monospace;
+	color: var(--text-dark);
+}
+
+/* Navbar & Footer (Kế thừa) */
+.navbar {
+	padding: 15px 40px;
+	background: var(--bg-color);
+}
+.navbar-brand {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+	text-decoration: none;
+}
+.nav-search {
+	background-color: var(--primary-teal);
+	border-radius: 20px;
+	padding: 5px 15px;
+	width: 400px;
+	display: flex;
+	align-items: center;
+}
+.nav-search i {
+	color: white;
+	margin-right: 10px;
+}
+.nav-search input {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: white;
+	width: 100%;
+}
+.nav-search input::placeholder {
+	color: #e0e0e0;
+}
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+	font-size: 0.9rem;
+}
+.user-avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 2px solid var(--primary-teal);
+}
+.site-footer {
+	padding: 20px 40px;
+	color: var(--primary-teal);
+	font-weight: bold;
+	font-size: 1rem;
+	margin-top: auto;
+}
+
+.page-title {
+	color: var(--primary-teal);
+	font-weight: bold;
+}
+
+/* --- FILTER TABS --- */
+.filter-tabs {
+	display: flex;
+	gap: 10px;
+	background: #e0f2f1;
+	padding: 5px;
+	border-radius: 30px;
+}
+
+.filter-btn {
+	border: none;
+	background: transparent;
+	color: var(--primary-teal);
+	padding: 5px 15px;
+	border-radius: 20px;
+	font-weight: bold;
+	font-size: 0.85rem;
+	transition: 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+	background: white;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* --- WATCHLIST CARD --- */
+.watch-card {
+	border: 2px solid var(--card-border);
+	border-radius: 15px;
+	overflow: hidden;
+	background: white;
+	position: relative; /* Để định vị nút xóa */
+	transition: transform 0.2s;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.watch-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-img {
+	height: 180px;
+	background-size: cover;
+	background-position: center;
+	position: relative;
+}
+
+/* Nút xóa (Thùng rác) */
+.btn-remove-watch {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: rgba(255, 255, 255, 0.9);
+	border: none;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	color: #d32f2f;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	opacity: 0; /* Ẩn mặc định */
+	transition: 0.2s;
+	z-index: 10;
+}
+
+.watch-card:hover .btn-remove-watch {
+	opacity: 1;
+} /* Hiện khi hover */
+.btn-remove-watch:hover {
+	background: #d32f2f;
+	color: white;
+}
+
+.card-info {
+	padding: 12px;
+	background: var(--primary-teal);
+	color: white;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.w-name {
+	font-size: 1rem;
+	font-weight: bold;
+	margin-bottom: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.w-price {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #ffecb3;
+} /* Màu vàng nhạt cho giá */
+.w-meta {
+	font-size: 0.75rem;
+	opacity: 0.9;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 5px;
+}
+.text-alert {
+	color: #ffcdd2;
+	font-weight: bold;
+} /* Màu đỏ nhạt cảnh báo */
+
+.btn-teal {
+	background-color: var(--primary-teal);
+	color: white;
+	font-weight: bold;
+}
+.btn-teal:hover {
+	background-color: #00695c;
+	color: white;
+}

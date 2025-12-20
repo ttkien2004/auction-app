@@ -1,6 +1,7 @@
 // services/TransactionService.js
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const NotifService = require("./NotificationService");
 
 const getAllTransactions = async () => {
 	// TODO: Viết logic (ví dụ: prisma.transaction.findMany())
@@ -44,7 +45,8 @@ const createTransaction = async (transactionData) => {
 
 const updateTransaction = async (transactionId, updateData, userId) => {
 	// TODO: Viết logic (ví dụ: prisma.transaction.update({ where: ..., data: ... }))
-	const { status } = updateData;
+	const { status, cancel_reason } = updateData;
+
 	if (!status) {
 		throw new Error("Missing status for this transaction");
 	}
@@ -60,15 +62,25 @@ const updateTransaction = async (transactionId, updateData, userId) => {
 
 	const isSeller = transaction.Product.seller_ID === userId;
 
-	if (isSeller) {
-		return prisma.transaction.update({
-			where: { ID: transactionId },
-			data: {
-				status: status,
-			},
+	// if (isSeller) {
+
+	// }
+	// throw new Error("Forbidden to access this service");
+	if (status === "completed") {
+		await NotifService.createNotification(transaction.buyer_ID, {
+			type: "order",
+			title: "Giao hàng thành công",
+			message: `Đơn hàng #${transaction.ID} đã hoàn tất. Hãy đánh giá ngay!`,
+			link: `/html/write-review.html?transactionId=${transaction.ID}`,
 		});
 	}
-	throw new Error("Forbidden to access this service");
+	return prisma.transaction.update({
+		where: { ID: transactionId },
+		data: {
+			status: status,
+			cancel_reason: cancel_reason,
+		},
+	});
 };
 
 const deleteTransaction = async (transactionId, userId) => {

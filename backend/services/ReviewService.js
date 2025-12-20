@@ -39,9 +39,9 @@ const getReviewById = async (reviewId) => {
 	return { id: reviewId };
 };
 
-const createReview = async (transactionId, reviewData, userId) => {
+const createReview = async (userId, reviewData) => {
 	// TODO: Viết logic (ví dụ: tạo review cho transaction_id)
-	const { rating, comment } = reviewData;
+	const { transactionId, rating, comment } = reviewData;
 	if (isNaN(transactionId)) {
 		throw new Error("Invalid id");
 	}
@@ -125,10 +125,49 @@ const deleteReview = async (reviewId, userId) => {
 	throw new Error("Forbidden to access this service");
 };
 
+/**
+ * Lấy đánh giá theo Seller (Để hiển thị trên trang Shop/Sản phẩm)
+ * @param {number} sellerId
+ */
+const getReviewsBySeller = async (sellerId) => {
+	// Tìm tất cả review thuộc về các transaction của seller đó
+	return prisma.review.findMany({
+		where: {
+			Transaction: {
+				Product: {
+					seller_ID: sellerId,
+				},
+			},
+		},
+		include: {
+			Buyer: {
+				select: {
+					User: { select: { name: true, avatar: true } },
+				},
+			},
+			Transaction: {
+				select: {
+					Product: {
+						select: {
+							name: true,
+							image: true,
+							Seller: {
+								select: { User: { select: { name: true } } },
+							},
+						},
+					},
+				},
+			},
+		},
+		orderBy: { created_at: "desc" },
+	});
+};
+
 module.exports = {
 	getAllReviews,
 	getReviewById,
 	createReview,
 	updateReview,
 	deleteReview,
+	getReviewsBySeller,
 };

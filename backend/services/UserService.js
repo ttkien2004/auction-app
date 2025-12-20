@@ -1,6 +1,8 @@
 // services/UserService.js
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { hashPassword, comparePassword } = require("../utils/hash.js");
+const { hash } = require("bcrypt");
 
 const getUsers = (query) => {
 	const { userId } = query;
@@ -28,6 +30,10 @@ const getUserById = async (userId) => {
 			email: true,
 			phone_number: true,
 			address: true,
+			avatar: true,
+			ghn_district_id: true,
+			ghn_province_id: true,
+			ghn_ward_code: true,
 		},
 	});
 	if (!existedUser) {
@@ -41,16 +47,39 @@ const updateUser = async (userId, updateData) => {
 	if (isNaN(userId)) {
 		throw Error("ID not valid");
 	}
+	let hashedPassword;
+	if (Object.keys(updateData).includes("password")) {
+		hashedPassword = await hashPassword(updateData.password);
+		updateData.password = hashedPassword;
+	}
+	const {
+		name,
+		address,
+		phone_number,
+		ghn_province_id,
+		ghn_district_id,
+		ghn_ward_code,
+	} = updateData;
 	const updatedUser = await prisma.user.update({
 		where: {
 			ID: userId,
 		},
-		data: updateData,
+		data: {
+			name,
+			address,
+			phone_number,
+			ghn_district_id: Number(ghn_district_id),
+			ghn_province_id: Number(ghn_province_id),
+			ghn_ward_code,
+		},
 		select: {
 			username: true,
 			address: true,
 			phone_number: true,
 			email: true,
+			ghn_district_id: true,
+			ghn_province_id: true,
+			ghn_ward_code: true,
 		},
 	});
 	return updatedUser;

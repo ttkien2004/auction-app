@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Cửa hàng - Green Shopping</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="../css/shop-profile.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+	</head>
+	<body>
+		<nav class="navbar"></nav>
+
+		<div class="container mt-4 mb-5">
+			<div class="shop-header-card shadow-sm">
+				<div
+					class="shop-cover"
+					style="
+						background-image: url('https://placehold.co/1200x300?text=Green+Shopping+Cover');
+					"
+				></div>
+
+				<div class="shop-info-bar">
+					<div class="d-flex align-items-end profile-group">
+						<img
+							src="https://placehold.co/150"
+							class="shop-avatar"
+							id="shop-avatar"
+						/>
+						<div class="ms-3 mb-2">
+							<h3 class="shop-name mb-1" id="shop-name">Đang tải...</h3>
+							<div class="shop-badges">
+								<span class="badge bg-teal"
+									><i class="fas fa-check-circle"></i> Shop Uy Tín</span
+								>
+								<span class="text-muted small ms-2"
+									><i class="fas fa-map-marker-alt"></i>
+									<span id="shop-location">Toàn quốc</span></span
+								>
+								<span class="text-muted small ms-2"
+									><i class="fas fa-calendar-alt"></i> Tham gia:
+									<span id="shop-join-date">...</span></span
+								>
+							</div>
+						</div>
+					</div>
+
+					<div class="shop-actions mb-3">
+						<button
+							class="btn btn-outline-teal rounded-pill fw-bold px-4 me-2"
+							id="btn-chat"
+						>
+							<i class="fas fa-comment-dots"></i> Chat ngay
+						</button>
+						<button class="btn btn-teal-solid rounded-pill fw-bold px-4">
+							<i class="fas fa-plus"></i> Theo dõi
+						</button>
+					</div>
+				</div>
+
+				<div class="shop-stats-row">
+					<div class="stat-box">
+						<i class="fas fa-star text-warning"></i>
+						<div>
+							<strong>4.9 / 5.0</strong>
+							<small>Đánh giá</small>
+						</div>
+					</div>
+					<div class="stat-divider"></div>
+					<div class="stat-box">
+						<i class="fas fa-box-open text-teal"></i>
+						<div>
+							<strong id="shop-products-count">...</strong>
+							<small>Sản phẩm</small>
+						</div>
+					</div>
+					<div class="stat-divider"></div>
+					<div class="stat-box">
+						<i class="fas fa-reply text-teal"></i>
+						<div>
+							<strong>98%</strong>
+							<small>Phản hồi</small>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="shop-nav mt-4 mb-4">
+				<div class="product-tabs">
+					<button class="tab-btn active" data-tab="direct">
+						<i class="fas fa-shopping-bag"></i> Đang bán
+					</button>
+					<button class="tab-btn" data-tab="auction">
+						<i class="fas fa-gavel"></i> Đang đấu giá
+					</button>
+					<button class="tab-btn" data-tab="reviews">
+						<i class="fas fa-star"></i> Đánh giá Shop
+					</button>
+				</div>
+
+				<div class="shop-filter" id="shop-filter">
+					<select
+						class="form-select rounded-pill text-teal border-teal"
+						style="width: auto"
+					>
+						<option>Mới nhất</option>
+						<option>Giá thấp đến cao</option>
+						<option>Giá cao đến thấp</option>
+					</select>
+				</div>
+			</div>
+
+			<div id="content-area">
+				<div
+					class="row row-cols-1 row-cols-md-4 row-cols-lg-5 g-3"
+					id="product-grid"
+				>
+					<p class="text-center w-100 py-5">Đang tải dữ liệu...</p>
+				</div>
+
+				<div id="review-list" class="d-none"></div>
+			</div>
+		</div>
+
+		<footer class="site-footer">
+			Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script type="module" src="../scripts/shop_profile.js"></script>
+		<script type="module" src="../scripts/headerCommon.js"></script>
+		<script type="module" src="../scripts/userCommon.js"></script>
+	</body>
+</html>

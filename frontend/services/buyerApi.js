@@ -8,8 +8,8 @@ import {
 const buyerApi = {
 	getBuyerTransactions: async (id) => {
 		try {
-			const response = await fetch(`${BASE_URL}/buyer/${id}/transactions`, {
-				headers: getFetchHeaders(),
+			const response = await fetch(`${BASE_URL}/buyer/transactions`, {
+				headers: getFetchHeaders({ "Content-Type": "application/json" }),
 			});
 			return handleResponse(response);
 		} catch (err) {

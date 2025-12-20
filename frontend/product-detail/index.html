@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Chi tiết Sản phẩm</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/buyer/css/buyer_screen.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/css/index.css"
+		/>
+		<link rel="stylesheet" href="../css/product-detail.css" />
+	</head>
+	<body>
+		<nav class="navbar">
+			<div
+				class="container-fluid d-flex align-items-center justify-content-between"
+			>
+				<a class="navbar-brand" href="#"
+					><img
+						src="https://pub-5b7cac1b9b48469b8649bd95b8f0bfd1.r2.dev/GreenLife_Logo.png"
+						style="width: 100px; height: 100px"
+					/>
+					CŨ MÀ CHẤT</a
+				>
+				<div class="nav-search">
+					<i class="fas fa-search"></i>
+					<input type="text" placeholder="Tìm kiếm" />
+				</div>
+				<div class="nav-menu">
+					<a href="../index.html">Trang Chủ</a>
+					<a href="../index.html#filter-section">Sản Phẩm</a>
+					<a href="../chat/index.html">Liên Lạc</a>
+					<a href="./notifications/index.html" class="position-relative me-3">
+						<i class="fas fa-bell fa-lg text-teal"></i>
+						<span
+							id="count-notification"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							0
+							<span class="visually-hidden">unread messages</span>
+						</span>
+					</a>
+					<a href="../cart-list/index.html" class="position-relative me-3">
+						<i class="fas fa-shopping-cart fa-lg text-teal"></i>
+						<span
+							id="count-cart-list"
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+						>
+							2
+						</span>
+					</a>
+					<div id="auth-section">
+						<img
+							src="https://i.pravatar.cc/150?img=5"
+							id="user-avatar"
+							alt="User"
+						/>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container mt-4 mb-5">
+			<div id="breadcrumb-container" class="mb-3"></div>
+			<div class="row g-4">
+				<div class="col-lg-4">
+					<div class="image-container main-frame">
+						<div class="main-img-wrapper">
+							<img id="product-image" class="main-img" alt="Product" />
+						</div>
+						<div class="thumbs-list"></div>
+					</div>
+
+					<div class="info-box mt-3">
+						<h5 class="box-title">Mô tả sản phẩm:</h5>
+						<div class="desc-content" id="product-desc">Đang tải mô tả...</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="info-box">
+						<h4 class="product-name" id="product-name">Loading...</h4>
+
+						<div class="info-row">
+							<span class="label">Mã sản phẩm:</span>
+							<span class="value" id="product-code">...</span>
+						</div>
+						<div class="info-row">
+							<span class="label">Tình trạng:</span>
+							<span class="value" id="product-condition">...</span>
+						</div>
+						<div class="info-row">
+							<span class="label">Địa điểm:</span>
+							<span class="value" id="product-location">...</span>
+						</div>
+						<div class="info-row">
+							<span class="label">Ngày đăng:</span>
+							<span class="value" id="created-at">...</span>
+						</div>
+
+						<div class="divider"></div>
+
+						<div class="price-section text-center mb-4">
+							<span class="d-block text-muted small">GIÁ BÁN</span>
+							<span class="display-price" id="product-price">0 đ</span>
+						</div>
+
+						<div class="action-buttons">
+							<button class="btn-action btn-cart" id="btn-add-to-cart">
+								<i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ
+							</button>
+							<button class="btn-action btn-buy" id="btn-buy-now">
+								Mua Ngay
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="seller-trust-card mb-3">
+						<div class="seller-header">
+							<div class="position-relative">
+								<img
+									src="https://placehold.co/100"
+									class="seller-avatar"
+									id="seller-avatar"
+								/>
+								<i
+									class="fas fa-check-circle text-warning verified-badge"
+									title="Người bán xác thực"
+								></i>
+							</div>
+							<div class="ms-3">
+								<h5 id="seller-name" class="fw-bold mb-0 text-white">...</h5>
+								<span class="badge bg-warning text-dark mt-1">Shop Uy Tín</span>
+							</div>
+						</div>
+
+						<div class="seller-stats mt-3">
+							<div class="stat-item">
+								<strong class="d-block text-warning" id="seller-rating"
+									>4.9 <i class="fas fa-star"></i
+								></strong>
+								<small class="text-white-50">Đánh giá</small>
+							</div>
+							<div class="stat-divider"></div>
+							<div class="stat-item">
+								<strong class="d-block text-white" id="seller-sold"
+									>150+</strong
+								>
+								<small class="text-white-50">Đã bán</small>
+							</div>
+							<div class="stat-divider"></div>
+							<div class="stat-item">
+								<strong class="d-block text-white">98%</strong>
+								<small class="text-white-50">Phản hồi</small>
+							</div>
+						</div>
+
+						<div class="mt-3 d-flex gap-2">
+							<button
+								class="btn btn-light btn-sm flex-grow-1 rounded-pill fw-bold text-teal"
+								id="btn-watch-reviews"
+							>
+								<i class="fas fa-store me-1"></i> Xem Đánh giá
+							</button>
+							<button
+								id="btn-chat-now"
+								class="btn btn-outline-light btn-sm flex-grow-1 rounded-pill fw-bold"
+							>
+								<i class="fas fa-comment-dots me-1"></i> Chat
+							</button>
+						</div>
+					</div>
+
+					<div class="trust-guarantee-box">
+						<h6 class="fw-bold text-teal mb-3">
+							<i class="fas fa-shield-alt"></i> An tâm mua sắm
+						</h6>
+
+						<div class="trust-item">
+							<i class="fas fa-undo text-teal"></i>
+							<div>
+								<strong>Đổi trả trong 3 ngày</strong>
+								<p>Nếu hàng không đúng mô tả</p>
+							</div>
+						</div>
+
+						<div class="trust-item">
+							<i class="fas fa-check-double text-teal"></i>
+							<div>
+								<strong>Được kiểm tra hàng</strong>
+								<p>Kiểm tra trước khi nhận</p>
+							</div>
+						</div>
+
+						<div class="trust-item">
+							<i class="fas fa-lock text-teal"></i>
+							<div>
+								<strong>Thanh toán an toàn</strong>
+								<p>Tiền được giữ cho đến khi bạn hài lòng</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="suggestion-section mt-5">
+				<div class="suggestion-section mt-5">
+					<h4 class="text-teal fw-bold text-center mb-4">
+						Có thể bạn cũng thích
+					</h4>
+
+					<div class="row row-cols-2 row-cols-md-5 g-3" id="suggestion-list">
+						<p class="text-center w-100">Đang tải gợi ý...</p>
+					</div>
+				</div>
+
+				<div class="text-center mt-4">
+					<button class="nav-circle-btn">
+						<i class="fas fa-chevron-left"></i>
+					</button>
+					<button class="nav-circle-btn">
+						<i class="fas fa-chevron-right"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div
+			class="modal fade"
+			id="addToCartSuccessModal"
+			tabindex="-1"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content border-0 rounded-4 shadow">
+					<div class="modal-body text-center p-4">
+						<div class="mb-3">
+							<i
+								class="fas fa-check-circle text-success"
+								style="font-size: 3.5rem"
+							></i>
+						</div>
+
+						<h4 class="fw-bold mb-2 text-teal">Đã thêm vào giỏ!</h4>
+						<p class="text-muted mb-4">
+							Sản phẩm đã được thêm vào giỏ hàng của bạn.
+						</p>
+
+						<div class="d-flex justify-content-center gap-2">
+							<button
+								type="button"
+								class="btn btn-outline-secondary rounded-pill px-4 fw-bold"
+								data-bs-dismiss="modal"
+							>
+								Ở lại trang này
+							</button>
+							<a
+								href="../cart-list/index.html"
+								class="btn btn-success rounded-pill px-4 fw-bold text-white"
+								style="background-color: #00897b; border: none"
+							>
+								Xem giỏ hàng <i class="fas fa-arrow-right ms-1"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="site-footer">
+			Nền tảng C2C đồ cũ / đồ tái chế - Triển khai đấu giá
+		</footer>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+		<script type="module" src="../scripts/product_detail.js"></script>
+		<script type="module" src="../scripts/userCommon.js"></script>
+		<script type="module" src="../scripts/cartCommon.js"></script>
+		<script type="module" src="../scripts/breadcrumb.js"></script>
+		<script type="module" src="../scripts/notifCommon.js"></script>
+	</body>
+</html>

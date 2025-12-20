@@ -100,7 +100,7 @@ const placeBidController = async (req, res, next) => {
 		);
 		res.status(201).json(newBid);
 	} catch (error) {
-		next(error);
+		next(error.message);
 	}
 };
 

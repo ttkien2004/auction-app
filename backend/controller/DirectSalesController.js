@@ -34,9 +34,19 @@ const buyDirectSaleController = async (req, res, next) => {
 	try {
 		const { directSaleId } = req.query; // sale ID
 		const userId = req.user.id; // Lấy từ auth middleware
+		const { address, phone, note } = req.body;
+		// console.log(req.body);
+		if (!address || !phone) {
+			return res
+				.status(400)
+				.json({ messsage: "Please provide your address or phone info" });
+		}
+		const shippingData = req.body;
+		console.log(shippingData);
 		const transaction = await DirectSalesService.buyDirectSale(
 			Number(directSaleId),
-			Number(userId)
+			Number(userId),
+			shippingData
 		);
 		res
 			.status(200)

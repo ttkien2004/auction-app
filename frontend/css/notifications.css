@@ -1,0 +1,239 @@
+:root {
+	--primary-teal: #00897b;
+	--light-teal: #e0f2f1;
+	--bg-color: #faf9f6;
+	--text-dark: #333;
+	--unread-bg: #ffffff;
+	--read-bg: #f8f9fa;
+	--hover-bg: #f1f1f1;
+}
+
+body {
+	background-color: var(--bg-color);
+	font-family: "Courier New", Courier, monospace;
+	color: var(--text-dark);
+}
+
+/* Navbar & Footer (Kế thừa) */
+.navbar {
+	padding: 15px 40px;
+	background: var(--bg-color);
+}
+.navbar-brand {
+	color: var(--primary-teal);
+	font-weight: 900;
+	font-size: 1.5rem;
+	text-decoration: none;
+}
+.nav-search {
+	background-color: var(--primary-teal);
+	border-radius: 20px;
+	padding: 5px 15px;
+	width: 400px;
+	display: flex;
+	align-items: center;
+}
+.nav-search i {
+	color: white;
+	margin-right: 10px;
+}
+.nav-search input {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: white;
+	width: 100%;
+}
+.nav-search input::placeholder {
+	color: #e0e0e0;
+}
+.nav-menu a {
+	color: var(--primary-teal);
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+	font-size: 0.9rem;
+}
+.user-avatar {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 2px solid var(--primary-teal);
+}
+.site-footer {
+	padding: 20px 40px;
+	color: var(--primary-teal);
+	font-weight: bold;
+	font-size: 1rem;
+	margin-top: auto;
+}
+
+.page-title {
+	color: var(--primary-teal);
+	font-weight: 900;
+	text-transform: uppercase;
+	margin: 0;
+}
+
+/* --- FILTER BOX (LEFT) --- */
+.filter-box {
+	background: white;
+	border: 2px solid var(--primary-teal);
+	border-radius: 20px;
+	padding: 20px;
+	position: sticky;
+	top: 20px;
+}
+
+.filter-title {
+	color: var(--primary-teal);
+	font-weight: bold;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #ccc;
+}
+
+.filter-item {
+	text-align: left;
+	background: transparent;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 10px;
+	font-weight: bold;
+	color: #555;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	transition: 0.2s;
+	font-size: 0.9rem;
+}
+
+.filter-item:hover {
+	background-color: var(--light-teal);
+	color: var(--primary-teal);
+}
+.filter-item.active {
+	background-color: var(--primary-teal);
+	color: white;
+}
+.filter-item.active i {
+	color: white !important;
+}
+
+.divider {
+	border-top: 1px solid #eee;
+	margin: 10px 0;
+}
+
+/* --- NOTIFICATION LIST (RIGHT) --- */
+.btn-read-all {
+	background: transparent;
+	border: 1px solid var(--primary-teal);
+	color: var(--primary-teal);
+	padding: 5px 15px;
+	border-radius: 20px;
+	font-weight: bold;
+	font-size: 0.85rem;
+	transition: 0.2s;
+}
+.btn-read-all:hover {
+	background: var(--primary-teal);
+	color: white;
+}
+
+.notification-list {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.notif-item {
+	background: var(--read-bg);
+	border: 1px solid #eee;
+	border-radius: 15px;
+	padding: 20px;
+	display: flex;
+	align-items: start;
+	transition: 0.2s;
+	cursor: pointer;
+	position: relative;
+}
+
+.notif-item:hover {
+	transform: translateX(5px);
+	border-color: var(--primary-teal);
+}
+
+/* Trạng thái Chưa đọc */
+.notif-item.unread {
+	background: white;
+	border-left: 5px solid var(--primary-teal); /* Vạch màu xanh đánh dấu */
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.notif-item.unread .notif-title {
+	color: #000;
+	font-weight: 900;
+}
+
+/* Icon loại thông báo */
+.notif-icon-box {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2rem;
+	margin-right: 15px;
+	flex-shrink: 0;
+}
+
+.icon-order {
+	background-color: #e3f2fd;
+	color: #1976d2;
+}
+.icon-auction {
+	background-color: #fff8e1;
+	color: #ffa000;
+}
+.icon-system {
+	background-color: #e0f2f1;
+	color: #00897b;
+}
+
+.notif-content {
+	flex-grow: 1;
+}
+
+.notif-title {
+	font-size: 1rem;
+	font-weight: bold;
+	color: #555;
+	margin-bottom: 5px;
+}
+
+.notif-desc {
+	font-size: 0.9rem;
+	color: #666;
+	line-height: 1.4;
+	margin-bottom: 5px;
+}
+
+.notif-time {
+	font-size: 0.75rem;
+	color: #999;
+	font-style: italic;
+}
+
+.btn-nav-circle {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	background: var(--primary-teal);
+	color: white;
+	border: none;
+	margin: 0 5px;
+}
+.text-teal {
+	color: var(--primary-teal) !important;
+}

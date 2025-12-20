@@ -1,6 +1,8 @@
 // services/AuctionService.js
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const socket = require("../socket/socket");
+const NotifService = require("./NotificationService");
 
 const getAuctions = async (query) => {
 	if (Object.keys(query).length !== 0) {
@@ -223,7 +225,7 @@ const placeBid = async (auctionId, userId, bidData) => {
 			throw new Error("This auction has not started yet");
 		}
 		if (new Date() > auction.auc_end_time) {
-			throw new Error("This auction has ended");
+			throw new Error("Phiên đấu giá này đã kết thúc");
 		}
 		const highestBid = await tx.bid.findFirst({
 			where: { auction_ID: auctionId },
@@ -234,9 +236,17 @@ const placeBid = async (auctionId, userId, bidData) => {
 		if (highestBid) {
 			// Nếu đã có người bid
 			if (highestBid.buyer_ID === userId) {
-				throw new Error("You're keeping the highest BID");
+				throw new Error("Bạn đang là người giữ giá cao nhất");
 			}
-			minRequiredBid = highestBid.bid_amount + (auction.min_bid_incr || 0);
+			const currentPrice = parseFloat(highestBid.bid_amount);
+			const step = parseFloat(auction.min_bid_incr) || 0;
+			minRequiredBid = parseFloat(currentPrice + step);
+			await NotifService.createNotification(highestBid.buyer_ID, {
+				type: "auction",
+				title: "Bạn đã bị vượt giá!",
+				message: `Ai đó vừa đặt giá cao hơn cho sản phẩm ${auction.Product.name}`,
+				link: `/html/auction/detail.html?id=${auctionId}`,
+			});
 		} else {
 			// Nếu là người bid đầu tiên
 			minRequiredBid = auction.start_price;
@@ -252,9 +262,127 @@ const placeBid = async (auctionId, userId, bidData) => {
 				auction_ID: auctionId,
 				// bid_time là default CURRENT_TIMESTAMP
 			},
+			include: {
+				Buyer: {
+					select: {
+						User: {
+							select: {
+								name: true, // Lấy tên để hiển thị socket
+							},
+						},
+					},
+				},
+			},
 		});
+		// Phát sự kiện Socket.io cho các client đang theo dõi auction này
+		try {
+			const io = socket.getIO();
+			// Bắn sự kiện 'new_bid' vào phòng 'auction_{id}'
+			// Tất cả client đang xem auction này sẽ nhận được
+			io.to(`auction_${auctionId}`).emit("new_bid", {
+				bid_id: newBid.ID,
+				amount: newBid.bid_amount,
+				bidder_name: newBid.Buyer.User.name,
+				time: newBid.bid_time,
+			});
+		} catch (err) {
+			console.error("Lỗi khi phát sự kiện Socket.io:", err);
+		}
 		return newBid;
 	});
+};
+
+/**
+ * Hàm này sẽ được gọi mỗi phút bởi Cron Job
+ */
+const processEndedAuctions = async () => {
+	console.log("--- Checking for ended auctions ---");
+
+	const now = new Date();
+
+	// 1. Tìm các phiên đấu giá ĐÃ HẾT HẠN nhưng trạng thái vẫn là 'active'
+	// (Dựa vào Product.status để biết trạng thái)
+	const endedAuctions = await prisma.auction.findMany({
+		where: {
+			auc_end_time: { lte: now }, // Thời gian kết thúc <= Hiện tại
+			Product: {
+				status: "active", // Vẫn đang mở
+			},
+		},
+		include: {
+			Product: true,
+			Bid: {
+				orderBy: { bid_amount: "desc" }, // Lấy giá cao nhất
+				take: 1,
+				include: {
+					Buyer: { include: { User: true } }, // Lấy thông tin người thắng
+				},
+			},
+		},
+	});
+
+	if (endedAuctions.length === 0) return;
+
+	// 2. Xử lý từng phiên
+	for (const auction of endedAuctions) {
+		await endAuction(auction);
+	}
+};
+
+/**
+ * Xử lý logic kết thúc cho 1 phiên
+ */
+const endAuction = async (auction) => {
+	const productId = auction.product_ID;
+	const winnerBid = auction.Bid[0]; // Bid cao nhất (có thể undefined nếu ko ai đặt)
+
+	await prisma.$transaction(async (tx) => {
+		// A. Cập nhật trạng thái sản phẩm -> 'sold' (hoặc 'ended' nếu ko ai mua)
+		// Để tránh Cron job quét lại lần nữa
+		const newStatus = winnerBid ? "sold" : "expired";
+
+		await tx.product.update({
+			where: { ID: productId },
+			data: { status: newStatus },
+		});
+
+		// B. Nếu có người thắng -> TẠO ĐƠN HÀNG TỰ ĐỘNG
+		if (winnerBid) {
+			console.log(`Auction #${productId} won by Buyer #${winnerBid.buyer_ID}`);
+
+			await tx.transaction.create({
+				data: {
+					buyer_ID: winnerBid.buyer_ID,
+					product_ID: productId,
+					final_amount: winnerBid.bid_amount,
+					item_type: "Auction",
+					status: "pending_payment", // Chờ người thắng vào thanh toán
+					// Các trường ship sẽ null, chờ người dùng cập nhật sau
+				},
+			});
+		} else {
+			console.log(`Auction #${productId} ended with no bids.`);
+		}
+	});
+
+	// C. GỬI THÔNG BÁO SOCKET (Real-time)
+	// Bắn sự kiện tới tất cả người đang xem phiên đấu giá này
+	const io = socket.getIO();
+	const roomName = `auction_${productId}`;
+
+	if (winnerBid) {
+		io.to(roomName).emit("auction_ended", {
+			message: "Phiên đấu giá đã kết thúc!",
+			winner: winnerBid.Buyer.User.name,
+			price: winnerBid.bid_amount,
+			success: true,
+		});
+	} else {
+		io.to(roomName).emit("auction_ended", {
+			message: "Phiên đấu giá đã kết thúc (Không có người mua).",
+			success: false,
+		});
+	}
 };
 
 module.exports = {
@@ -267,4 +395,6 @@ module.exports = {
 	joinAuction,
 	getBidsForAuction,
 	placeBid,
+	//Service mới
+	processEndedAuctions,
 };
