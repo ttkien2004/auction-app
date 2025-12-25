@@ -316,7 +316,7 @@ paths:
     post:
       tags: [Products]
       summary: Tạo sản phẩm (Upload ảnh trực tiếp)
-      description:
+      description: >
         Route này có middleware upload ảnh, khác với route bên Seller dùng JSON
         thuần.
       security:

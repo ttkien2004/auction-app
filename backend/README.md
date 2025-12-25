@@ -27,7 +27,7 @@ DATABASE_URL="mysql://{YOUR_USERNAME}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DAT
 1. Start the application using Docker Compose:
 
 ```bash
-docker compose up
+docker compose up --build
 ```
 
 This will
